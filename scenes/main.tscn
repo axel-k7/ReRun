@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://b2i1gdkxcyn82"]
+
+[ext_resource type="PackedScene" uid="uid://4ipv7palv0jb" path="res://scenes/map/map.tscn" id="1_8c6p6"]
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_26nwy"]
+[ext_resource type="PackedScene" uid="uid://n1cuaw4g8k5o" path="res://scenes/items/item_scenes/pipe.tscn" id="4_2crsr"]
+[ext_resource type="PackedScene" uid="uid://c2bkq1dttjual" path="res://scenes/items/item_scenes/brick.tscn" id="4_fb2th"]
+[ext_resource type="PackedScene" uid="uid://bgwn0fr78rc" path="res://scenes/classmate/classmate.tscn" id="5_jm6kh"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_26nwy")
+
+[node name="map" parent="." instance=ExtResource("1_8c6p6")]
+
+[node name="brick" parent="." instance=ExtResource("4_fb2th")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.00749, 0, -7.36734)
+
+[node name="brick2" parent="." instance=ExtResource("4_fb2th")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.10639, 0, -11.0219)
+
+[node name="pipe" parent="." instance=ExtResource("4_2crsr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.62125, 0, -6.91489)
+
+[node name="classmate" parent="." instance=ExtResource("5_jm6kh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5795, 1.98528, -10.2005)

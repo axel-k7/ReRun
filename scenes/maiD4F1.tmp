@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://b2i1gdkxcyn82"]
+
+[ext_resource type="PackedScene" uid="uid://4ipv7palv0jb" path="res://scenes/map/map.tscn" id="1_8c6p6"]
+[ext_resource type="PackedScene" uid="uid://b6rnni1gow6rt" path="res://scenes/player/player.tscn" id="2_u5dbh"]
+[ext_resource type="PackedScene" uid="uid://n1cuaw4g8k5o" path="res://scenes/items/item_scenes/pipe.tscn" id="4_2crsr"]
+[ext_resource type="PackedScene" uid="uid://c2bkq1dttjual" path="res://scenes/items/item_scenes/brick.tscn" id="4_fb2th"]
+
+[node name="Main" type="Node3D"]
+
+[node name="map" parent="." instance=ExtResource("1_8c6p6")]
+
+[node name="player" parent="." instance=ExtResource("2_u5dbh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.24106, 0)
+
+[node name="brick" parent="." instance=ExtResource("4_fb2th")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.00749, 0, -7.36734)
+
+[node name="brick2" parent="." instance=ExtResource("4_fb2th")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.10639, 0, -11.0219)
+
+[node name="pipe" parent="." instance=ExtResource("4_2crsr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.62125, 0, -6.91489)
