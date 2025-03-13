@@ -1,0 +1,19 @@
+game starts at typical rpg ending of the heroes party fighting and killing the 'demon king'
+the demon king uses an attack on the hero which has no immediate effect but gives the player control over the hero character
+*the player should somehow be told that they are an enemy of humans
+the player can only choose to act as the hero would -> attack and kill the demon king with a flashy move
+*after killing the demon king*
+the hero *somehow* gains immense power through killing the demon king and is asked by their party to eradicate demon-kind
+the player (slightly in control of the hero) has two options: eradicate all demons, or kill all humans
+if the player chooses to eridcate demons, the story moves on without a hitch
+if the player instead chooses to kill all humans, the hero will become freaked out by their own thoughts and still choose to eradicate all demons
+
+*later*
+
+the heroes party is in the the kings throneroom recieving their reward
+the player (now has good control over the hero) can choose to betray the human kingdom and start rampaging
+or progress as the hero would, this leads to a scene where the hero meets members of the public and the player is forced to start their rampage "cant contain itself any longer"
+
+the player character and the hero are two separate entities, the player character is in control of the hero
+the hero will realise that its not they themselves that are choosing to betray the human kingdom and will protest against the player character through the games story
+ 

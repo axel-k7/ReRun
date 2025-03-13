@@ -13,7 +13,6 @@ var inventory: Array
 func _ready():
 	cam.current = is_multiplayer_authority() 
 
-
 func _physics_process(delta):
 	movement_handler(delta)
 	pick_up_input()
@@ -34,16 +33,17 @@ func _input(event):
 
 
 func movement_handler(delta):
-	movement_inputs(delta)
-	
-	if not is_on_floor():
-		velocity.y -= playerGravity * delta
-	else:
-		velocity.y = 0
-	
-	velocity.x = targetVelocity.x
-	velocity.z = targetVelocity.z
-	move_and_slide()
+	if Globals.can_move == true:
+		movement_inputs(delta)
+		
+		if not is_on_floor():
+			velocity.y -= playerGravity * delta
+		else:
+			velocity.y = 0
+		
+		velocity.x = targetVelocity.x
+		velocity.z = targetVelocity.z
+		move_and_slide()
 
 
 func movement_inputs(_delta):

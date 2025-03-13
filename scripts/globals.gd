@@ -2,6 +2,7 @@ extends Node
 
 @onready var targetInteractable: Object
 @onready var player: CharacterBody3D
+@onready var can_move: bool = true
 
 func add_interact(body):
 	var interact_scene =  preload("res://scenes/items/interact_area.tscn")
