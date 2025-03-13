@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgwn0fr78rc"]
+
+[ext_resource type="Script" uid="uid://cuxmp0vggvmf0" path="res://scenes/classmate/staticNPC.gd" id="1_thban"]
+[ext_resource type="AudioStream" uid="uid://bbjdb1h5iqroc" path="res://sfx/splat.wav" id="2_ao3ay"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cuef7"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ds2em"]
+
+[node name="staticNPC" type="CharacterBody3D"]
+script = ExtResource("1_thban")
+type = "classmate"
+lines = null
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_cuef7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_ds2em")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_ao3ay")

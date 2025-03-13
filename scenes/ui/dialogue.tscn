@@ -1,40 +1,67 @@
-[gd_scene load_steps=3 format=3 uid="uid://hq5e8wli2a4v"]
+[gd_scene load_steps=5 format=3 uid="uid://hq5e8wli2a4v"]
 
 [ext_resource type="Script" uid="uid://dj3nibo86if32" path="res://scenes/ui/dialogue.gd" id="1_84wqv"]
+[ext_resource type="Texture2D" uid="uid://s70cjjojwrr" path="res://vfx/smiley.png" id="2_65ue4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_84wqv"]
+font_size = 15
+font_color = Color(1, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_65ue4"]
-font_size = 42
+font_size = 24
 font_color = Color(1, 0, 0, 1)
 
 [node name="Dialogue" type="Control"]
 visible = false
+z_index = 10
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 288.0
+offset_top = 548.0
+offset_right = -264.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_84wqv")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-z_index = 1
-layout_mode = 0
-offset_left = 288.0
-offset_top = 563.0
-offset_right = 864.0
-offset_bottom = 648.0
+[node name="letterTimer" type="Timer" parent="."]
+wait_time = 0.07
+one_shot = true
 
-[node name="Label" type="Label" parent="."]
-z_index = 2
+[node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
-offset_left = 302.0
-offset_top = 577.0
-offset_right = 854.0
-offset_bottom = 635.0
+offset_right = 600.0
+offset_bottom = 100.0
+color = Color(0.983781, 0.740504, 0.656421, 1)
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 100.0
+dragging_enabled = false
+drag_area_highlight_in_editor = true
+
+[node name="TextureRect" type="TextureRect" parent="HSplitContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("2_65ue4")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+text = "name"
+label_settings = SubResource("LabelSettings_84wqv")
+vertical_alignment = 1
+
+[node name="Text" type="Label" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "text"
 label_settings = SubResource("LabelSettings_65ue4")
 visible_characters = 0
 visible_ratio = -0.1
-
-[node name="letterTimer" type="Timer" parent="."]
-wait_time = 0.02
-one_shot = true

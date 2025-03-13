@@ -15,7 +15,7 @@ func _ready():
 
 func _physics_process(delta):
 	movement_handler(delta)
-	pick_up_input()
+	interact_input()
 	drop_input()
 
 
@@ -62,9 +62,9 @@ func movement_inputs(_delta):
 	direction = direction.normalized()
 	targetVelocity = transform.basis * direction * playerSpeed
 
-func pick_up_input():
-	if Input.is_action_just_pressed("interact") && Globals.targetInteractable != null:
-		Globals.targetInteractable.interact_action()
+func interact_input():
+	if Input.is_action_just_pressed("interact") && Globals.targetInteractables.size() > 0 && Globals.can_interact == true:
+		Globals.targetInteractables[0].interact_action()
 func drop_input():
 	if Input.is_action_just_pressed("drop_item") && inventory.size() > 0:
 		var item_scene: PackedScene = load("res://scenes/items/item_scenes/" + inventory[0] + ".tscn")

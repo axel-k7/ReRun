@@ -7,6 +7,6 @@ func _ready():
 	Globals.add_interact(self)
 
 func interact_action():
-	Globals.player.inventory.append(str(Globals.targetInteractable.item))
+	Globals.player.inventory.append(str(Globals.targetInteractables[0].item))
 	print(Globals.player.inventory)
-	Globals.targetInteractable.queue_free()
+	Globals.targetInteractables[0].queue_free()
