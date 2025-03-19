@@ -4,6 +4,7 @@ extends Node
 var battle_scene
 var allies: Array[Object]
 var enemies: Array[Object]
+var battle_active: bool = false
 
 func _ready():
 	battle_scene = battle_scene_preload.instantiate()

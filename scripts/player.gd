@@ -12,8 +12,9 @@ var inventory: Array
 var exp: float = 0
 var level: int = 1
 
-@export var tb_sprite: CompressedTexture2D = preload("res://vfx/smiley.png")
-var max_hp = 100
+@export var tb_sprite: CompressedTexture2D = preload("res://vfx/tb_preset.png")
+@export var hurt_sfx: AudioStream = preload("res://sfx/hurt_preset.wav")
+var max_hp = 150
 var hp = max_hp
 var max_mp = 100
 var mp = max_mp
@@ -25,7 +26,6 @@ var attacks: Array[Array] = [
 
 func _ready():
 	BattleManagerTb.allies.append(self)
-	BattleManagerTb.enemies.append(self)
 
 func _physics_process(delta):
 	movement_handler(delta)
@@ -84,3 +84,6 @@ func drop_input():
 		var item_to_drop = item_scene.instantiate()
 		get_parent().add_child(item_to_drop)
 		item_to_drop.global_position = self.global_position
+
+func die():
+	pass

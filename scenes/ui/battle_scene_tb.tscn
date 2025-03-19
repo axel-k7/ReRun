@@ -14,19 +14,6 @@ layout_mode = 0
 offset_right = 289.0
 offset_bottom = 150.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="BattleSceneTB_UI/UI_container"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="BattleSceneTB_UI/UI_container/VBoxContainer"]
-layout_mode = 2
-text = "attack1"
-
-[node name="Label2" type="Label" parent="BattleSceneTB_UI/UI_container/VBoxContainer"]
-layout_mode = 2
-text = "attack2"
-
 [node name="action_container" type="HBoxContainer" parent="BattleSceneTB_UI/UI_container"]
 layout_mode = 2
 size_flags_vertical = 4
@@ -60,6 +47,13 @@ text = "HP: 10000 / 10000"
 [node name="mp" type="Label" parent="BattleSceneTB_UI/UI_container/stat_container"]
 layout_mode = 2
 text = "MP: 10000 / 10000"
+
+[node name="Attack_container" type="VBoxContainer" parent="BattleSceneTB_UI"]
+layout_mode = 0
+offset_left = -463.0
+offset_top = -88.0
+offset_right = -313.0
+offset_bottom = 162.0
 
 [node name="BattleSceneTB_camera" type="Camera2D" parent="."]
 

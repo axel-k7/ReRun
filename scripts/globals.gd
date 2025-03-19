@@ -15,3 +15,12 @@ func player_controls(option: bool):
 	can_move = option
 	can_interact = option
 	can_rotate_camera = option
+
+func damage(target: Object, amount: int):
+	target.on_damaged(amount)
+	damage_flash(target)
+
+func damage_flash(target):
+	target.modulate = Color(1, 0, 0)
+	await get_tree().create_timer(0.2).timeout
+	target.modulate = Color(1, 1, 1)

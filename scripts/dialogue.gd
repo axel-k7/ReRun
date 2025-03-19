@@ -7,14 +7,12 @@ extends Node
 signal dialogue_over
 
 var line_index = 0
-var letter_index = 0
 
 func _ready():
-	text_label.autowrap_mode = 1
 	self.visible = false
 	self.position = Vector2(-get_viewport().get_visible_rect().size.x/4, get_viewport().get_visible_rect().size.y/2-self.size.y)
 
-func update_text(lines: Array, target: Object):
+func update_text(lines: Array, target: Object, continue_after: bool):
 	self.visible = true
 	Globals.player_controls(false)
 	name_label.text = target.Cname
@@ -32,7 +30,7 @@ func update_text(lines: Array, target: Object):
 	if line_index > lines.size():
 		dialogue_over.emit(target)
 		self.visible = false
-		Globals.player_controls(true)
+		Globals.player_controls(continue_after)
 		text_label.text = ""
 		line_index = 0
 		

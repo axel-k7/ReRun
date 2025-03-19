@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cgxgnb8yiwc71"]
+
+[node name="TbAttackPreset" type="Button"]
+offset_right = 150.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="atkContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 40.0
+
+[node name="atkName" type="Label" parent="atkContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="atkDmg" type="Label" parent="atkContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="atkCost" type="Label" parent="atkContainer"]
+layout_mode = 2
+size_flags_horizontal = 2

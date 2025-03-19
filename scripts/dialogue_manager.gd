@@ -8,5 +8,5 @@ func _ready():
 	self.add_child(dialogue)
 	dialogue.dialogue_over.connect(dialogue._on_dialogue_over)
 
-func start_dialogue(lines: Array, target: Object):
-	dialogue.update_text(lines, target)
+func start_dialogue(lines: Array, target: Object, continue_after: bool):
+	dialogue.update_text(lines, target, continue_after)
