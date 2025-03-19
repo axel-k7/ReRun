@@ -1,18 +1,22 @@
 extends Node
 
-@onready var text_label: Label = $HSplitContainer/VBoxContainer/Text
-@onready var name_label: Label = $HSplitContainer/VBoxContainer/Name
+@onready var text_label: Label = $DialogueContainer/VBoxContainer/Text
+@onready var name_label: Label = $DialogueContainer/VBoxContainer/Name
 @onready var letter_timer: Timer = $letterTimer
+
+signal dialogue_over
+
 var line_index = 0
 var letter_index = 0
 
 func _ready():
 	text_label.autowrap_mode = 1
+	self.visible = false
+	self.position = Vector2(-get_viewport().get_visible_rect().size.x/4, get_viewport().get_visible_rect().size.y/2-self.size.y)
 
 func update_text(lines: Array, target: Object):
 	self.visible = true
-	Globals.can_move = false
-	Globals.can_interact = false
+	Globals.player_controls(false)
 	name_label.text = target.Cname
 	text_label.visible_characters = 0
 	if line_index < lines.size():
@@ -26,8 +30,13 @@ func update_text(lines: Array, target: Object):
 	line_index += 1
 	Globals.can_interact = true
 	if line_index > lines.size():
+		dialogue_over.emit(target)
 		self.visible = false
-		Globals.can_move = true
+		Globals.player_controls(true)
 		text_label.text = ""
 		line_index = 0
 		
+func _on_dialogue_over(target: Object):
+	if target.has_method("dialogue_over") == true:
+		target.dialogue_over()
+	else: pass

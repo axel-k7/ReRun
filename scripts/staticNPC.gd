@@ -16,3 +16,6 @@ func _ready():
 
 func interact_action():
 	DialogueManager.start_dialogue(lines, self)
+
+func dialogue_over():
+	BattleManagerTb.start_battle(BattleManagerTb.allies, BattleManagerTb.allies)

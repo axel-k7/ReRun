@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bgwn0fr78rc"]
 
-[ext_resource type="Script" uid="uid://cuxmp0vggvmf0" path="res://scenes/classmate/staticNPC.gd" id="1_thban"]
+[ext_resource type="Script" uid="uid://cuxmp0vggvmf0" path="res://scripts/staticNPC.gd" id="1_thban"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cuef7"]
 

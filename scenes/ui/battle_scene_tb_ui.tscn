@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://by7ei6syf1og0"]
+
+[node name="BattleSceneTB_UI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="UI_container" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 289.0
+offset_bottom = 150.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="UI_container/VBoxContainer"]
+layout_mode = 2
+text = "attack1"
+
+[node name="Label2" type="Label" parent="UI_container/VBoxContainer"]
+layout_mode = 2
+text = "attack2"
+
+[node name="action_container" type="HBoxContainer" parent="UI_container"]
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 1
+
+[node name="attack_button" type="Button" parent="UI_container/action_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ATTACK"
+
+[node name="guard_button" type="Button" parent="UI_container/action_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "GUARD"
+
+[node name="item_button" type="Button" parent="UI_container/action_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ITEM"
+
+[node name="stat_container" type="HSplitContainer" parent="UI_container"]
+layout_mode = 2
+size_flags_vertical = 6
+collapsed = true
+drag_area_highlight_in_editor = true
+
+[node name="hp" type="Label" parent="UI_container/stat_container"]
+layout_mode = 2
+text = "HP: 10000 / 10000"
+
+[node name="mp" type="Label" parent="UI_container/stat_container"]
+layout_mode = 2
+text = "MP: 10000 / 10000"

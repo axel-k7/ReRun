@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://tkr4tryetoim"]
+
+[sub_resource type="GDScript" id="GDScript_o1t32"]
+script/source = "extends Node2D
+
+@onready var max_hp = Globals.player.max_hp
+@onready var hp = Globals.player.hp
+@onready var max_mp = Globals.player.max_mp
+@onready var mp = Globals.player.mp
+@onready var attacks = Globals.player.attacks
+
+func _ready():
+	max_hp = Globals.player.max_hp
+	hp = Globals.player.hp
+	max_mp = Globals.player.max_mp
+	mp = Globals.player.mp
+	attacks = Globals.player.attacks
+"
+
+[node name="PresetCharacterTB" type="Node2D"]
+script = SubResource("GDScript_o1t32")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
