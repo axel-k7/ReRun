@@ -19,3 +19,5 @@ mesh = SubResource("CapsuleMesh_8cwbm")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 0.920723, 0.390217, 0, -0.390217, 0.920723, 0, 3.44376, 6.2581)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

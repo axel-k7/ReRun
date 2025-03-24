@@ -5,6 +5,7 @@ extends CharacterBody3D
 @export var sensitivity = 1000
 
 @onready var camera = $CameraPivot/Camera3D
+@onready var animation = $AnimationPlayer
 
 var targetVelocity = Vector3.ZERO
 var inventory: Array
@@ -19,9 +20,10 @@ var hp = max_hp
 var max_mp = 100
 var mp = max_mp
 var attacks: Array[Array] = [
-		#Attack name (string), Damage(int), MP cost(int), -> NOT IMPLEMENTED  -> ||damage type(string), description(string)||
+		#Attack name (string), Damage(int), MP cost(int), 3D attack scene (if needed), -> NOT IMPLEMENTED  -> ||damage type(string), description(string)||
 		[ "Slash", 5, 1 ],
-		[ "Fireball", 10, 3]
+		[ "Fireball", 10, 3],
+		[ "Beam", 10, 5, preload("res://scenes/player/attacks/beam.tscn")]
 	]
 
 func _ready():
@@ -31,6 +33,7 @@ func _physics_process(delta):
 	movement_handler(delta)
 	interact_input()
 	drop_input()
+	attack_input()
 
 func movement_handler(delta):
 	if Globals.can_move == true:
@@ -84,6 +87,18 @@ func drop_input():
 		var item_to_drop = item_scene.instantiate()
 		get_parent().add_child(item_to_drop)
 		item_to_drop.global_position = self.global_position
+
+func attack_input():
+	if Input.is_action_just_pressed("attack") && Globals.can_player_attack == true:
+		attack("Beam")
+	
+func attack(selected_attack: String):
+	for attack_info in attacks:
+		if attack_info[0] == selected_attack:
+			var attack = attack_info[3].instantiate()
+			self.add_child(attack)
+			attack.get_stats(attack_info[1])
+			self.mp -= attack_info[2]
 
 func die():
 	pass

@@ -31,6 +31,7 @@ func on_damaged(amount: int):
 	character.hp -= amount
 	hp_bar.value = character.hp
 	sfx.play()
+	Globals.damage_flash(self)
 	if character.hp <= 0:
 		self.rotate(1)
 		emit_signal("die")

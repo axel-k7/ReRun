@@ -5,6 +5,7 @@ extends Node
 @onready var can_move: bool = true
 @onready var can_interact: bool = true
 @onready var can_rotate_camera: bool = true
+@onready var can_player_attack: bool = true
 
 func add_interact(body):
 	var interact_scene =  preload("res://scenes/items/interact_area.tscn")
@@ -18,7 +19,6 @@ func player_controls(option: bool):
 
 func damage(target: Object, amount: int):
 	target.on_damaged(amount)
-	damage_flash(target)
 
 func damage_flash(target):
 	target.modulate = Color(1, 0, 0)

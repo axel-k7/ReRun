@@ -26,6 +26,7 @@ var attacks: Array[Array] = [
 func _ready():
 	Globals.add_interact(self)
 	audio.stream = dialogue_sfx
+	self.add_to_group("NPC")
 
 func interact_action():
 	DialogueManager.start_dialogue(lines, self, false)
@@ -34,8 +35,15 @@ func dialogue_over():
 	BattleManagerTb.enemies.append(self)
 	BattleManagerTb.start_battle(BattleManagerTb.allies, BattleManagerTb.enemies)
 
+func on_damaged(amount: int):
+	hp -= amount
+	print(self.name, " took ", amount, " damage")
+	print(self.name, " current hp: ", hp) 
+	if hp <= 0:
+		die()
+	
 func die():
 	Globals.player.exp += exp_given
 	#ragdoll()
-	#await get_tree().create_timer(2).timeout
-	#self.queue_free()
+	await get_tree().create_timer(2).timeout
+	self.queue_free()
