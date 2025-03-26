@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bsd5vd18g3ywh"]
+
+[ext_resource type="Script" uid="uid://d1f34e4bx1oqy" path="res://scenes/weapons/weapon.gd" id="1_o616w"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_6dwfh"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.8
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o616w"]
+radius = 0.1
+height = 1.0
+
+[node name="Sword" type="Area3D"]
+script = ExtResource("1_o616w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_6dwfh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_o616w")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

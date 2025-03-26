@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://b2i1gdkxcyn82"]
 
-[ext_resource type="PackedScene" uid="uid://4ipv7palv0jb" path="res://scenes/map/map.tscn" id="1_8c6p6"]
 [ext_resource type="Script" uid="uid://tj2v15ihp5sa" path="res://scripts/main.gd" id="1_26nwy"]
+[ext_resource type="PackedScene" uid="uid://co6bsilhcd01m" path="res://scenes/map/map_parts/baseplate.tscn" id="2_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://n1cuaw4g8k5o" path="res://scenes/items/item_scenes/pipe.tscn" id="4_2crsr"]
 [ext_resource type="PackedScene" uid="uid://c2bkq1dttjual" path="res://scenes/items/item_scenes/brick.tscn" id="4_fb2th"]
 [ext_resource type="PackedScene" uid="uid://bgwn0fr78rc" path="res://scenes/NPC/staticNPC.tscn" id="5_jm6kh"]
@@ -9,7 +9,7 @@
 [node name="Main" type="Node3D"]
 script = ExtResource("1_26nwy")
 
-[node name="map" parent="." instance=ExtResource("1_8c6p6")]
+[node name="Baseplate" parent="." instance=ExtResource("2_tbgi4")]
 
 [node name="brick" parent="." instance=ExtResource("4_fb2th")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.00749, 0, -7.36734)
@@ -23,3 +23,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.62125, 0, -6.91489)
 [node name="staticNPC" parent="." instance=ExtResource("5_jm6kh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5795, 1.98528, -10.2005)
 lines = Array[String](["Lineeeeee 1 Line 1111", "Line 2", "Line 3", "a", ""])
+
+[node name="staticNPC2" parent="." instance=ExtResource("5_jm6kh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.6316, 1.5, 9.44639)
+
+[node name="staticNPC3" parent="." instance=ExtResource("5_jm6kh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.89756, 11, -28.0568)

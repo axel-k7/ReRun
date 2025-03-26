@@ -6,13 +6,18 @@ extends CharacterBody3D
 
 @onready var camera = $CameraPivot/Camera3D
 @onready var animation = $AnimationPlayer
-
+@onready var attack_cooldown = $attack_cooldown
 var targetVelocity = Vector3.ZERO
-var inventory: Array
 
+var closest_interactable: Object
+
+var curr_anim: String
+var attack_anim_name: String
+
+@onready var weapon: Object = $Sword
+var inventory: Array
 var exp: float = 0
 var level: int = 1
-
 @export var tb_sprite: CompressedTexture2D = preload("res://vfx/tb_preset.png")
 @export var hurt_sfx: AudioStream = preload("res://sfx/hurt_preset.wav")
 var max_hp = 150
@@ -76,9 +81,25 @@ func _input(event):
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
+func interactable_check():
+	if Globals.target_interactables.size() == 0:
+		pass
+	elif Globals.target_interactables.size() > 0:
+		for interactable in Globals.target_interactables:
+			var self_pos = self.global_position
+			var new_pos = interactable.global_position
+			if closest_interactable == null:
+				closest_interactable = Globals.target_interactables[0]
+			elif closest_interactable != null:
+				if self_pos.distance_to(new_pos) <= self_pos.distance_to(closest_interactable.global_position):
+					closest_interactable = interactable
+					print("closest interactable: ", closest_interactable.name)
+
 func interact_input():
-	if Input.is_action_just_pressed("interact") && Globals.targetInteractables.size() > 0 && Globals.can_interact == true:
-		Globals.targetInteractables[0].interact_action()
+	#interactable_check() BAD CODE
+	if Input.is_action_just_pressed("interact") && Globals.target_interactables.size() > 0 && Globals.can_interact == true:
+		#closest_interactable.interact_action()
+		Globals.target_interactables[0].interact_action()
 
 func drop_input():
 	if Input.is_action_just_pressed("drop_item") && inventory.size() > 0:
@@ -90,15 +111,25 @@ func drop_input():
 
 func attack_input():
 	if Input.is_action_just_pressed("attack") && Globals.can_player_attack == true:
-		attack("Beam")
-	
-func attack(selected_attack: String):
+		attack("Slash", "local")
+
+func attack(selected_attack: String, attack_type: String):
 	for attack_info in attacks:
 		if attack_info[0] == selected_attack:
-			var attack = attack_info[3].instantiate()
-			self.add_child(attack)
-			attack.get_stats(attack_info[1])
-			self.mp -= attack_info[2]
+			if attack_type == "instance":
+				var attack = attack_info[3].instantiate()
+				self.add_child(attack)
+				attack.get_stats(attack_info[1])
+				self.mp -= attack_info[2]
+			elif attack_type == "local":
+				attack_anim_name = attack_info[0] + "_animation"
+				animation.play(attack_anim_name)
+				self.mp -= attack_info[2]
 
 func die():
 	pass
+
+
+func _on_animation_player_animation_finished(anim_name: StringName):
+	if anim_name == attack_anim_name:
+		weapon.empty_targets()

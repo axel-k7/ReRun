@@ -4,9 +4,9 @@ extends Node
 @onready var attack_button = $BattleSceneTB_UI/UI_container/action_container/attack_button
 @onready var guard_button = $BattleSceneTB_UI/UI_container/action_container/guard_button
 @onready var item_button = $BattleSceneTB_UI/UI_container/action_container/item_button
-@onready var player_hpLabel: Label = $BattleSceneTB_UI/UI_container/stat_container/hp
-@onready var player_mpLabel: Label = $BattleSceneTB_UI/UI_container/stat_container/mp
-@onready var atkContainer = $BattleSceneTB_UI/Attack_container
+@onready var player_hp_label: Label = $BattleSceneTB_UI/UI_container/stat_container/hp
+@onready var player_mp_label: Label = $BattleSceneTB_UI/UI_container/stat_container/mp
+@onready var atk_container = $BattleSceneTB_UI/Attack_container
 @onready var atk_option_scene = preload("res://scenes/ui/tb_attack_preset.tscn")
 @onready var camera = $BattleSceneTB_camera
 @onready var allyNode = $Allies
@@ -24,12 +24,12 @@ var allies: Array[Object]
 
 func _ready():
 	self.visible = false
-	atkContainer.visible = false
+	atk_container.visible = false
 	set_process(false)
 
 func _process(delta: float):
-	player_hpLabel.text = str(Globals.player.hp) + "/" + str(Globals.player.max_hp)
-	player_mpLabel.text = str(Globals.player.mp) + "/" + str(Globals.player.max_mp)
+	player_hp_label.text = str(Globals.player.hp) + "/" + str(Globals.player.max_hp)
+	player_mp_label.text = str(Globals.player.mp) + "/" + str(Globals.player.max_mp)
 	if is_player_turn == true:
 		var enemyIndex = 0
 		var enemyAmount = enemies.size()
@@ -116,14 +116,14 @@ func turn_handler():
 
 func display_attacks(character: Object):
 	selecting_action = true
-	atkContainer.visible = true
-	atkContainer.size.y = 40*character.attacks.size()
+	atk_container.visible = true
+	atk_container.size.y = 40*character.attacks.size()
 	for attack in character.attacks:
 		var atk_option = atk_option_scene.instantiate()
 		var atk_name = attack[0]
 		var dmg = attack[1]
 		var cost = attack[2]
-		atkContainer.add_child(atk_option)
+		atk_container.add_child(atk_option)
 		var atk_label_container = atk_option.get_child(0)
 		atk_option.name = atk_name
 		atk_label_container.get_child(0).text = atk_name
@@ -162,8 +162,8 @@ func do_action(action: String):
 			acting_chr = BattleManagerTb.enemies[action_index]
 			enemy_attack(acting_chr)
 	await action_taken
-	atkContainer.visible = false
-	for child in atkContainer.get_children():
+	atk_container.visible = false
+	for child in atk_container.get_children():
 		child.queue_free()
 	turns -= 1
 	action_index += 1
@@ -179,9 +179,9 @@ func do_action(action: String):
 func enemy_action():
 	if is_player_turn == false:
 		print("enemy taking action")
-		var wait_time: float = randf() + 1
+		var wait_time: float = 1 + randf()
 		await get_tree().create_timer(wait_time).timeout
-		for turnIndex in turns:
+		for turn_index in turns:
 			var random_ally_index = randi_range(0, allies.size()-1)
 			selected_target = allies[random_ally_index]
 			do_action("attack")
