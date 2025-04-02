@@ -1,6 +1,45 @@
-[gd_scene load_steps=2 format=3 uid="uid://dsc3lhk5yygi3"]
+[gd_scene load_steps=6 format=3 uid="uid://dsc3lhk5yygi3"]
 
 [ext_resource type="Script" uid="uid://c60ygrkelaowe" path="res://scripts/battle_tb.gd" id="1_v7fdu"]
+[ext_resource type="Texture2D" uid="uid://dfq0euksvevv4" path="res://vfx/target_marker.png" id="2_v7fdu"]
+
+[sub_resource type="Animation" id="Animation_v7fdu"]
+resource_name = "rotate"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_vf270"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pavcj"]
+_data = {
+&"RESET": SubResource("Animation_vf270"),
+&"rotate": SubResource("Animation_v7fdu")
+}
 
 [node name="BattleSceneTB" type="Node2D"]
 script = ExtResource("1_v7fdu")
@@ -60,6 +99,14 @@ offset_bottom = 162.0
 [node name="Allies" type="Node2D" parent="."]
 
 [node name="Enemies" type="Node2D" parent="."]
+
+[node name="Select_marker" type="Sprite2D" parent="."]
+texture = ExtResource("2_v7fdu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Select_marker"]
+libraries = {
+&"": SubResource("AnimationLibrary_pavcj")
+}
 
 [connection signal="pressed" from="BattleSceneTB_UI/UI_container/action_container/attack_button" to="." method="_on_attack_button_pressed"]
 [connection signal="pressed" from="BattleSceneTB_UI/UI_container/action_container/guard_button" to="." method="_on_guard_button_pressed"]

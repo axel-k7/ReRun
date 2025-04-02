@@ -4,6 +4,7 @@ extends CharacterBody3D
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var attack_timer: Timer = $attack_timer
 @onready var animation: AnimationPlayer = $AnimationPlayer
+@onready var weapon = $Sword
 @export var Cname: String = "name"
 @export var image: CompressedTexture2D = preload("res://vfx/smiley.png")
 @export var dialogue_sfx: AudioStream = preload("res://sfx/hah.wav")
@@ -21,6 +22,7 @@ var fleeing: bool = false
 var attacking: bool = true
 var direction: Vector3 = Vector3.FORWARD
 var can_move: bool = true
+var attack_ready: bool = true
 
 @export var exp_given: float = 50
 var max_hp = 30
@@ -85,16 +87,23 @@ func fight_formation(delta: float):
 	look_at(Globals.player.global_position)
 	var distance_to_player = self.global_position.distance_to(Globals.player.position)
 	target_velocity = transform.basis * direction * move_speed
-	if distance_to_player > 7:
+	if distance_to_player > 5:
 		velocity = (nav_agent.get_next_path_position() - self.global_position).normalized() * move_speed*1.5
-	elif distance_to_player < 7 && distance_to_player > 5:
+	elif distance_to_player < 5 && distance_to_player > 3:
 		velocity.x = 0
 		velocity.z = 0
-	elif distance_to_player < 5:
+		
+		if attack_ready == true:
+			fight()
+	elif distance_to_player < 3:
 		velocity = -(nav_agent.get_next_path_position() - self.global_position).normalized() * move_speed/1.5
 
-func fight(delta: float):
-	pass
+func fight():
+	attack_ready = false
+	animation.play("attack")
+	attack_timer.start()
+	await attack_timer.timeout
+	attack_ready = true
 	
 func tb_attack(target: Object, side: Array): #side is for custom npcs in need of special targetting
 	var chosen_attack = randi_range(0, attacks.size()-1)
@@ -118,3 +127,8 @@ func die():
 	#ragdoll()
 	await get_tree().create_timer(2).timeout
 	self.queue_free()
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "attack":
+		weapon.empty_targets()

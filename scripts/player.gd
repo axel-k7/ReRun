@@ -126,6 +126,9 @@ func attack(selected_attack: String, attack_type: String):
 				animation.play(attack_anim_name)
 				self.mp -= attack_info[2]
 
+func on_damaged(amount: int):
+	print("ow")
+
 func die():
 	pass
 

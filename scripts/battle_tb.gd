@@ -1,6 +1,8 @@
 extends Node
 
 @onready var tb_preset_chr_scene = preload("res://scenes/ui/tb_preset_character.tscn")
+@onready var target_marker = $Select_marker
+@onready var target_marker_anim = $Select_marker/AnimationPlayer
 @onready var attack_button = $BattleSceneTB_UI/UI_container/action_container/attack_button
 @onready var guard_button = $BattleSceneTB_UI/UI_container/action_container/guard_button
 @onready var item_button = $BattleSceneTB_UI/UI_container/action_container/item_button
@@ -25,7 +27,11 @@ var enemies: Array[Object]
 var allies: Array[Object]
 var acting_side: Array
 
+var enemyIndex = 0
+var enemyAmount
+
 func _ready():
+	target_marker_anim.play("rotate")
 	self.visible = false
 	atk_container.visible = false
 	set_process(false)
@@ -36,23 +42,32 @@ func _process(delta: float):
 	
 	
 	if is_player_acting == true:
-		var enemyIndex = 0
-		var enemyAmount = enemies.size()
-		selected_target = enemies[enemyIndex]
-		if Input.is_action_pressed("right"):
+		player_select_target()
+		enemyAmount = enemies.size()-1
+		if Input.is_action_just_pressed("right"):
 			if enemyIndex < enemyAmount:
 				enemyIndex += 1
 			elif enemyIndex == enemyAmount:
 				enemyIndex = 0
-		if Input.is_action_pressed("left"):
-			if enemyIndex < enemyAmount:
+		if Input.is_action_just_pressed("left"):
+			if enemyIndex <= enemyAmount && enemyIndex != 0:
 				enemyIndex -= 1
-			elif enemyIndex == enemyAmount:
+			elif enemyIndex == 0:
 				enemyIndex = enemyAmount
+
+func player_select_target():
+	target_marker.visible = true
+	selected_target = enemies[enemyIndex]
+	target_marker.position = selected_target.position
+	var target_sprite_size: float = selected_target.sprite.texture.get_height()
+	target_marker.scale.y = target_sprite_size/250
+	target_marker.scale.x = target_sprite_size/250
+	target_marker
 
 func start_battle(ally_array: Array, enemy_array: Array):
 	Globals.player_controls(false)
 	self.visible = true
+	target_marker.visible = false
 	Globals.player.camera.current = false
 	camera.make_current()
 	set_process(true)
@@ -204,7 +219,9 @@ func _atk_option_pressed(attacker: Object, atk_name: String, damage: int, cost: 
 	attacker.mp -= cost
 	print(attacker.name, " used ", atk_name, "(", damage, " DMG)", " on ", selected_target.name, " for ", cost, " MP")
 	emit_signal("action_taken")
+	enemyIndex = 0
 	is_player_acting = false
+	target_marker.visible = false
 
 func _on_attack_button_pressed():
 	if is_player_acting == true && selecting_action == false:
