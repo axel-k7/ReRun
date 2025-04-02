@@ -18,21 +18,22 @@ func _ready() -> void:
 func movement(delta: float):
 	pass
 
-func tb_attack(target: Object):
-	var chosen_attack = randi_range(0, attacks.size()-1)
-	var attack = attacks[chosen_attack]
-	var atk_name = attack[0]
-	var dmg = attack[1]
-	var cost = attack[2]
-	
+func tb_attack(target: Object, side: Array):
 	if actions_taken == 2:
 		attacks.append(["Inferno", 50, 10])
 	if actions_taken == 3:
 		attacks.clear()
 		attacks.append(["Ego", 10000, 0]) 
 	
+	
+	var chosen_attack = randi_range(0, attacks.size()-1)
+	var attack = attacks[chosen_attack]
+	var atk_name = attack[0]
+	var dmg = attack[1]
+	var cost = attack[2]
+	
 	if actions_taken > 1:
-		for party_member in BattleManagerTb.enemies:
+		for party_member in side:
 			if party_member.name == "Hero":
 				target = party_member
 	

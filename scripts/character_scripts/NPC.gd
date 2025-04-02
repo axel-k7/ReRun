@@ -96,7 +96,7 @@ func fight_formation(delta: float):
 func fight(delta: float):
 	pass
 	
-func tb_attack(target: Object):
+func tb_attack(target: Object, side: Array): #side is for custom npcs in need of special targetting
 	var chosen_attack = randi_range(0, attacks.size()-1)
 	var attack = attacks[chosen_attack]
 	var atk_name = attack[0]

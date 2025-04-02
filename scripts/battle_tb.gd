@@ -23,6 +23,7 @@ signal action_taken
 
 var enemies: Array[Object]
 var allies: Array[Object]
+var acting_side: Array
 
 func _ready():
 	self.visible = false
@@ -33,10 +34,6 @@ func _process(delta: float):
 	player_hp_label.text = str(Globals.player.hp) + "/" + str(Globals.player.max_hp)
 	player_mp_label.text = str(Globals.player.mp) + "/" + str(Globals.player.max_mp)
 	
-	if enemies.size() <= 0:
-		end_battle("victory")
-	elif allies.size() <= 0:
-		end_battle("defeat")
 	
 	if is_player_acting == true:
 		var enemyIndex = 0
@@ -115,13 +112,14 @@ func action_handler():
 		acting_chr = BattleManagerTb.allies[action_index]
 	elif is_ally_turn == false:
 		acting_chr = BattleManagerTb.enemies[action_index]
-		
+	
 	if acting_chr.is_in_group("NPC") == true:
 		is_player_acting = false
 		NPC_action()
 	elif acting_chr.is_in_group("NPC") == false:
 		is_player_acting = true
-		
+	print(acting_chr.name, " taking action")
+	
 	await action_taken
 	atk_container.visible = false
 	for child in atk_container.get_children():
@@ -136,33 +134,35 @@ func action_handler():
 	elif turns <= 0 && is_ally_turn == false:
 		is_ally_turn = true
 		turn_handler()
-	else: action_handler()
-	
+	else: 
+		if allies.size() > 0 && enemies.size() > 0:
+			action_handler()
+		elif enemies.size() <= 0:
+			end_battle("victory")
+		elif allies.size() <= 0:
+			end_battle("defeat")
 
 func do_action(action: String):
 	if action == "attack":
 		if acting_chr.is_in_group("NPC") == true:
-			acting_chr.tb_attack(selected_target)
+			if is_ally_turn == true:
+				acting_chr.tb_attack(selected_target, enemies)
+			elif is_ally_turn == false:
+				acting_chr.tb_attack(selected_target, allies)
 		if acting_chr.is_in_group("NPC") == false:
 			display_attacks(acting_chr)
-	
 
 func NPC_action():
-	print("NPC taking action")
+	var random_character_index
+	var wait_time: float = 1 + randf()
+	await get_tree().create_timer(wait_time).timeout
 	if is_ally_turn == true:
-		var wait_time: float = 1 + randf()
-		await get_tree().create_timer(wait_time).timeout
-		var random_enemy_index = randi_range(0, enemies.size()-1)
-		selected_target = enemies[random_enemy_index]
-		do_action("attack")
+		random_character_index = randi_range(0, enemies.size()-1)
+		selected_target = enemies[random_character_index]
 	elif is_ally_turn == false:
-		for turn_index in turns:
-			var wait_time: float = 1 + randf()
-			await get_tree().create_timer(wait_time).timeout
-			var random_ally_index = randi_range(0, allies.size()-1)
-			selected_target = allies[random_ally_index]
-			do_action("attack")
-			action_index += 1
+		random_character_index = randi_range(0, allies.size()-1)
+		selected_target = allies[random_character_index]
+	do_action("attack")
 	emit_signal("action_taken")
 
 func remove_from_party(character, side):
@@ -173,7 +173,6 @@ func remove_from_party(character, side):
 				allies.remove_at(character_index)
 				BattleManagerTb.allies.remove_at(character_index)
 			character_index += 1
-		allies.erase(character)
 	elif side == "enemy":
 		for enemy in enemies:
 			if enemy == character:
