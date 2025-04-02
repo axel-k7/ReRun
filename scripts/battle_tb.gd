@@ -12,7 +12,9 @@ extends Node
 @onready var allyNode = $Allies
 @onready var enemyNode = $Enemies
 
-var is_player_turn: bool
+var acting_chr: Object
+var is_player_acting: bool = false
+var is_ally_turn: bool
 var turns: int
 var selected_target
 var action_index: int
@@ -30,7 +32,13 @@ func _ready():
 func _process(delta: float):
 	player_hp_label.text = str(Globals.player.hp) + "/" + str(Globals.player.max_hp)
 	player_mp_label.text = str(Globals.player.mp) + "/" + str(Globals.player.max_mp)
-	if is_player_turn == true:
+	
+	if enemies.size() <= 0:
+		end_battle("victory")
+	elif allies.size() <= 0:
+		end_battle("defeat")
+	
+	if is_player_acting == true:
 		var enemyIndex = 0
 		var enemyAmount = enemies.size()
 		selected_target = enemies[enemyIndex]
@@ -58,7 +66,7 @@ func start_battle(ally_array: Array, enemy_array: Array):
 	set_up_characters(enemy_array, "enemy")
 	for enemy in enemyNode.get_children():
 		enemies.append(enemy)
-	is_player_turn = true
+	is_ally_turn = true
 	BattleManagerTb.battle_active = true
 	turn_handler()
 
@@ -94,25 +102,84 @@ func set_up_characters(characters, side: String):
 		tb_character.die.connect(remove_from_party.bind(tb_character, side))
 		characterIndex += 1
 
+func turn_handler():
+	action_index = 0
+	if is_ally_turn == true:
+		turns = allies.size()
+	elif is_ally_turn == false:
+		turns = enemies.size()
+	action_handler()
+
+func action_handler():
+	if is_ally_turn == true:
+		acting_chr = BattleManagerTb.allies[action_index]
+	elif is_ally_turn == false:
+		acting_chr = BattleManagerTb.enemies[action_index]
+		
+	if acting_chr.is_in_group("NPC") == true:
+		is_player_acting = false
+		NPC_action()
+	elif acting_chr.is_in_group("NPC") == false:
+		is_player_acting = true
+		
+	await action_taken
+	atk_container.visible = false
+	for child in atk_container.get_children():
+		child.queue_free()
+	turns -= 1
+	action_index += 1
+	selecting_action = false
+	print("turns left: ", turns)
+	if turns <= 0 && is_ally_turn == true:
+		is_ally_turn = false
+		turn_handler()
+	elif turns <= 0 && is_ally_turn == false:
+		is_ally_turn = true
+		turn_handler()
+	else: action_handler()
+	
+
+func do_action(action: String):
+	if action == "attack":
+		if acting_chr.is_in_group("NPC") == true:
+			acting_chr.tb_attack(selected_target)
+		if acting_chr.is_in_group("NPC") == false:
+			display_attacks(acting_chr)
+	
+
+func NPC_action():
+	print("NPC taking action")
+	if is_ally_turn == true:
+		var wait_time: float = 1 + randf()
+		await get_tree().create_timer(wait_time).timeout
+		var random_enemy_index = randi_range(0, enemies.size()-1)
+		selected_target = enemies[random_enemy_index]
+		do_action("attack")
+	elif is_ally_turn == false:
+		for turn_index in turns:
+			var wait_time: float = 1 + randf()
+			await get_tree().create_timer(wait_time).timeout
+			var random_ally_index = randi_range(0, allies.size()-1)
+			selected_target = allies[random_ally_index]
+			do_action("attack")
+			action_index += 1
+	emit_signal("action_taken")
+
 func remove_from_party(character, side):
+	var character_index = 0
 	if side == "ally":
+		for ally in allies:
+			if ally == character:
+				allies.remove_at(character_index)
+				BattleManagerTb.allies.remove_at(character_index)
+			character_index += 1
 		allies.erase(character)
 	elif side == "enemy":
-		enemies.erase(character)
-
-
-func turn_handler():
-	if is_player_turn == true:
-		turns = allies.size()
-		if turns == 0:
-			end_battle("defeat")
-		action_index = 0
-	elif is_player_turn == false:
-		turns = enemies.size()
-		if turns == 0:
-			end_battle("victory")
-		action_index = 0
-		enemy_action()
+		for enemy in enemies:
+			if enemy == character:
+				enemies.remove_at(character_index)
+				BattleManagerTb.enemies.remove_at(character_index)
+			character_index += 1
 
 func display_attacks(character: Object):
 	selecting_action = true
@@ -138,62 +205,17 @@ func _atk_option_pressed(attacker: Object, atk_name: String, damage: int, cost: 
 	attacker.mp -= cost
 	print(attacker.name, " used ", atk_name, "(", damage, " DMG)", " on ", selected_target.name, " for ", cost, " MP")
 	emit_signal("action_taken")
+	is_player_acting = false
 
 func _on_attack_button_pressed():
-	if is_player_turn == true && selecting_action == false:
+	if is_player_acting == true && selecting_action == false:
 		do_action("attack")
 
 func _on_guard_button_pressed():
-	if is_player_turn == true:
+	if is_player_acting == true:
 		do_action("guard")
 
 func _on_item_button_pressed():
-	if is_player_turn == true && selecting_action == false:
+	if is_player_acting == true && selecting_action == false:
 		do_action("item")
-	
-
-func do_action(action: String):
-	if action == "attack":
-		var acting_chr
-		if is_player_turn == true:
-			acting_chr = BattleManagerTb.allies[action_index]
-			display_attacks(acting_chr)
-		elif is_player_turn == false:
-			acting_chr = BattleManagerTb.enemies[action_index]
-			enemy_attack(acting_chr)
-	await action_taken
-	atk_container.visible = false
-	for child in atk_container.get_children():
-		child.queue_free()
-	turns -= 1
-	action_index += 1
-	selecting_action = false
-	print("turns left: ", turns)
-	if turns <= 0 && is_player_turn == true:
-		is_player_turn = false
-		turn_handler()
-	elif turns <= 0 && is_player_turn == false:
-		is_player_turn = true
-		turn_handler()
-
-func enemy_action():
-	if is_player_turn == false:
-		print("enemy taking action")
-		var wait_time: float = 1 + randf()
-		await get_tree().create_timer(wait_time).timeout
-		for turn_index in turns:
-			var random_ally_index = randi_range(0, allies.size()-1)
-			selected_target = allies[random_ally_index]
-			do_action("attack")
-		emit_signal("action_taken")
-
-func enemy_attack(enemy):
-	var chosen_attack = randi_range(0, enemy.attacks.size()-1)
-	var attack = enemy.attacks[chosen_attack]
-	var atk_name = attack[0]
-	var dmg = attack[1]
-	var cost = attack[2]
-	
-	Globals.damage(selected_target, dmg)
-	print(enemy.name, " used ", atk_name, " (", dmg, " DMG)", " on ", selected_target.name, " for ", cost, " MP")
 	

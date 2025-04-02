@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bgwn0fr78rc"]
 
-[ext_resource type="Script" uid="uid://cuxmp0vggvmf0" path="res://scripts/staticNPC.gd" id="1_thban"]
+[ext_resource type="Script" uid="uid://cuxmp0vggvmf0" path="res://scripts/character_scripts/NPC.gd" id="1_270vp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_270vp"]
 albedo_color = Color(1, 0.517647, 0.431373, 1)
@@ -10,8 +10,9 @@ material = SubResource("StandardMaterial3D_270vp")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ds2em"]
 
-[node name="staticNPC" type="CharacterBody3D"]
-script = ExtResource("1_thban")
+[node name="NPC" type="CharacterBody3D"]
+script = ExtResource("1_270vp")
+lines = Array[String](["Line 1", "Line 2", "Line 3"])
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_cuef7")

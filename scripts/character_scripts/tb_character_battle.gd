@@ -12,16 +12,17 @@ func _process(delta: float):
 
 func set_up_self(given_character: Object, side: String, party_index: int):
 	character = given_character
+	sprite.texture = character.tb_sprite
+	self.name = character.name
 	if side == "ally":
 		self.global_position.y += 200
 		self.global_position.x += 150*party_index
-		hp_bar.position.y -= 100
+		hp_bar.position.y -= sprite.texture.get_height()/2 + 40
 	elif side == "enemy":
 		self.global_position.y -= 200
 		self.global_position.x += 150*party_index
 		self.position.y += 100
-	sprite.texture = character.tb_sprite
-	self.name = character.name
+		hp_bar.position.y -= sprite.texture.get_height()/2 + 40
 	
 	sfx.stream = character.hurt_sfx
 	hp_bar.max_value = character.max_hp
@@ -33,6 +34,6 @@ func on_damaged(amount: int):
 	sfx.play()
 	Globals.damage_flash(self)
 	if character.hp <= 0:
-		self.rotate(1)
+		sprite.rotate(1)
 		emit_signal("die")
 		character.die()
