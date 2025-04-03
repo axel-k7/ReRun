@@ -121,4 +121,5 @@ libraries = {
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.536601, 0.27763, -0.674832)
 monitoring = false
 
+[connection signal="inventory_updated" from="." to="." method="_on_inventory_updated"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

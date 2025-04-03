@@ -35,7 +35,10 @@ var attacks: Array[Array] = [
 		[ "Inferno", 50, 15, preload("res://scenes/player/attacks/inferno.tscn")]
 	]
 
+signal inventory_updated
+
 func _ready():
+	Globals.load_inventory()
 	pass#BattleManagerTb.allies.append(self)
 
 func _physics_process(delta):
@@ -154,3 +157,6 @@ func die():
 func _on_animation_player_animation_finished(anim_name: StringName):
 	if anim_name == attack_anim_name:
 		weapon.empty_targets()
+
+func _on_inventory_updated():
+	Globals.save_inventory_file(inventory)

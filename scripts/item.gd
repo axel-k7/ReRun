@@ -7,6 +7,7 @@ func _ready():
 	Globals.add_interact(self)
 
 func interact_action():
-	Globals.player.inventory.append(str(Globals.target_interactables[0].item))
+	Globals.player.inventory.append(self.item)
+	Globals.player.emit_signal("inventory_updated")
 	print(Globals.player.inventory)
 	Globals.target_interactables[0].queue_free()

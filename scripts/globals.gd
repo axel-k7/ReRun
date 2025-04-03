@@ -26,3 +26,19 @@ func damage_flash(target):
 	target.modulate = Color(1, 0, 0)
 	await get_tree().create_timer(0.2).timeout
 	target.modulate = Color(1, 1, 1)
+	
+func save_inventory_file(data: Array):
+	var config_file: ConfigFile = ConfigFile.new()
+	print(data)
+	config_file.set_value("player", "inventory", data)
+	config_file.save("res://data/player_data.cfg")
+
+func load_inventory():
+	if player != null:
+		var config_file = ConfigFile.new()
+		var error_check = config_file.load("res://data/player_data.cfg")
+		if error_check != OK:
+			return
+	
+		var loaded_inventory = config_file.get_value("player", "inventory")
+		player.inventory = loaded_inventory
