@@ -2,6 +2,7 @@ extends Node
 
 @onready var tb_preset_chr_scene = preload("res://scenes/ui/tb_preset_character.tscn")
 @onready var target_marker = $Select_marker
+@onready var turn_timer = $turn_timer
 @onready var target_marker_anim = $Select_marker/AnimationPlayer
 @onready var attack_button = $BattleSceneTB_UI/UI_container/action_container/attack_button
 @onready var guard_button = $BattleSceneTB_UI/UI_container/action_container/guard_button
@@ -60,11 +61,12 @@ func player_select_target():
 	selected_target = enemies[enemyIndex]
 	target_marker.position = selected_target.position
 	var target_sprite_size: float = selected_target.sprite.texture.get_height()
-	target_marker.scale.y = target_sprite_size/250
-	target_marker.scale.x = target_sprite_size/250
+	target_marker.scale.y = target_sprite_size/550
+	target_marker.scale.x = target_sprite_size/550
 	target_marker
 
 func start_battle(ally_array: Array, enemy_array: Array):
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	Globals.player_controls(false)
 	self.visible = true
 	target_marker.visible = false
@@ -73,11 +75,8 @@ func start_battle(ally_array: Array, enemy_array: Array):
 	set_process(true)
 	
 	set_up_characters(ally_array, "ally")
-	for ally in allyNode.get_children():
-		allies.append(ally)
 	set_up_characters(enemy_array, "enemy")
-	for enemy in enemyNode.get_children():
-		enemies.append(enemy)
+	
 	is_ally_turn = true
 	BattleManagerTb.battle_active = true
 	turn_handler()
@@ -101,6 +100,7 @@ func end_battle(result: String):
 		print("battle result: ", result)
 	elif result == "victory":
 		print("battle result: ", result)
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func set_up_characters(characters, side: String):
 	var characterIndex = 0
@@ -108,54 +108,64 @@ func set_up_characters(characters, side: String):
 		var tb_character = tb_preset_chr_scene.instantiate()
 		if side == "ally":
 			allyNode.add_child(tb_character)
+			allies.append(tb_character)
 		elif side == "enemy":
 			enemyNode.add_child(tb_character)
+			enemies.append(tb_character)
 		tb_character.set_up_self(character, side, characterIndex)
 		tb_character.die.connect(remove_from_party.bind(tb_character, side))
 		characterIndex += 1
 
 func turn_handler():
-	action_index = 0
-	if is_ally_turn == true:
-		turns = allies.size()
-	elif is_ally_turn == false:
-		turns = enemies.size()
-	action_handler()
+	if enemies.size() <= 0:
+			end_battle("victory")
+	elif allies.size() <= 0:
+			end_battle("defeat")
+	else:
+		action_index = 0
+		if is_ally_turn == true:
+			turns = allies.size()
+		elif is_ally_turn == false:
+			turns = enemies.size()
+		action_handler()
 
 func action_handler():
-	if is_ally_turn == true:
-		acting_chr = BattleManagerTb.allies[action_index]
-	elif is_ally_turn == false:
-		acting_chr = BattleManagerTb.enemies[action_index]
+	if BattleManagerTb.battle_paused == false:
+		if is_ally_turn == true:
+			acting_chr = BattleManagerTb.allies[action_index]
+		elif is_ally_turn == false:
+			acting_chr = BattleManagerTb.enemies[action_index]
+		
+		if acting_chr.is_in_group("NPC") == true:
+			is_player_acting = false
+			NPC_action()
+		elif acting_chr.is_in_group("NPC") == false:
+			is_player_acting = true
+		print(acting_chr.name, " taking action")
+		
+		await action_taken
+		atk_container.visible = false
+		for child in atk_container.get_children():
+			child.queue_free()
+		turns -= 1
+		action_index += 1
+		selecting_action = false
+		print("turns left: ", turns)
+		turn_timer.start(1)
+		await turn_timer.timeout
+		if turns <= 0 && is_ally_turn == true:
+			is_ally_turn = false
+			turn_handler()
+		elif turns <= 0 && is_ally_turn == false:
+			is_ally_turn = true
+			turn_handler()
+		elif allies.size() > 0 && enemies.size() > 0:
+				action_handler()
+	elif BattleManagerTb.battle_paused == true:
+		turn_timer.start(2)
+		await turn_timer.timeout
+		action_handler()
 	
-	if acting_chr.is_in_group("NPC") == true:
-		is_player_acting = false
-		NPC_action()
-	elif acting_chr.is_in_group("NPC") == false:
-		is_player_acting = true
-	print(acting_chr.name, " taking action")
-	
-	await action_taken
-	atk_container.visible = false
-	for child in atk_container.get_children():
-		child.queue_free()
-	turns -= 1
-	action_index += 1
-	selecting_action = false
-	print("turns left: ", turns)
-	if turns <= 0 && is_ally_turn == true:
-		is_ally_turn = false
-		turn_handler()
-	elif turns <= 0 && is_ally_turn == false:
-		is_ally_turn = true
-		turn_handler()
-	else: 
-		if allies.size() > 0 && enemies.size() > 0:
-			action_handler()
-		elif enemies.size() <= 0:
-			end_battle("victory")
-		elif allies.size() <= 0:
-			end_battle("defeat")
 
 func do_action(action: String):
 	if action == "attack":

@@ -105,6 +105,11 @@ mesh = SubResource("CapsuleMesh_8cwbm")
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 0.920723, 0.390217, 0, -0.390217, 0.920723, 0, 3.44376, 6.2581)
 
+[node name="RayCast3D" type="RayCast3D" parent="CameraPivot/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.989564, -0.144097, 0, 0.144097, 0.989564, 0, 0, 0)
+target_position = Vector3(0, 0, -40)
+collision_mask = 5
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_p47bc")

@@ -14,7 +14,8 @@ extends CharacterBody3D
 	"Line 2",
 	"Line 3"
 ]
-@export var tb_sprite: CompressedTexture2D = preload("res://vfx/tb_preset.png")
+@export var tb_sprite_enemy: CompressedTexture2D = preload("res://vfx/tb_preset.png")
+@export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/tb_preset.png")
 
 @export var move_speed: float = 3
 var target_velocity = Vector3.ZERO
@@ -50,8 +51,11 @@ func interact_action():
 	can_move = false
 
 func dialogue_over():
-	BattleManagerTb.start_battle(BattleManagerTb.allies, BattleManagerTb.enemies)
-	can_move = true
+	if BattleManagerTb.battle_active == false:
+		BattleManagerTb.start_battle(BattleManagerTb.allies, BattleManagerTb.enemies)
+		can_move = true
+	elif BattleManagerTb.battle_active == true:
+		BattleManagerTb.battle_paused = false
 
 func movement(delta: float):
 	update_target_position(Globals.player.global_position)

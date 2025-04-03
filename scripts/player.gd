@@ -5,10 +5,12 @@ extends CharacterBody3D
 @export var sensitivity = 1000
 
 @onready var camera = $CameraPivot/Camera3D
+@onready var raycast = $CameraPivot/Camera3D/RayCast3D
 @onready var animation = $AnimationPlayer
 @onready var attack_cooldown = $attack_cooldown
 var targetVelocity = Vector3.ZERO
 
+var raycast_end_pos: Vector3
 var closest_interactable: Object
 
 var curr_anim: String
@@ -18,7 +20,8 @@ var attack_anim_name: String
 var inventory: Array
 var exp: float = 0
 var level: int = 1
-@export var tb_sprite: CompressedTexture2D = preload("res://vfx/tb_preset.png")
+@export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/tb_preset.png")
+@export var tb_sprite_enemy: CompressedTexture2D = preload("res://vfx/tb_preset.png")
 @export var hurt_sfx: AudioStream = preload("res://sfx/hurt_preset.wav")
 var max_hp = 150
 var hp = max_hp
@@ -28,11 +31,12 @@ var attacks: Array[Array] = [
 		#Attack name (string), Damage(int), MP cost(int), 3D attack scene (if needed), -> NOT IMPLEMENTED  -> ||damage type(string), description(string)||
 		[ "Slash", 5, 1 ],
 		[ "Fireball", 10, 3],
-		[ "Beam", 10, 5, preload("res://scenes/player/attacks/beam.tscn")]
+		[ "Beam", 10, 5, preload("res://scenes/player/attacks/beam.tscn")],
+		[ "Inferno", 50, 15, preload("res://scenes/player/attacks/inferno.tscn")]
 	]
 
 func _ready():
-	BattleManagerTb.allies.append(self)
+	pass#BattleManagerTb.allies.append(self)
 
 func _physics_process(delta):
 	movement_handler(delta)
@@ -68,6 +72,13 @@ func movement_inputs(_delta):
 		
 	direction = direction.normalized()
 	targetVelocity = transform.basis * direction * playerSpeed
+
+func do_raycast(distance: int):
+	raycast.force_raycast_update()
+	if raycast.get_collision_point() != null:
+		raycast_end_pos = raycast.get_collision_point()
+		print(raycast_end_pos)
+	else: raycast_end_pos = raycast.target_position
 
 func _input(event):
 	if event is InputEventMouseMotion && Globals.can_rotate_camera == true:
@@ -111,16 +122,23 @@ func drop_input():
 
 func attack_input():
 	if Input.is_action_just_pressed("attack") && Globals.can_player_attack == true:
-		attack("Slash", "local")
+		attack("Inferno", "instance", true)
 
-func attack(selected_attack: String, attack_type: String):
+func attack(selected_attack: String, attack_type: String, raycast: bool):
 	for attack_info in attacks:
 		if attack_info[0] == selected_attack:
 			if attack_type == "instance":
 				var attack = attack_info[3].instantiate()
-				self.add_child(attack)
+				if raycast == false:
+					self.add_child(attack)
+				
+				elif raycast == true:
+					get_tree().get_root().add_child(attack)
+					do_raycast(500)
+					attack.global_position = raycast_end_pos
 				attack.get_stats(attack_info[1])
 				self.mp -= attack_info[2]
+				
 			elif attack_type == "local":
 				attack_anim_name = attack_info[0] + "_animation"
 				animation.play(attack_anim_name)

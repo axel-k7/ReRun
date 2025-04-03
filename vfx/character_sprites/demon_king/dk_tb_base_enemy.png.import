@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfwdd05usvnx5"
-path="res://.godot/imported/dk_tb_base_ally.png-83f66802f6769e206d4a3fcee085c98d.ctex"
+uid="uid://lktj42me7rgd"
+path="res://.godot/imported/dk_tb_base_enemy.png-8e2ddf01031f8f5b458171e7859551b8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://vfx/character_sprites/demon_king/dk_tb_base_ally.png"
-dest_files=["res://.godot/imported/dk_tb_base_ally.png-83f66802f6769e206d4a3fcee085c98d.ctex"]
+source_file="res://vfx/character_sprites/demon_king/dk_tb_base_enemy.png"
+dest_files=["res://.godot/imported/dk_tb_base_enemy.png-8e2ddf01031f8f5b458171e7859551b8.ctex"]
 
 [params]
 

@@ -1,6 +1,7 @@
 extends "res://scripts/character_scripts/NPC.gd"
 
 var actions_taken: int = 0
+var times_damaged: int = 0
 
 func _ready() -> void:
 	BattleManagerTb.allies.append(self)
@@ -25,7 +26,6 @@ func tb_attack(target: Object, side: Array):
 		attacks.clear()
 		attacks.append(["Ego", 10000, 0]) 
 	
-	
 	var chosen_attack = randi_range(0, attacks.size()-1)
 	var attack = attacks[chosen_attack]
 	var atk_name = attack[0]
@@ -34,7 +34,7 @@ func tb_attack(target: Object, side: Array):
 	
 	if actions_taken > 1:
 		for party_member in side:
-			if party_member.name == "Hero":
+			if party_member.name == "hero":
 				target = party_member
 	
 	Globals.damage(target, dmg)
@@ -43,11 +43,13 @@ func tb_attack(target: Object, side: Array):
 
 func on_damaged(amount: int):
 	hp -= amount
-	print(self.name, " took ", amount, " damage")
-	print(self.name, " current hp: ", hp) 
+	times_damaged += 1
+	if times_damaged == 6:
+		print("boss dialogue start")
+		DialogueManager.start_dialogue(lines, self, false)
 	if hp <= 0:
 		die()
-	
+
 func die():
 	Globals.player.exp += exp_given
 	#ragdoll()
