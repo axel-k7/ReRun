@@ -2,6 +2,7 @@ extends Node
 
 @export var type: String = "interactable"
 @export var item: String = "item"
+@export var interact_distance: int = 500
 
 func _ready():
 	Globals.add_interact(self)
@@ -9,4 +10,4 @@ func _ready():
 func interact_action():
 	Globals.player.inventory.append(self.item)
 	Globals.player.emit_signal("inventory_updated")
-	Globals.target_interactables[0].queue_free()
+	self.queue_free()

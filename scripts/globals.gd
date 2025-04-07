@@ -1,6 +1,8 @@
 extends Node
 
-@onready var target_interactables: Array[Object] = []
+@onready var interactables: Array[Node]
+var target_interactable: Object
+
 @onready var player: CharacterBody3D
 @onready var can_move: bool = true
 @onready var can_interact: bool = true
@@ -14,8 +16,13 @@ var config_data: Dictionary = {
 	"player_spawn_position": Vector3()
 }
 
+signal map_switching
+signal map_loaded
+
 func _ready() -> void:
 	load_config_file()
+	map_loaded.connect(on_map_loaded)
+	map_switching.connect(on_map_switching)
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("menu"):
@@ -26,7 +33,22 @@ func _process(delta: float) -> void:
 func add_interact(body):
 	var interact_scene =  preload("res://scenes/items/interact_area.tscn")
 	var interact_area = interact_scene.instantiate()
-	(body).add_child(interact_area)
+	body.add_child(interact_area)
+	body.add_to_group("interactables")
+	
+#function below would run in process for more accurate interact-range-checks, due to performance issues its instead limited to situational checks
+func check_closest_interactable():
+	interactables = get_tree().get_nodes_in_group("interactables")
+	var index = 0
+	for i in interactables:
+		if interactables[index] == null:
+			interactables.remove_at(index)
+		index += 1
+	interactables.sort_custom(sort_closest)
+	print("closest interactable: ", interactables[0])
+
+func sort_closest(object1, object2):
+	return object1.global_position.distance_to(player.global_position) < object2.global_position.distance_to(player.global_position)
 
 func player_controls(option: bool):
 	can_move = option
@@ -79,4 +101,14 @@ func load_config_file():
 		return
 	for config_item in config_data.keys():
 		config_data[config_item] = config_file.get_value("world", str(config_item))
-	
+
+func on_map_switching():
+	player_controls(false)
+	print("changing maps")
+	main.emit_signal("loading_start")
+
+func on_map_loaded():
+	print("MAP LOADED")
+	check_closest_interactable()
+	player_controls(true)
+	main.emit_signal("loading_finished")

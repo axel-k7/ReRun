@@ -111,9 +111,9 @@ func interactable_check():
 
 func interact_input():
 	#interactable_check() BAD CODE
-	if Input.is_action_just_pressed("interact") && Globals.target_interactables.size() > 0 && Globals.can_interact == true:
-		#closest_interactable.interact_action()
-		Globals.target_interactables[0].interact_action()
+	if Input.is_action_just_pressed("interact") && Globals.can_interact == true && Globals.interactables.size() > 0:
+		if self.global_position.distance_to(Globals.interactables[0].global_position) < Globals.interactables[0].interact_distance:
+			Globals.interactables[0].interact_action()
 
 func drop_input():
 	if Input.is_action_just_pressed("drop_item") && inventory.size() > 0:

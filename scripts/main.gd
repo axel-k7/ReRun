@@ -2,6 +2,9 @@ extends Node3D
 
 @onready var map_holder = $MapHolder
 
+signal loading_start
+signal loading_finished
+
 func _ready():
 	#await get_tree().create_timer(2).timeout REPLACE WITH AN AWAIT FOR READY CHECK FROM GLOBALS
 	Globals.main = self

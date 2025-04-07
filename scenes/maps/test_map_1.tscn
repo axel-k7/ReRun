@@ -1,5 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://4ipv7palv0jb"]
+[gd_scene load_steps=10 format=3 uid="uid://4ipv7palv0jb"]
 
+[ext_resource type="Script" uid="uid://bmh5qgj256u3" path="res://scripts/map.gd" id="1_kv0d6"]
 [ext_resource type="PackedScene" uid="uid://co6bsilhcd01m" path="res://scenes/maps/map_parts/baseplate.tscn" id="1_mvr6x"]
 [ext_resource type="PackedScene" uid="uid://c2bkq1dttjual" path="res://scenes/items/item_scenes/brick.tscn" id="2_cano6"]
 [ext_resource type="PackedScene" uid="uid://n1cuaw4g8k5o" path="res://scenes/items/item_scenes/pipe.tscn" id="3_4i1yp"]
@@ -10,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://b5t5qb4d6rdkd" path="res://scenes/maps/map_parts/map_switcher.tscn" id="8_uhp3l"]
 
 [node name="test_map_1" type="Node3D"]
+script = ExtResource("1_kv0d6")
 
 [node name="Baseplate" parent="." instance=ExtResource("1_mvr6x")]
 
