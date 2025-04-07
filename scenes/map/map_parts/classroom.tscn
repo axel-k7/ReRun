@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://btg0bg4umwo06"]
-
-[ext_resource type="PackedScene" uid="uid://co6bsilhcd01m" path="res://scenes/map/map_parts/baseplate.tscn" id="1_yrvwd"]
-
-[node name="Classroom" type="Node3D"]
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-
-[node name="Baseplate" parent="." instance=ExtResource("1_yrvwd")]

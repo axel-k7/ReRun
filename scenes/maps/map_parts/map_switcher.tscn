@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://b5t5qb4d6rdkd"]
+
+[ext_resource type="Script" uid="uid://ds20v72cd6mst" path="res://scripts/map_switcher.gd" id="1_r38uj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bhryh"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oai47"]
+albedo_color = Color(0.0253638, 0.0253638, 0.0253638, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gcvt6"]
+material = SubResource("StandardMaterial3D_oai47")
+size = Vector3(2, 3, 1)
+
+[node name="MapSwitcher" type="StaticBody3D"]
+script = ExtResource("1_r38uj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_bhryh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_gcvt6")

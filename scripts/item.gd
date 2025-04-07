@@ -9,5 +9,4 @@ func _ready():
 func interact_action():
 	Globals.player.inventory.append(self.item)
 	Globals.player.emit_signal("inventory_updated")
-	print(Globals.player.inventory)
 	Globals.target_interactables[0].queue_free()

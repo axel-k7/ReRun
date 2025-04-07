@@ -1,44 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://b2i1gdkxcyn82"]
+[gd_scene load_steps=2 format=3 uid="uid://b2i1gdkxcyn82"]
 
 [ext_resource type="Script" uid="uid://tj2v15ihp5sa" path="res://scripts/main.gd" id="1_26nwy"]
-[ext_resource type="PackedScene" uid="uid://co6bsilhcd01m" path="res://scenes/map/map_parts/baseplate.tscn" id="2_tbgi4"]
-[ext_resource type="PackedScene" uid="uid://n1cuaw4g8k5o" path="res://scenes/items/item_scenes/pipe.tscn" id="4_2crsr"]
-[ext_resource type="PackedScene" uid="uid://c2bkq1dttjual" path="res://scenes/items/item_scenes/brick.tscn" id="4_fb2th"]
-[ext_resource type="PackedScene" uid="uid://bgwn0fr78rc" path="res://scenes/NPC/NPC.tscn" id="5_jm6kh"]
-[ext_resource type="Script" uid="uid://b3kxv1ogx2mny" path="res://scripts/character_scripts/boss.gd" id="6_o6xl0"]
-[ext_resource type="Texture2D" uid="uid://bfwdd05usvnx5" path="res://vfx/character_sprites/demon_king/dk_tb_base_ally.png" id="6_tefeu"]
-[ext_resource type="Texture2D" uid="uid://lktj42me7rgd" path="res://vfx/character_sprites/demon_king/dk_tb_base_enemy.png" id="7_tipki"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_26nwy")
 
-[node name="Baseplate" parent="." instance=ExtResource("2_tbgi4")]
-
-[node name="brick" parent="." instance=ExtResource("4_fb2th")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.00749, 0, -7.36734)
-
-[node name="brick2" parent="." instance=ExtResource("4_fb2th")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.10639, 0, -11.0219)
-
-[node name="pipe" parent="." instance=ExtResource("4_2crsr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.62125, 0, -6.91489)
-
-[node name="boss" parent="." instance=ExtResource("5_jm6kh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5795, 1.98528, -10.2005)
-script = ExtResource("6_o6xl0")
-lines = Array[String](["Lineeeeee 1 Line 1111", "Line 2", "Line 3", "a", ""])
-tb_sprite_enemy = ExtResource("7_tipki")
-tb_sprite_ally = ExtResource("6_tefeu")
-attacks = Array[Array]([["bomb", 50, 0]])
-
-[node name="NPC" parent="." instance=ExtResource("5_jm6kh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67.0525, 1.5, 19.4618)
-
-[node name="NPC2" parent="." instance=ExtResource("5_jm6kh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.0979, 1.5, 49.302)
-
-[node name="NPC3" parent="." instance=ExtResource("5_jm6kh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.6316, 1.5, 9.44639)
-
-[node name="hero" parent="." instance=ExtResource("5_jm6kh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.89756, 11, -28.0568)
+[node name="MapHolder" type="Node3D" parent="."]

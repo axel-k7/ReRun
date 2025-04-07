@@ -89,7 +89,7 @@ func _input(event):
 		
 		$CameraPivot.rotation.x -= event.relative.y / sensitivity
 		$CameraPivot.rotation.x = clamp($CameraPivot.rotation.x, deg_to_rad(-90), deg_to_rad(90))
-	if Input.is_action_just_pressed("mouseLock"):
+	if Input.is_action_just_pressed("mouse_lock"):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		else:
@@ -153,10 +153,10 @@ func on_damaged(amount: int):
 func die():
 	pass
 
-
 func _on_animation_player_animation_finished(anim_name: StringName):
 	if anim_name == attack_anim_name:
 		weapon.empty_targets()
 
 func _on_inventory_updated():
-	Globals.save_inventory_file(inventory)
+	print(inventory)
+	Globals.save_inventory_data(inventory)
