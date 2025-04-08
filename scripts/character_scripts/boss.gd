@@ -16,7 +16,7 @@ func _ready() -> void:
 		["Mega Crush", 15, 3],
 	]
 
-func movement(delta: float):
+func movement(_delta: float):
 	pass
 
 func tb_attack(target: Object, side: Array):

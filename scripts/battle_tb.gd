@@ -37,7 +37,7 @@ func _ready():
 	atk_container.visible = false
 	set_process(false)
 
-func _process(delta: float):
+func _process(_delta: float):
 	player_hp_label.text = str(Globals.player.hp) + "/" + str(Globals.player.max_hp)
 	player_mp_label.text = str(Globals.player.mp) + "/" + str(Globals.player.max_mp)
 	
@@ -63,7 +63,6 @@ func player_select_target():
 	var target_sprite_size: float = selected_target.sprite.texture.get_height()
 	target_marker.scale.y = target_sprite_size/550
 	target_marker.scale.x = target_sprite_size/550
-	target_marker
 
 func start_battle(ally_array: Array, enemy_array: Array):
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

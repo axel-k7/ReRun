@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://b6rnni1gow6rt"]
+[gd_scene load_steps=9 format=3 uid="uid://b6rnni1gow6rt"]
 
 [ext_resource type="Script" uid="uid://dt3esow3i6y8y" path="res://scripts/player.gd" id="1_jr5d1"]
 [ext_resource type="PackedScene" uid="uid://bsd5vd18g3ywh" path="res://scenes/weapons/sword.tscn" id="2_dovo2"]
+[ext_resource type="PackedScene" uid="uid://cvixtomp55ifu" path="res://scenes/player/player_interact_marker.tscn" id="3_gmlin"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a2xtk"]
 
@@ -120,6 +121,9 @@ libraries = {
 [node name="Sword" parent="." instance=ExtResource("2_dovo2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.536601, 0.27763, -0.674832)
 monitoring = false
+
+[node name="PlayerInteractMarker" parent="." instance=ExtResource("3_gmlin")]
+visible = false
 
 [connection signal="inventory_updated" from="." to="." method="_on_inventory_updated"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

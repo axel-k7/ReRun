@@ -2,7 +2,7 @@ extends Node
 
 @export var type: String = "interactable"
 @export var item: String = "item"
-@export var interact_distance: int = 500
+@export var interact_distance: int = 2
 
 func _ready():
 	Globals.add_interact(self)

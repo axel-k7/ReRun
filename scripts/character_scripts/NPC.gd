@@ -61,11 +61,11 @@ func dialogue_over():
 func movement(delta: float):
 	update_target_position(Globals.player.global_position)
 	if fleeing == false && attacking == false || fleeing == true && attacking == true:
-		neutral_movement(delta)
+		neutral_movement()
 	elif fleeing == true && attacking == false:
-		flee(delta)
+		flee()
 	elif attacking == true && fleeing == false:
-		fight_formation(delta)
+		fight_formation()
 	
 	if not is_on_floor():
 		velocity.y -= Globals.gravity * delta
@@ -74,13 +74,13 @@ func movement(delta: float):
 	
 	move_and_slide()
 
-func update_target_position(position):
-	nav_agent.target_position = position
+func update_target_position(target_pos):
+	nav_agent.target_position = target_pos
 	
-func neutral_movement(delta):
+func neutral_movement():
 	velocity = (nav_agent.get_next_path_position() - self.global_position).normalized() * move_speed
 
-func flee(delta: float):
+func flee():
 	look_at(Globals.player.global_position)
 	if self.global_position.distance_to(Globals.player.position) <= 10:
 		velocity = -(nav_agent.get_next_path_position() - self.global_position).normalized() * move_speed*1.5
@@ -88,7 +88,7 @@ func flee(delta: float):
 		velocity.x = 0
 		velocity.z = 0
 
-func fight_formation(delta: float):
+func fight_formation():
 	look_at(Globals.player.global_position)
 	var distance_to_player = self.global_position.distance_to(Globals.player.position)
 	target_velocity = transform.basis * direction * move_speed
@@ -110,7 +110,7 @@ func fight():
 	await attack_timer.timeout
 	attack_ready = true
 	
-func tb_attack(target: Object, side: Array): #side is for custom npcs in need of special targetting
+func tb_attack(target: Object, _side: Array): #side is for custom npcs in need of special targetting
 	var chosen_attack = randi_range(0, attacks.size()-1)
 	var attack = attacks[chosen_attack]
 	var atk_name = attack[0]
@@ -128,7 +128,7 @@ func on_damaged(amount: int):
 		die()
 	
 func die():
-	Globals.player.exp += exp_given
+	Globals.player.experience += exp_given
 	#ragdoll()
 	await get_tree().create_timer(2).timeout
 	self.queue_free()

@@ -12,7 +12,7 @@ func _ready() -> void:
 	self.monitoring = false
 	mesh.material.albedo_color = Color(0.3, 0.8, 0.9, 0.6)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_released("attack"):
 		emit_signal("activate")
 	

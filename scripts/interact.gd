@@ -5,9 +5,9 @@ extends Node
 @onready var test_mesh = $Area3D/MeshInstance3D
 
 func _ready() -> void:
-	interact_area.shape.radius = interactable.interact_distance
-	test_mesh.mesh.radius = interactable.interact_distance
-	test_mesh.mesh.height = interactable.interact_distance*2
+	interact_area.shape.radius = interactable.interact_distance/2
+	test_mesh.mesh.radius = interactable.interact_distance/2
+	test_mesh.mesh.height = interactable.interact_distance
 
 func _on_area_3d_body_entered(body):
 	if body.name == "player":

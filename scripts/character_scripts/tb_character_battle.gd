@@ -7,9 +7,6 @@ var character: Object
 
 signal die
 
-func _process(delta: float):
-	pass
-
 func set_up_self(given_character: Object, side: String, party_index: int):
 	character = given_character
 	self.name = character.name + " TB"

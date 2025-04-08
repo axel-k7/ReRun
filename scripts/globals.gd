@@ -4,10 +4,10 @@ extends Node
 var target_interactable: Object
 
 @onready var player: CharacterBody3D
-@onready var can_move: bool = true
-@onready var can_interact: bool = true
-@onready var can_rotate_camera: bool = true
-@onready var can_player_attack: bool = true
+@onready var can_move: bool = false
+@onready var can_interact: bool = false
+@onready var can_rotate_camera: bool = false
+@onready var can_player_attack: bool = false
 @onready var main: Node3D
 const gravity = 60
 
@@ -16,15 +16,15 @@ var config_data: Dictionary = {
 	"player_spawn_position": Vector3()
 }
 
-signal map_switching
+signal map_loading
 signal map_loaded
 
 func _ready() -> void:
 	load_config_file()
 	map_loaded.connect(on_map_loaded)
-	map_switching.connect(on_map_switching)
+	map_loading.connect(on_map_loading)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("menu"):
 		save_config_file()
 		await get_tree().create_timer(0.5).timeout #wait for data to save
@@ -102,12 +102,13 @@ func load_config_file():
 	for config_item in config_data.keys():
 		config_data[config_item] = config_file.get_value("world", str(config_item))
 
-func on_map_switching():
+func on_map_loading():
+	print("CHANGING MAP")
 	player_controls(false)
-	print("changing maps")
 	main.emit_signal("loading_start")
 
 func on_map_loaded():
+	await get_tree().create_timer(1.5).timeout
 	print("MAP LOADED")
 	check_closest_interactable()
 	player_controls(true)

@@ -11,5 +11,5 @@ func _ready():
 	battle_scene = battle_scene_preload.instantiate()
 	self.add_child(battle_scene)
 
-func start_battle(allies: Array[Object], enemies: Array[Object]):
-	battle_scene.start_battle(allies, enemies)
+func start_battle(ally_array: Array[Object], enemy_array: Array[Object]):
+	battle_scene.start_battle(ally_array, enemy_array)

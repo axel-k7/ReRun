@@ -8,6 +8,7 @@ extends CharacterBody3D
 @onready var raycast = $CameraPivot/Camera3D/RayCast3D
 @onready var animation = $AnimationPlayer
 @onready var attack_cooldown = $attack_cooldown
+@onready var interact_marker = $PlayerInteractMarker
 var targetVelocity = Vector3.ZERO
 
 var raycast_end_pos: Vector3
@@ -18,7 +19,7 @@ var attack_anim_name: String
 
 @onready var weapon: Object = $Sword
 var inventory: Array
-var exp: float = 0
+var experience: float = 0
 var level: int = 1
 @export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/tb_preset.png")
 @export var tb_sprite_enemy: CompressedTexture2D = preload("res://vfx/tb_preset.png")
@@ -38,6 +39,7 @@ var attacks: Array[Array] = [
 signal inventory_updated
 
 func _ready():
+	inventory_updated.connect(on_inventory_updated)
 	Globals.load_inventory()
 	pass#BattleManagerTb.allies.append(self)
 
@@ -76,7 +78,7 @@ func movement_inputs(_delta):
 	direction = direction.normalized()
 	targetVelocity = transform.basis * direction * playerSpeed
 
-func do_raycast(distance: int):
+func do_raycast():
 	raycast.force_raycast_update()
 	if raycast.get_collision_point() != null:
 		raycast_end_pos = raycast.get_collision_point()
@@ -110,10 +112,18 @@ func interactable_check():
 					print("closest interactable: ", closest_interactable.name)
 
 func interact_input():
-	#interactable_check() BAD CODE
-	if Input.is_action_just_pressed("interact") && Globals.can_interact == true && Globals.interactables.size() > 0:
+	if Globals.interactables.size() > 0:
+		if Globals.interactables[0] == null:
+			return
 		if self.global_position.distance_to(Globals.interactables[0].global_position) < Globals.interactables[0].interact_distance:
-			Globals.interactables[0].interact_action()
+			interact_marker.visible = true
+			interact_marker.global_position = Globals.interactables[0].global_position
+			interact_marker.look_at(camera.global_position)
+			if Input.is_action_just_pressed("interact") && Globals.can_interact == true && Globals.interactables.size() > 0:
+				Globals.interactables[0].interact_action()
+		else: interact_marker.visible = false
+	else: interact_marker.visible = false
+		
 
 func drop_input():
 	if Input.is_action_just_pressed("drop_item") && inventory.size() > 0:
@@ -122,22 +132,22 @@ func drop_input():
 		var item_to_drop = item_scene.instantiate()
 		get_parent().add_child(item_to_drop)
 		item_to_drop.global_position = self.global_position
+		emit_signal("inventory_updated")
 
 func attack_input():
 	if Input.is_action_just_pressed("attack") && Globals.can_player_attack == true:
-		attack("Inferno", "instance", true)
+		do_attack("Inferno", "instance", true)
 
-func attack(selected_attack: String, attack_type: String, raycast: bool):
+func do_attack(selected_attack: String, attack_type: String, will_raycast: bool):
 	for attack_info in attacks:
 		if attack_info[0] == selected_attack:
 			if attack_type == "instance":
 				var attack = attack_info[3].instantiate()
-				if raycast == false:
+				if will_raycast == false:
 					self.add_child(attack)
-				
-				elif raycast == true:
+				elif will_raycast == true:
 					get_tree().get_root().add_child(attack)
-					do_raycast(500)
+					do_raycast()
 					attack.global_position = raycast_end_pos
 				attack.get_stats(attack_info[1])
 				self.mp -= attack_info[2]
@@ -147,7 +157,7 @@ func attack(selected_attack: String, attack_type: String, raycast: bool):
 				animation.play(attack_anim_name)
 				self.mp -= attack_info[2]
 
-func on_damaged(amount: int):
+func on_damaged(_amount: int):
 	print("ow")
 
 func die():
@@ -157,6 +167,6 @@ func _on_animation_player_animation_finished(anim_name: StringName):
 	if anim_name == attack_anim_name:
 		weapon.empty_targets()
 
-func _on_inventory_updated():
+func on_inventory_updated():
 	print(inventory)
 	Globals.save_inventory_data(inventory)
