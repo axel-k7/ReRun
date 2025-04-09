@@ -41,7 +41,6 @@ func _process(_delta: float):
 	player_hp_label.text = str(Globals.player.hp) + "/" + str(Globals.player.max_hp)
 	player_mp_label.text = str(Globals.player.mp) + "/" + str(Globals.player.max_mp)
 	
-	
 	if is_player_acting == true:
 		player_select_target()
 		enemyAmount = enemies.size()-1
@@ -81,17 +80,23 @@ func start_battle(ally_array: Array, enemy_array: Array):
 	turn_handler()
 
 func end_battle(result: String):
+	Globals.main.emit_signal("loading_start")
 	await get_tree().create_timer(2).timeout
 	Globals.player_controls(true)
 	self.visible = false
 	Globals.player.camera.current = true
 	BattleManagerTb.battle_active = false
+	BattleManagerTb.battle_paused = false
+	BattleManagerTb.enemies.clear()
+	enemies.clear()
+	allies.clear()
 	
 	for child in allyNode.get_children():
+		child.character.emit_signal("battle_over")
 		child.queue_free()
 	for child in enemyNode.get_children():
+		child.character.emit_signal("battle_over")
 		child.queue_free()
-	BattleManagerTb.enemies.clear()
 	set_process(false)
 	
 	if result == "defeat":
@@ -100,6 +105,8 @@ func end_battle(result: String):
 	elif result == "victory":
 		print("battle result: ", result)
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	Globals.main.emit_signal("loading_finished")
+
 
 func set_up_characters(characters, side: String):
 	var characterIndex = 0
@@ -127,6 +134,7 @@ func turn_handler():
 		elif is_ally_turn == false:
 			turns = enemies.size()
 		action_handler()
+	
 
 func action_handler():
 	if BattleManagerTb.battle_paused == false:
@@ -159,11 +167,13 @@ func action_handler():
 			is_ally_turn = true
 			turn_handler()
 		elif allies.size() > 0 && enemies.size() > 0:
-				action_handler()
+			action_handler()
+		else: turn_handler()
 	elif BattleManagerTb.battle_paused == true:
 		turn_timer.start(2)
 		await turn_timer.timeout
-		action_handler()
+		if BattleManagerTb.battle_active == true:
+			action_handler()
 	
 
 func do_action(action: String):
@@ -178,7 +188,7 @@ func do_action(action: String):
 
 func NPC_action():
 	var random_character_index
-	var wait_time: float = 1 + randf()
+	var wait_time: float = 0.1#1 + randf()
 	await get_tree().create_timer(wait_time).timeout
 	if is_ally_turn == true:
 		random_character_index = randi_range(0, enemies.size()-1)

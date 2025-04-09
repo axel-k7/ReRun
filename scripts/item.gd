@@ -1,4 +1,4 @@
-extends Node
+extends RigidBody3D
 
 @export var type: String = "interactable"
 @export var item: String = "item"

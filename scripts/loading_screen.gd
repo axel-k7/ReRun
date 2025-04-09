@@ -16,3 +16,5 @@ func fade_screen():
 func on_finished_loading():
 	var tween = create_tween()
 	tween.tween_property(background, "modulate:a", 0, 1)
+	await tween.finished
+	self.queue_free()

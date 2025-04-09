@@ -29,7 +29,6 @@ func set_up_self(given_character: Object, side: String, party_index: int):
 func on_damaged(amount: int):
 	character.on_damaged(amount)
 	hp_bar.value = character.hp
-	print("val ", hp_bar.value, " and ", character.hp)
 	sfx.play()
 	Globals.damage_flash(self)
 	if character.hp <= 0:

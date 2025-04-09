@@ -13,8 +13,9 @@ func _ready() -> void:
 	mesh.material.albedo_color = Color(0.3, 0.8, 0.9, 0.6)
 
 func _process(_delta: float) -> void:
-	if Input.is_action_just_released("attack"):
+	if Input.is_action_just_released("ability"):
 		emit_signal("activate")
+		Globals.player.emit_signal("ability_active")
 	
 func _on_activate() -> void:
 	mesh.material.albedo_color = Color(0.8, 0.25, 0, 0.98)

@@ -8,15 +8,14 @@ size = Vector3(0.2, 0.1, 0.4)
 [sub_resource type="BoxMesh" id="BoxMesh_60plo"]
 size = Vector3(0.2, 0.1, 0.4)
 
-[node name="brick" type="Node3D"]
+[node name="brick" type="RigidBody3D"]
+can_sleep = false
 script = ExtResource("1_7p0bc")
 item = "brick"
 
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_wtfr1")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_60plo")
 skeleton = NodePath("../CollisionShape3D")

@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bgwn0fr78rc"]
+[gd_scene load_steps=11 format=3 uid="uid://354ibu7kpbmk"]
 
-[ext_resource type="Script" uid="uid://cuxmp0vggvmf0" path="res://scripts/character_scripts/NPC.gd" id="1_270vp"]
-[ext_resource type="PackedScene" uid="uid://bsd5vd18g3ywh" path="res://scenes/weapons/sword.tscn" id="2_08dug"]
+[ext_resource type="Script" uid="uid://b3kxv1ogx2mny" path="res://scripts/character_scripts/boss.gd" id="1_kv582"]
+[ext_resource type="PackedScene" uid="uid://bsd5vd18g3ywh" path="res://scenes/weapons/sword.tscn" id="2_n0jt7"]
+[ext_resource type="Texture2D" uid="uid://lktj42me7rgd" path="res://vfx/character_sprites/demon_king/dk_tb_base_enemy.png" id="2_qcvl3"]
+[ext_resource type="Texture2D" uid="uid://bfwdd05usvnx5" path="res://vfx/character_sprites/demon_king/dk_tb_base_ally.png" id="3_sie8n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_270vp"]
 albedo_color = Color(1, 0.517647, 0.431373, 1)
@@ -120,9 +122,12 @@ _data = {
 &"attack": SubResource("Animation_08dug")
 }
 
-[node name="NPC" type="CharacterBody3D"]
-script = ExtResource("1_270vp")
+[node name="boss" type="CharacterBody3D"]
+script = ExtResource("1_kv582")
+Cname = "boss"
 lines = Array[String](["Line 1", "Line 2", "Line 3"])
+tb_sprite_enemy = ExtResource("2_qcvl3")
+tb_sprite_ally = ExtResource("3_sie8n")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_cuef7")
@@ -142,7 +147,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_wjqdv")
 }
 
-[node name="Sword" parent="." instance=ExtResource("2_08dug")]
+[node name="Sword" parent="." instance=ExtResource("2_n0jt7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3076, 0.078648, -0.696966)
 monitoring = false
 wielder = "enemy"

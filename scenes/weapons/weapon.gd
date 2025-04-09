@@ -1,6 +1,12 @@
 extends Area3D
 
 var targets_hit: Array = []
+
+@export var weapon_name: String = "sword"
+@export var attack_type: String = "local"
+@export var attack_chain: int = 1
+@export var will_raycast: bool = false
+
 @export var damage: int = 5
 @export var wielder: String = "ally"
 

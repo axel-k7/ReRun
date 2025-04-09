@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://n1cuaw4g8k5o"]
+
+[ext_resource type="Script" uid="uid://crhnpc7emtupj" path="res://scripts/item.gd" id="1_jgdbr"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hgas2"]
+radius = 0.4
+height = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yqpsi"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.262745)
+
+[sub_resource type="SphereMesh" id="SphereMesh_fwst7"]
+material = SubResource("StandardMaterial3D_yqpsi")
+radius = 0.4
+height = 0.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_25o28"]
+albedo_color = Color(1, 0.0588235, 0, 0.745098)
+
+[sub_resource type="SphereMesh" id="SphereMesh_vo1fw"]
+material = SubResource("StandardMaterial3D_25o28")
+radius = 0.35
+height = 0.55
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cwkkl"]
+albedo_color = Color(0.286275, 0.0705882, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0ou3q"]
+material = SubResource("StandardMaterial3D_cwkkl")
+top_radius = 0.15
+bottom_radius = 0.1
+height = 0.1
+
+[node name="potion" type="RigidBody3D"]
+script = ExtResource("1_jgdbr")
+item = "potion"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0673764, 0)
+shape = SubResource("CapsuleShape3D_hgas2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_fwst7")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_vo1fw")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.284633, 0)
+mesh = SubResource("CylinderMesh_0ou3q")

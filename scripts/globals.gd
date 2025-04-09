@@ -32,7 +32,7 @@ func _process(_delta: float) -> void:
 
 func add_interact(body):
 	var interact_scene =  preload("res://scenes/items/interact_area.tscn")
-	var interact_area = interact_scene.instantiate()
+	var interact_area: Area3D = interact_scene.instantiate()
 	body.add_child(interact_area)
 	body.add_to_group("interactables")
 	

@@ -12,10 +12,14 @@ func _ready():
 	self.visible = false
 	self.position = Vector2(-get_viewport().get_visible_rect().size.x/4, get_viewport().get_visible_rect().size.y/2-self.size.y)
 
-func update_text(lines: Array, target: Object, continue_after: bool):
+func set_up_dialogue(target):
 	self.visible = true
+	DialogueManager.dialogue_active = true
 	Globals.player_controls(false)
 	name_label.text = target.Cname
+
+func update_text(lines: Array, target: Object, continue_after: bool):
+	print("current dialogue target: ", target.name)
 	text_label.visible_characters = 0
 	if line_index < lines.size():
 		text_label.text = lines[line_index]
@@ -36,5 +40,7 @@ func update_text(lines: Array, target: Object, continue_after: bool):
 		
 func _on_dialogue_over(target: Object):
 	if target.has_method("dialogue_over") == true:
+		print("dialogue over with: ", target.name)
+		DialogueManager.dialogue_active = false
 		target.dialogue_over()
-	else: pass
+	else: return

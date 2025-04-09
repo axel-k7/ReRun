@@ -14,9 +14,10 @@ extends CharacterBody3D
 	"Line 2",
 	"Line 3"
 ]
+var dialogue_finished: bool = false
 @export var tb_sprite_enemy: CompressedTexture2D = preload("res://vfx/tb_preset.png")
 @export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/tb_preset.png")
-@export var interact_distance: int = 50
+@export var interact_distance: int = 4
 
 @export var move_speed: float = 3
 var target_velocity = Vector3.ZERO
@@ -37,6 +38,8 @@ var mp = max_mp
 		[ "Bite", 3, 0 ]
 	]
 
+signal battle_over
+
 func _ready():
 	BattleManagerTb.enemies.append(self)
 	Globals.add_interact(self)
@@ -52,6 +55,8 @@ func interact_action():
 	can_move = false
 
 func dialogue_over():
+	dialogue_finished = true
+	DialogueManager.emit_signal("dialogue_over")
 	if BattleManagerTb.battle_active == false:
 		BattleManagerTb.start_battle(BattleManagerTb.allies, BattleManagerTb.enemies)
 		can_move = true
@@ -130,8 +135,8 @@ func on_damaged(amount: int):
 func die():
 	Globals.player.experience += exp_given
 	#ragdoll()
-	await get_tree().create_timer(2).timeout
-	self.queue_free()
+	can_move = false
+	self.rotate(Vector3(1, 0, 0), 0.5)
 
 
 func _on_animation_player_animation_finished(anim_name):
