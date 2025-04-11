@@ -30,6 +30,7 @@ func _on_body_entered(body: Node3D):
 	elif body.is_in_group("NPC"): print(body.name, " was already hit by ", self.name)
 
 func _on_timer_timeout():
+	Globals.can_player_attack = true
 	self.queue_free()
 
 func get_stats(dmg: int):

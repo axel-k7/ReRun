@@ -6,17 +6,18 @@ extends CharacterBody3D
 
 @onready var camera = $CameraPivot/Camera3D
 @onready var raycast = $CameraPivot/Camera3D/RayCast3D
-@onready var animation = $AnimationPlayer
-@onready var attack_cooldown = $attack_cooldown
+@onready var attack_animation = $AttackAnimationPlayer
+@onready var attack_idle_timer = $AttackIdleTimer
 @onready var interact_marker = $PlayerInteractMarker
 var targetVelocity = Vector3.ZERO
 
 var raycast_end_pos: Vector3
 var closest_interactable: Object
 
-var curr_anim: String
+const anim_reset_time: float = 1.0
 var attack_anim_name: String
 var wep_atk_index: int = 1
+var is_attacking: bool = false
 
 @onready var weapon: Object = $Sword
 var weapon_info: Dictionary = {
@@ -39,18 +40,22 @@ var mp = max_mp
 var attacks: Array[Array] = [
 		#Attack name (string), Damage(int), MP cost(int), Local or instanced (string), Attack chain length (int), raycast (bool) -> NOT IMPLEMENTED  -> ||damage type(string), description(string)||
 		[ "Slash", 5, 1, "local", 2, false],
-		[ "Fireball", 10, 3, "instance", 1, false],
 		[ "Beam", 10, 5, "instance", 1, false],
 		[ "Inferno", 50, 15, "instance", 1, true]
 	]
 var selected_ability: int = 2
 
+signal attack_anim_started
 signal ability_active
+signal ability_menu_activate
+signal ability_menu_deactivate
 signal inventory_updated
 signal battle_over
 
 func _ready():
 	inventory_updated.connect(on_inventory_updated)
+	ability_menu_activate.connect(Globals.main.ability_menu.on_activate)
+	ability_menu_deactivate.connect(Globals.main.ability_menu.on_deactivate)
 	Globals.load_inventory()
 	get_weapon_info()
 
@@ -93,7 +98,6 @@ func do_raycast():
 	raycast.force_raycast_update()
 	if raycast.get_collision_point() != null:
 		raycast_end_pos = raycast.get_collision_point()
-		print(raycast_end_pos)
 	else: raycast_end_pos = raycast.target_position
 
 func _input(event):
@@ -127,7 +131,7 @@ func interact_input():
 		if Globals.interactables[0] == null:
 			return
 		var interaction_target = Globals.interactables[0]
-		if self.global_position.distance_to(interaction_target.global_position) < interaction_target.interact_distance && DialogueManager.dialogue_active == false:
+		if self.global_position.distance_to(interaction_target.global_position) < interaction_target.interact_radius && DialogueManager.dialogue_active == false:
 			interact_marker.visible = true
 			interact_marker.global_position = interaction_target.global_position
 			interact_marker.look_at(camera.global_position)
@@ -159,14 +163,17 @@ func get_weapon_info():
 	weapon_info["will_raycast"] = weapon.will_raycast
 	
 var reset_timer: float
+
 func attack_input(delta: float):
 	reset_timer += delta
 	if Input.is_action_just_pressed("attack") && Globals.can_player_attack == true:
-		if reset_timer > 2:
-			wep_atk_index = 1
 		do_attack("weapon")
 	if Input.is_action_just_pressed("ability") && Globals.can_player_attack == true:
 		do_attack("ability")
+	if Input.is_action_just_pressed("ability_menu") && Globals.can_player_attack == true:
+		emit_signal("ability_menu_activate")
+	if Input.is_action_just_released("ability_menu"):
+		emit_signal("ability_menu_deactivate")
 	
 func do_attack(type: String):
 	Globals.can_player_attack = false
@@ -191,7 +198,7 @@ func do_attack(type: String):
 	
 	if attack_type == "local":
 		reset_timer = 0
-		animation.play(attack_anim_name)
+		attack_animation.play(attack_anim_name)
 		wep_atk_index += 1
 		if wep_atk_index > attack_chain:
 			wep_atk_index = 1
@@ -206,21 +213,34 @@ func do_attack(type: String):
 			attack.global_position = raycast_end_pos
 			
 		await ability_active
-		animation.play(attack_anim_name)
+		attack_animation.play(attack_anim_name)
 		
-
-
 func on_damaged(amount: int):
 	hp -= amount
 
 func die():
 	pass
 
-func _on_animation_player_animation_finished(anim_name: StringName):
+func _on_attack_animation_player_animation_finished(anim_name: StringName):
 	if anim_name == attack_anim_name:
 		Globals.can_player_attack = true
 		weapon.empty_targets()
+		is_attack_idle()
+
+func is_attack_idle():
+	var attack_check: int = wep_atk_index
+	attack_idle_timer.start(anim_reset_time)
+	await attack_idle_timer.timeout
+	if Globals.can_player_attack == true && attack_check == wep_atk_index:
+		wep_atk_index = 1
+		if attack_animation.get_animation_list().has(str(attack_anim_name, "_to_idle")):
+			attack_animation.play(str(attack_anim_name, "_to_idle"))
+	else: print("new attack happened")
 
 func on_inventory_updated():
 	print(inventory)
 	#Globals.save_inventory_data(inventory)
+
+
+func _on_attack_animation_player_animation_started(anim_name: StringName) -> void:
+	emit_signal("attack_anim_started")

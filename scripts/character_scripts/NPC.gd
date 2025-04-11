@@ -17,7 +17,7 @@ extends CharacterBody3D
 var dialogue_finished: bool = false
 @export var tb_sprite_enemy: CompressedTexture2D = preload("res://vfx/tb_preset.png")
 @export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/tb_preset.png")
-@export var interact_distance: int = 4
+@export var interact_radius: float = 2.0
 
 @export var move_speed: float = 3
 var target_velocity = Vector3.ZERO

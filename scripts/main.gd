@@ -1,10 +1,13 @@
 extends Node3D
 
-@onready var map_holder = $MapHolder
+@onready var ui_container: CanvasLayer = $UiContainer
+@onready var map_container = $MapContainer
 var map
 
 @onready var loading_screen_scene = preload("res://scenes/ui/loading_screen.tscn")
 var loading_screen: Object
+@onready var ability_menu_scene = preload("res://scenes/ui/ability_selector.tscn")
+var ability_menu: Object
 
 signal loading_start
 signal loading_finished
@@ -13,11 +16,18 @@ func _ready():
 	#await get_tree().create_timer(2).timeout REPLACE WITH AN AWAIT FOR READY CHECK FROM GLOBALS
 	loading_start.connect(on_loading_start)
 	loading_finished.connect(on_loading_finished)
-	
 	Globals.main = self
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	DialogueManager.emit_signal("loading_complete")
 	load_map()
+	set_up_ability_menu()
 	spawn_player()
+
+func set_up_ability_menu():
+	ability_menu = ability_menu_scene.instantiate()
+	ui_container.add_child(ability_menu)
+	ability_menu.visible = false
+	print(ability_menu)
 
 func spawn_player():
 	var player_scene =  load("res://scenes/player/player.tscn")
@@ -39,11 +49,11 @@ func load_map():
 	map = map_to_load.instantiate()
 	
 	await get_tree().create_timer(0.5).timeout #wait for loading screen to appear
-	if map_holder.get_children() != []: #if a map is already loaded: remove it
-		var loaded_map = map_holder.get_child(0)
+	if map_container.get_children() != []: #if a map is already loaded: remove it
+		var loaded_map = map_container.get_child(0)
 		loaded_map.queue_free()
 		
-	map_holder.add_child(map)
+	map_container.add_child(map)
 	Globals.config_data["current_map"] = "test_map_2"
 	
 	if map.has_boss == true:
@@ -51,7 +61,7 @@ func load_map():
 
 func on_loading_start():
 	loading_screen = loading_screen_scene.instantiate()
-	self.add_child(loading_screen)
+	ui_container.add_child(loading_screen)
 
 func on_loading_finished():
 	if loading_screen == null:

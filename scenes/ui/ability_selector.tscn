@@ -1,0 +1,162 @@
+[gd_scene load_steps=4 format=3 uid="uid://pir8u1oj1epp"]
+
+[ext_resource type="Script" uid="uid://hcibul0h7k8q" path="res://scripts/ability_selector.gd" id="1_xy632"]
+[ext_resource type="Texture2D" uid="uid://cmqoc6hqpasfx" path="res://vfx/ability_selector.png" id="2_hs1g3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xy632"]
+font_size = 36
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[node name="AbilitySelector" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xy632")
+
+[node name="ability1_Container" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+offset_right = 576.0
+offset_bottom = 324.0
+alignment_horizontal = 2
+
+[node name="Ability1" type="TextureRect" parent="ability1_Container"]
+modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 2
+texture = ExtResource("2_hs1g3")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="ability1_Container/Ability1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.5
+offset_top = -25.0
+offset_right = 107.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_xy632")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ability2_Container" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -324.0
+offset_right = 576.0
+grow_vertical = 0
+alignment_horizontal = 2
+
+[node name="Ability2" type="TextureRect" parent="ability2_Container"]
+modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 2
+texture = ExtResource("2_hs1g3")
+expand_mode = 1
+flip_v = true
+
+[node name="Label" type="Label" parent="ability2_Container/Ability2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.5
+offset_top = -25.0
+offset_right = 107.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_xy632")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ability3_Container" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -576.0
+offset_bottom = 324.0
+grow_horizontal = 0
+alignment_horizontal = 0
+
+[node name="Ability3" type="TextureRect" parent="ability3_Container"]
+modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 2
+texture = ExtResource("2_hs1g3")
+expand_mode = 1
+flip_h = true
+
+[node name="Label" type="Label" parent="ability3_Container/Ability3"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.5
+offset_top = -25.0
+offset_right = 107.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_xy632")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ability4_Container" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -576.0
+offset_top = -324.0
+grow_horizontal = 0
+grow_vertical = 0
+alignment_horizontal = 0
+
+[node name="Ability4" type="TextureRect" parent="ability4_Container"]
+modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 2
+texture = ExtResource("2_hs1g3")
+expand_mode = 1
+flip_h = true
+flip_v = true
+
+[node name="Label" type="Label" parent="ability4_Container/Ability4"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.5
+offset_top = -25.0
+offset_right = 107.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_xy632")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="mouse_entered" from="ability1_Container" to="." method="_on_ability_1_container_mouse_entered"]
+[connection signal="mouse_exited" from="ability1_Container" to="." method="_on_ability_1_container_mouse_exited"]
+[connection signal="mouse_entered" from="ability2_Container" to="." method="_on_ability_2_container_mouse_entered"]
+[connection signal="mouse_exited" from="ability2_Container" to="." method="_on_ability_2_container_mouse_exited"]
+[connection signal="mouse_entered" from="ability3_Container" to="." method="_on_ability_3_container_mouse_entered"]
+[connection signal="mouse_exited" from="ability3_Container" to="." method="_on_ability_3_container_mouse_exited"]
+[connection signal="mouse_entered" from="ability4_Container" to="." method="_on_ability_4_container_mouse_entered"]
+[connection signal="mouse_exited" from="ability4_Container" to="." method="_on_ability_4_container_mouse_exited"]

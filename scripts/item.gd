@@ -2,7 +2,7 @@ extends RigidBody3D
 
 @export var type: String = "interactable"
 @export var item: String = "item"
-@export var interact_distance: int = 2
+@export var interact_radius: float = 1.0
 
 func _ready():
 	Globals.add_interact(self)

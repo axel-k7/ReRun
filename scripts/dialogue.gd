@@ -2,6 +2,8 @@ extends Node
 
 @onready var text_label: Label = $DialogueContainer/VBoxContainer/Text
 @onready var name_label: Label = $DialogueContainer/VBoxContainer/Name
+@onready var container: HSplitContainer = $DialogueContainer
+@onready var background: ColorRect = $ColorRect
 @onready var letter_timer: Timer = $letterTimer
 
 signal dialogue_over
@@ -10,7 +12,11 @@ var line_index = 0
 
 func _ready():
 	self.visible = false
-	self.position = Vector2(-get_viewport().get_visible_rect().size.x/4, get_viewport().get_visible_rect().size.y/2-self.size.y)
+	container.size.x = get_viewport().get_visible_rect().size.x/1.5
+	container.size.y = get_viewport().get_visible_rect().size.y/5
+	background.size = container.size
+	self.size = container.size
+	self.global_position = Vector2(get_viewport().get_visible_rect().size.x/6, get_viewport().get_visible_rect().size.y-self.size.y)
 
 func set_up_dialogue(target):
 	self.visible = true

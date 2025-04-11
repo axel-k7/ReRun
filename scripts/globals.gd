@@ -91,7 +91,7 @@ func save_config_file():
 	config_file.save("res://data/world_data.cfg")
 
 func save_config_variables():
-	config_data["current_map"] = main.map_holder.get_child(0).name
+	config_data["current_map"] = main.map_container.get_child(0).name
 	config_data["player_spawn_position"] = player.global_position
 
 func load_config_file():

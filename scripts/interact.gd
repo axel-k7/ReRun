@@ -1,13 +1,14 @@
-extends Node
+extends Area3D
 
-@onready var interactable = get_parent()
-@onready var interact_area = $CollisionShape3D
-@onready var test_mesh = $MeshInstance3D
+@onready var interactable: Object
+@onready var interact_area: CollisionShape3D = $CollisionShape3D
 
 func _ready() -> void:
-	interact_area.shape.radius = interactable.interact_distance/2
-	test_mesh.mesh.radius = interactable.interact_distance/2
-	test_mesh.mesh.height = interactable.interact_distance
+	interactable = get_parent()
+	if interactable == null: return
+	var new_shape: SphereShape3D = SphereShape3D.new()
+	new_shape.radius = interactable.interact_radius
+	interact_area.shape = new_shape
 
 func _on_body_entered(body: Node3D) -> void:
 	if body.name == "player":

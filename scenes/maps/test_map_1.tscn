@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://4ipv7palv0jb"]
+[gd_scene load_steps=7 format=3 uid="uid://4ipv7palv0jb"]
 
 [ext_resource type="Script" uid="uid://bmh5qgj256u3" path="res://scripts/map.gd" id="1_kv0d6"]
 [ext_resource type="PackedScene" uid="uid://co6bsilhcd01m" path="res://scenes/maps/map_parts/baseplate.tscn" id="1_mvr6x"]
@@ -6,10 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://n1cuaw4g8k5o" path="res://scenes/items/item_scenes/potion.tscn" id="3_4i1yp"]
 [ext_resource type="PackedScene" uid="uid://bgwn0fr78rc" path="res://scenes/NPC/NPC.tscn" id="4_lpitx"]
 [ext_resource type="PackedScene" uid="uid://b5t5qb4d6rdkd" path="res://scenes/maps/map_parts/map_switcher.tscn" id="8_uhp3l"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_kv0d6"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_gmxpo"]
 
 [node name="test_map_1" type="Node3D"]
 script = ExtResource("1_kv0d6")
@@ -24,33 +20,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.89756, 11, -28.0568)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.09391, 2, -22.8432)
 target_map_name = "test_map_2"
 
-[node name="potion" parent="." instance=ExtResource("3_4i1yp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.88852, 1.77073, -8.05961)
-
-[node name="brick" parent="." instance=ExtResource("2_cano6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.364578, 0.55, -5.2873)
-
-[node name="brick2" parent="." instance=ExtResource("2_cano6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.51494, 0.55, 0.657619)
-
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.4457, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-shape = SubResource("SphereShape3D_kv0d6")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D/CollisionShape3D"]
-mesh = SubResource("SphereMesh_gmxpo")
-skeleton = NodePath("../..")
-
-[node name="NPC" parent="." instance=ExtResource("4_lpitx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5175, 1.5, 16.3196)
-
-[node name="NPC2" parent="." instance=ExtResource("4_lpitx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.00116, 1.5, 16.1038)
-
-[node name="NPC3" parent="." instance=ExtResource("4_lpitx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.03145, 1.5, 14.7437)
-
 [node name="BossSpawn" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.6464, 2.22495, 0)
+
+[node name="potion" parent="." instance=ExtResource("3_4i1yp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.75146, 0.8, -4.28609)
+
+[node name="brick" parent="." instance=ExtResource("2_cano6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6935, 0.55, -4.17752)
+
+[node name="potion2" parent="." instance=ExtResource("3_4i1yp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.249676, 0.8, 7.0608)

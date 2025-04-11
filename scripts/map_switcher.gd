@@ -1,7 +1,7 @@
 extends StaticBody3D
 
 @export var target_map_name: String = "test_map_1"
-@export var interact_distance: int = 4
+@export var interact_radius: float = 2.0
 
 func _ready() -> void:
 	Globals.add_interact(self)
