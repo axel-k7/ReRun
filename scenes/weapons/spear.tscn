@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnylqglew4g6w"]
+
+[ext_resource type="Script" uid="uid://d1f34e4bx1oqy" path="res://scenes/weapons/weapon.gd" id="1_8fn8c"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_6dwfh"]
+top_radius = 0.05
+bottom_radius = 0.05
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_8fn8c"]
+top_radius = 0.0
+bottom_radius = 0.05
+height = 0.5
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o616w"]
+radius = 0.1
+height = 1.0
+
+[node name="Spear" type="Area3D"]
+monitoring = false
+script = ExtResource("1_8fn8c")
+weapon_name = "spear"
+wielder = "enemy"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_6dwfh")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25068, 0)
+mesh = SubResource("CylinderMesh_8fn8c")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06902, 0)
+shape = SubResource("CapsuleShape3D_o616w")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

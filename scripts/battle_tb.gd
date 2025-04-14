@@ -41,7 +41,7 @@ func _process(_delta: float):
 	player_hp_label.text = str(Globals.player.hp) + "/" + str(Globals.player.max_hp)
 	player_mp_label.text = str(Globals.player.mp) + "/" + str(Globals.player.max_mp)
 	
-	if is_player_acting == true:
+	if is_player_acting:
 		player_select_target()
 		enemyAmount = enemies.size()-1
 		if Input.is_action_just_pressed("right"):
@@ -129,24 +129,24 @@ func turn_handler():
 			end_battle("defeat")
 	else:
 		action_index = 0
-		if is_ally_turn == true:
+		if is_ally_turn:
 			turns = allies.size()
-		elif is_ally_turn == false:
+		elif !is_ally_turn:
 			turns = enemies.size()
 		action_handler()
 	
 
 func action_handler():
-	if BattleManagerTb.battle_paused == false:
-		if is_ally_turn == true:
+	if !BattleManagerTb.battle_paused:
+		if is_ally_turn:
 			acting_chr = BattleManagerTb.allies[action_index]
-		elif is_ally_turn == false:
+		elif !is_ally_turn:
 			acting_chr = BattleManagerTb.enemies[action_index]
 		
-		if acting_chr.is_in_group("NPC") == true:
+		if acting_chr.is_in_group("NPC"):
 			is_player_acting = false
 			NPC_action()
-		elif acting_chr.is_in_group("NPC") == false:
+		elif !acting_chr.is_in_group("NPC"):
 			is_player_acting = true
 		print(acting_chr.name, " taking action")
 		
@@ -160,40 +160,40 @@ func action_handler():
 		print("turns left: ", turns)
 		turn_timer.start(1)
 		await turn_timer.timeout
-		if turns <= 0 && is_ally_turn == true:
+		if turns <= 0 && is_ally_turn:
 			is_ally_turn = false
 			turn_handler()
-		elif turns <= 0 && is_ally_turn == false:
+		elif turns <= 0 && !is_ally_turn:
 			is_ally_turn = true
 			turn_handler()
 		elif allies.size() > 0 && enemies.size() > 0:
 			action_handler()
 		else: turn_handler()
-	elif BattleManagerTb.battle_paused == true:
+	elif BattleManagerTb.battle_paused:
 		turn_timer.start(2)
 		await turn_timer.timeout
-		if BattleManagerTb.battle_active == true:
+		if BattleManagerTb.battle_active:
 			action_handler()
 	
 
 func do_action(action: String):
 	if action == "attack":
-		if acting_chr.is_in_group("NPC") == true:
-			if is_ally_turn == true:
+		if acting_chr.is_in_group("NPC"):
+			if is_ally_turn:
 				acting_chr.tb_attack(selected_target, enemies)
-			elif is_ally_turn == false:
+			elif !is_ally_turn:
 				acting_chr.tb_attack(selected_target, allies)
-		if acting_chr.is_in_group("NPC") == false:
+		if !acting_chr.is_in_group("NPC") :
 			display_attacks(acting_chr)
 
 func NPC_action():
 	var random_character_index
 	var wait_time: float = 0.1#1 + randf()
 	await get_tree().create_timer(wait_time).timeout
-	if is_ally_turn == true:
+	if is_ally_turn:
 		random_character_index = randi_range(0, enemies.size()-1)
 		selected_target = enemies[random_character_index]
-	elif is_ally_turn == false:
+	elif !is_ally_turn:
 		random_character_index = randi_range(0, allies.size()-1)
 		selected_target = allies[random_character_index]
 	do_action("attack")
@@ -243,14 +243,14 @@ func _atk_option_pressed(attacker: Object, atk_name: String, damage: int, cost: 
 	target_marker.visible = false
 
 func _on_attack_button_pressed():
-	if is_player_acting == true && selecting_action == false:
+	if is_player_acting && !selecting_action:
 		do_action("attack")
 
 func _on_guard_button_pressed():
-	if is_player_acting == true:
+	if is_player_acting:
 		do_action("guard")
 
 func _on_item_button_pressed():
-	if is_player_acting == true && selecting_action == false:
+	if is_player_acting && !selecting_action:
 		do_action("item")
 	

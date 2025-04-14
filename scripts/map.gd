@@ -4,6 +4,6 @@ extends Node
 var boss_spawn: Marker3D
 
 func _ready() -> void:
-	if has_boss == true:
+	if has_boss:
 		boss_spawn = $BossSpawn
 	Globals.emit_signal("map_loaded")

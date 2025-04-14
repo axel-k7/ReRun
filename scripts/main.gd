@@ -56,7 +56,7 @@ func load_map():
 	map_container.add_child(map)
 	Globals.config_data["current_map"] = "test_map_2"
 	
-	if map.has_boss == true:
+	if map.has_boss:
 		spawn_boss("boss")
 
 func on_loading_start():

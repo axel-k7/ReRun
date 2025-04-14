@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://b6rnni1gow6rt"]
 
-[ext_resource type="Script" uid="uid://dt3esow3i6y8y" path="res://scripts/player.gd" id="1_jr5d1"]
+[ext_resource type="Script" uid="uid://dt3esow3i6y8y" path="res://scripts/character_scripts/player.gd" id="1_jr5d1"]
 [ext_resource type="PackedScene" uid="uid://bsd5vd18g3ywh" path="res://scenes/weapons/sword.tscn" id="2_dovo2"]
 [ext_resource type="PackedScene" uid="uid://cvixtomp55ifu" path="res://scenes/player/player_interact_marker.tscn" id="3_gmlin"]
 
@@ -9,7 +9,7 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_8cwbm"]
 
 [sub_resource type="Animation" id="Animation_lvxji"]
-length = 0.001
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -29,7 +29,7 @@ tracks/1/path = NodePath("Sword:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(0.3),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0.536601, 0.27763, -0.674832)]
@@ -41,7 +41,7 @@ tracks/2/path = NodePath("Sword:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(0.3),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
@@ -53,31 +53,11 @@ tracks/3/path = NodePath("MeshInstance3D:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(0.3),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
 }
-
-[sub_resource type="Animation" id="Animation_75vfm"]
-resource_name = "beam_attack_animation"
-length = 1.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1, 1.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 6.28319), Vector3(0, 0, 12.5664), Vector3(0, 0, 18.8496)]
-}
-
-[sub_resource type="Animation" id="Animation_0owmy"]
-resource_name = "inferno_attack_animation"
-length = 1.5
 
 [sub_resource type="Animation" id="Animation_gmlin"]
 resource_name = "sword_attack1_animation"
@@ -89,7 +69,7 @@ tracks/0/path = NodePath("Sword:monitoring")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.53),
+"times": PackedFloat32Array(0.1, 0.53),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -119,34 +99,6 @@ tracks/2/keys = {
 "values": [Vector3(-1.39044, -1.26383, 1.03343), Vector3(-1.51844, 0.473682, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_qek5x"]
-resource_name = "sword_attack1_animation_to_idle"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sword:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(-0.719979, 0.27763, -0.710257), Vector3(0.536601, 0.27763, -0.674832)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sword:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(-1.51844, 0.473682, 0), Vector3(0, 0, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_p47bc"]
 resource_name = "sword_attack2_animation"
 length = 0.4
@@ -157,7 +109,7 @@ tracks/0/path = NodePath("Sword:monitoring")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
+"times": PackedFloat32Array(0.1, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -187,43 +139,41 @@ tracks/2/keys = {
 "values": [Vector3(-1.51844, 0.473682, 0), Vector3(-1.39044, -1.26383, 1.03343)]
 }
 
-[sub_resource type="Animation" id="Animation_5gtgg"]
-resource_name = "sword_attack2_animation_to_idle"
-length = 0.5
+[sub_resource type="Animation" id="Animation_75vfm"]
+resource_name = "beam_attack_animation"
+length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sword:position")
-tracks/0/interp = 2
+tracks/0/path = NodePath("MeshInstance3D:rotation")
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0.753193, 0.165017, -0.972478), Vector3(0.536601, 0.27763, -0.674832)]
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 6.28319), Vector3(0, 0, 12.5664), Vector3(0, 0, 18.8496)]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sword:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(-1.39044, -1.26383, 1.03343), Vector3(0, 0, 0)]
-}
+
+[sub_resource type="Animation" id="Animation_0owmy"]
+resource_name = "inferno_attack_animation"
+length = 1.5
+
+[sub_resource type="Animation" id="Animation_qek5x"]
+resource_name = "slash_attack_animation"
+
+[sub_resource type="Animation" id="Animation_5gtgg"]
+resource_name = "slash_attack_animation"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p47bc"]
 _data = {
 &"RESET": SubResource("Animation_lvxji"),
-&"beam_attack_animation": SubResource("Animation_75vfm"),
-&"inferno_attack_animation": SubResource("Animation_0owmy"),
+&"beam_attack1_animation": SubResource("Animation_75vfm"),
+&"inferno_attack1_animation": SubResource("Animation_0owmy"),
+&"slash_attack1_animation": SubResource("Animation_qek5x"),
+&"slash_attack2_animation": SubResource("Animation_5gtgg"),
 &"sword_attack1_animation": SubResource("Animation_gmlin"),
-&"sword_attack1_animation_to_idle": SubResource("Animation_qek5x"),
-&"sword_attack2_animation": SubResource("Animation_p47bc"),
-&"sword_attack2_animation_to_idle": SubResource("Animation_5gtgg")
+&"sword_attack2_animation": SubResource("Animation_p47bc")
 }
 
 [node name="player" type="CharacterBody3D"]
@@ -249,13 +199,13 @@ collision_mask = 5
 libraries = {
 &"": SubResource("AnimationLibrary_p47bc")
 }
-playback_default_blend_time = 0.2
+playback_default_blend_time = 0.3
+blend_times = [&"RESET", &"RESET", 0.3]
 
 [node name="AttackIdleTimer" type="Timer" parent="."]
 
 [node name="Sword" parent="." instance=ExtResource("2_dovo2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.536601, 0.27763, -0.674832)
-monitoring = false
 attack_chain = 2
 
 [node name="PlayerInteractMarker" parent="." instance=ExtResource("3_gmlin")]

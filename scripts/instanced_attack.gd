@@ -2,6 +2,7 @@ extends Area3D
 
 @onready var timer = $Timer
 @onready var mesh: Mesh = $MeshInstance3D.mesh
+var host: Object
 var up_time: float = 1.5
 var targets_hit: Array = []
 var damage: int
@@ -11,26 +12,33 @@ signal activate
 func _ready() -> void:
 	self.monitoring = false
 	mesh.material.albedo_color = Color(0.3, 0.8, 0.9, 0.6)
-
-func _process(_delta: float) -> void:
-	if Input.is_action_just_released("ability"):
+	await get_tree().create_timer(0.8).timeout
+	if host.is_in_group("NPC"):
 		emit_signal("activate")
-		Globals.player.emit_signal("ability_active")
-	
+		host.emit_signal("ability_activate")
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_released("ability") && !host.is_in_group("NPC"):
+		emit_signal("activate")
+		host.emit_signal("ability_activate")
+
 func _on_activate() -> void:
 	mesh.material.albedo_color = Color(0.8, 0.25, 0, 0.98)
 	self.monitoring = true
 	timer.start()
 	
 func _on_body_entered(body: Node3D):
-	if body.is_in_group("NPC") && targets_hit.has(body) != true:
+	if host.is_in_group("enemy") && body.is_in_group("ally") && !targets_hit.has(body):
 		print("hit: ", body.name)
 		Globals.damage(body, damage)
 		targets_hit.append(body)
-	elif body.is_in_group("NPC"): print(body.name, " was already hit by ", self.name)
+	elif host.is_in_group("ally") && body.is_in_group("enemy") && !targets_hit.has(body):
+		print("hit: ", body.name)
+		Globals.damage(body, damage)
+		targets_hit.append(body)
 
 func _on_timer_timeout():
-	Globals.can_player_attack = true
+	host.attack_ready = true
 	self.queue_free()
 
 func get_stats(dmg: int):

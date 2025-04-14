@@ -19,15 +19,15 @@ func set_up_dialogue():
 
 func start_dialogue(lines: Array, target: Object, continue_after: bool):
 	current_dialogue_target = target
-	if target.dialogue_finished == false:
-		if dialogue_active == false:
+	if !target.dialogue_finished:
+		if !dialogue_active:
 			dialogue_active = true
 			print("dialogue started with: ", target.name)
-			if BattleManagerTb.battle_active == true:
+			if BattleManagerTb.battle_active:
 				BattleManagerTb.battle_paused = true
 			dialogue.set_up_dialogue(target)
 			dialogue.update_text(lines, target, continue_after)
-		elif dialogue_active == true:
+		elif dialogue_active:
 			dialogue.update_text(lines, target, continue_after)
 	else: return
 

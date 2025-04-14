@@ -35,8 +35,8 @@ func on_deactivate():
 	self.visible = false
 
 func select_ability(number: int):
-	if active == false: pass
-	elif active == true:
+	if !active: pass
+	elif active:
 		Globals.player.selected_ability = number
 		ability_buttons[number].get_child(0).modulate = Color(1, 1, 1, 1)
 

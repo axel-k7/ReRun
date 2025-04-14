@@ -1,53 +1,36 @@
-extends CharacterBody3D
+extends "res://scripts/character_scripts/character.gd"
 
-@onready var audio: AudioStreamPlayer3D = $AudioStreamPlayer3D
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
-@onready var attack_timer: Timer = $attack_timer
-@onready var animation: AnimationPlayer = $AnimationPlayer
-@onready var weapon = $Sword
-@export var Cname: String = "name"
-@export var image: CompressedTexture2D = preload("res://vfx/smiley.png")
-@export var dialogue_sfx: AudioStream = preload("res://sfx/hah.wav")
-@export var hurt_sfx: AudioStream = preload("res://sfx/hurt_preset.wav")
-@export var lines: Array[String] = [
-	"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp",
-	"Line 2",
-	"Line 3"
-]
-var dialogue_finished: bool = false
-@export var tb_sprite_enemy: CompressedTexture2D = preload("res://vfx/tb_preset.png")
-@export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/tb_preset.png")
 @export var interact_radius: float = 2.0
+@export var side: String = "enemy"
+@export var exp_given: float = 50
+@export var neutral_distance: float = 3
+@export var flee_distance: float = 2
 
-@export var move_speed: float = 3
-var target_velocity = Vector3.ZERO
-var fleeing: bool = false
-var attacking: bool = true
+var fleeing: bool = false #for use in functions to be added:
+var attacking: bool = true # movement functions while not in combat
 var direction: Vector3 = Vector3.FORWARD
 var can_move: bool = true
-var attack_ready: bool = true
 
-@export var exp_given: float = 50
-var max_hp = 30
-var hp = max_hp
-var max_mp = 100
-var mp = max_mp
-@export var attacks: Array[Array] = [
-		#Attack name (string), Damage(int), MP cost(int), -> NOT IMPLEMENTED  -> ||damage type(string), description(string)||
-		[ "Lunge", 7, 2 ],
-		[ "Bite", 3, 0 ]
-	]
-
-signal battle_over
 
 func _ready():
+	get_variables()
 	BattleManagerTb.enemies.append(self)
 	Globals.add_interact(self)
 	audio.stream = dialogue_sfx
 	self.add_to_group("NPC")
 
+func get_variables():
+	weapon = $Spear
+	audio = $AudioStreamPlayer3D
+	raycast = $RayCast3D
+	attack_animation = $attack_animation
+	attack_idle_timer = $attack_timer
+	self.add_to_group(side)
+	get_weapon_info()
+
 func _physics_process(delta: float):
-	if can_move == true:
+	if can_move:
 		movement(delta)
 
 func interact_action():
@@ -57,20 +40,15 @@ func interact_action():
 func dialogue_over():
 	dialogue_finished = true
 	DialogueManager.emit_signal("dialogue_over")
-	if BattleManagerTb.battle_active == false:
+	if !BattleManagerTb.battle_active:
 		BattleManagerTb.start_battle(BattleManagerTb.allies, BattleManagerTb.enemies)
 		can_move = true
-	elif BattleManagerTb.battle_active == true:
+	elif BattleManagerTb.battle_active:
 		BattleManagerTb.battle_paused = false
 
 func movement(delta: float):
 	update_target_position(Globals.player.global_position)
-	if fleeing == false && attacking == false || fleeing == true && attacking == true:
-		neutral_movement()
-	elif fleeing == true && attacking == false:
-		flee()
-	elif attacking == true && fleeing == false:
-		fight_formation()
+	fight_formation()
 	
 	if not is_on_floor():
 		velocity.y -= Globals.gravity * delta
@@ -81,39 +59,32 @@ func movement(delta: float):
 
 func update_target_position(target_pos):
 	nav_agent.target_position = target_pos
-	
-func neutral_movement():
-	velocity = (nav_agent.get_next_path_position() - self.global_position).normalized() * move_speed
-
-func flee():
-	look_at(Globals.player.global_position)
-	if self.global_position.distance_to(Globals.player.position) <= 10:
-		velocity = -(nav_agent.get_next_path_position() - self.global_position).normalized() * move_speed*1.5
-	else: 
-		velocity.x = 0
-		velocity.z = 0
 
 func fight_formation():
 	look_at(Globals.player.global_position)
 	var distance_to_player = self.global_position.distance_to(Globals.player.position)
 	target_velocity = transform.basis * direction * move_speed
-	if distance_to_player > 5:
+	if distance_to_player > neutral_distance:
 		velocity = (nav_agent.get_next_path_position() - self.global_position).normalized() * move_speed*1.5
-	elif distance_to_player < 5 && distance_to_player > 3:
+	elif distance_to_player < neutral_distance && distance_to_player > flee_distance:
 		velocity.x = 0
 		velocity.z = 0
-		
-		if attack_ready == true:
+		if attack_ready:
 			fight()
-	elif distance_to_player < 3:
+	elif distance_to_player < flee_distance:
 		velocity = -(nav_agent.get_next_path_position() - self.global_position).normalized() * move_speed/1.5
 
 func fight():
-	attack_ready = false
-	animation.play("attack")
-	attack_timer.start()
-	await attack_timer.timeout
-	attack_ready = true
+	if attack_ready:
+		var ability_type = randi_range(0, 100)
+		if ability_type <= 10:
+			ability_type = "ability"
+			selected_ability = randi_range(0, attacks.size()-2)
+		elif ability_type > 10:
+			ability_type = "weapon"
+		else:#elif ability_type == 3:
+			ability_type = "projectile"
+		do_attack(ability_type)
 	
 func tb_attack(target: Object, _side: Array): #side is for custom npcs in need of special targetting
 	var chosen_attack = randi_range(0, attacks.size()-1)
@@ -137,8 +108,3 @@ func die():
 	#ragdoll()
 	can_move = false
 	self.rotate(Vector3(1, 0, 0), 0.5)
-
-
-func _on_animation_player_animation_finished(anim_name):
-	if anim_name == "attack":
-		weapon.empty_targets()

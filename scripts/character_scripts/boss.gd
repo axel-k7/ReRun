@@ -6,18 +6,29 @@ var dialogue_index: int = 0
 var line_index: int = 0
 
 func _ready() -> void:
+	get_variables()
 	BattleManagerTb.allies.append(self)
 	audio.stream = dialogue_sfx
 	self.add_to_group("NPC")
 	update_lines()
-	
+
+func get_variables():
 	max_hp = 500
 	hp = max_hp
 	max_mp = 100000
 	mp = max_mp
 	attacks = [
-		["Mega Crush", 15, 3],
+		["Mega Crush", 15, 3]
 	]
+	
+	weapon = $Sword
+	audio = $AudioStreamPlayer3D
+	raycast = $RayCast3D
+	attack_animation = $attack_animation
+	attack_idle_timer = $attack_timer
+	
+	self.add_to_group(side)
+	get_weapon_info()
 
 func movement(_delta: float):
 	pass
@@ -38,7 +49,7 @@ func update_lines():
 		]
 
 func tb_attack(target: Object, side: Array):
-	if BattleManagerTb.allies.has(self) == true:
+	if BattleManagerTb.allies.has(self):
 		if actions_taken > 2:
 			for party_member in side:
 				if party_member.name == "hero":
@@ -61,7 +72,7 @@ func tb_attack(target: Object, side: Array):
 func on_damaged(amount: int):
 	hp -= amount
 	times_damaged += 1
-	if times_damaged == 6 && BattleManagerTb.allies.has(self) == true:
+	if times_damaged == 6 && BattleManagerTb.allies.has(self):
 		DialogueManager.start_dialogue(lines, self, false)
 	if hp <= 0:
 		die()

@@ -14,7 +14,7 @@ has_boss = true
 [node name="Baseplate" parent="." instance=ExtResource("1_mvr6x")]
 
 [node name="hero" parent="." instance=ExtResource("4_lpitx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.89756, 11, -28.0568)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.7012, 1.77089, -13.5266)
 
 [node name="MapSwitcher" parent="." instance=ExtResource("8_uhp3l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.09391, 2, -22.8432)
