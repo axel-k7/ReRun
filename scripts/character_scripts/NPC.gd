@@ -30,7 +30,7 @@ func get_variables():
 	get_weapon_info()
 
 func _physics_process(delta: float):
-	if can_move:
+	if can_move && !BattleManagerTb.battle_active:
 		movement(delta)
 
 func interact_action():
@@ -49,7 +49,6 @@ func dialogue_over():
 func movement(delta: float):
 	update_target_position(Globals.player.global_position)
 	fight_formation()
-	
 	if not is_on_floor():
 		velocity.y -= Globals.gravity * delta
 	else:

@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2i1gdkxcyn82"]
+[gd_scene load_steps=3 format=3 uid="uid://b2i1gdkxcyn82"]
 
 [ext_resource type="Script" uid="uid://tj2v15ihp5sa" path="res://scripts/main.gd" id="1_26nwy"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_o5qli"]
+font_size = 40
+font_color = Color(1, 0.774038, 0.597751, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.792157)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_26nwy")
@@ -8,3 +16,17 @@ script = ExtResource("1_26nwy")
 [node name="MapContainer" type="Node3D" parent="."]
 
 [node name="UiContainer" type="CanvasLayer" parent="."]
+
+[node name="SystemMessage" type="Label" parent="UiContainer"]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -38.5
+offset_top = 50.0
+offset_right = 38.5
+offset_bottom = 105.0
+grow_horizontal = 2
+text = "text"
+label_settings = SubResource("LabelSettings_o5qli")
+horizontal_alignment = 1

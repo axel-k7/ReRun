@@ -1,9 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://tkr4tryetoim"]
+[gd_scene load_steps=6 format=3 uid="uid://tkr4tryetoim"]
 
 [ext_resource type="Script" uid="uid://b55mxslh1dgo7" path="res://scripts/character_scripts/tb_character_battle.gd" id="1_da6u6"]
 [ext_resource type="Texture2D" uid="uid://bf3ry8kluqtmo" path="res://vfx/healthbar/under.png" id="2_e276x"]
 [ext_resource type="Texture2D" uid="uid://q6b0v72wvc4o" path="res://vfx/healthbar/over.png" id="3_604ao"]
 [ext_resource type="Texture2D" uid="uid://b7ms4qplenteb" path="res://vfx/healthbar/progress.png" id="4_o5tml"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_e276x"]
+font_size = 24
+font_color = Color(1, 0.693627, 0.452725, 1)
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.65098)
 
 [node name="PresetCharacterTB" type="Node2D"]
 script = ExtResource("1_da6u6")
@@ -20,5 +28,17 @@ value = 100.0
 texture_under = ExtResource("2_e276x")
 texture_over = ExtResource("3_604ao")
 texture_progress = ExtResource("4_o5tml")
+
+[node name="name_label" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -91.5
+offset_right = 91.5
+offset_bottom = 34.0
+grow_horizontal = 2
+text = "character name"
+label_settings = SubResource("LabelSettings_e276x")
+horizontal_alignment = 1
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

@@ -1,7 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://dsc3lhk5yygi3"]
+[gd_scene load_steps=7 format=3 uid="uid://dsc3lhk5yygi3"]
 
 [ext_resource type="Script" uid="uid://c60ygrkelaowe" path="res://scripts/battle_tb.gd" id="1_v7fdu"]
 [ext_resource type="Texture2D" uid="uid://dfq0euksvevv4" path="res://vfx/target_marker.png" id="2_v7fdu"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_v7fdu"]
+font_size = 40
+font_color = Color(1, 0.857314, 0.788467, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.788235)
 
 [sub_resource type="Animation" id="Animation_vf270"]
 length = 0.001
@@ -44,55 +52,108 @@ _data = {
 [node name="BattleSceneTB" type="Node2D"]
 script = ExtResource("1_v7fdu")
 
-[node name="BattleSceneTB_UI" type="Control" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="BattleSceneTB_UI" type="Control" parent="UI"]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="UI_container" type="VBoxContainer" parent="BattleSceneTB_UI"]
-layout_mode = 0
-offset_right = 289.0
-offset_bottom = 150.0
+[node name="UI_container" type="VBoxContainer" parent="UI/BattleSceneTB_UI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -289.0
+offset_top = -100.0
+grow_horizontal = 0
+grow_vertical = 0
 
-[node name="action_container" type="HBoxContainer" parent="BattleSceneTB_UI/UI_container"]
+[node name="action_container" type="HBoxContainer" parent="UI/BattleSceneTB_UI/UI_container"]
 layout_mode = 2
 size_flags_vertical = 4
 alignment = 1
 
-[node name="attack_button" type="Button" parent="BattleSceneTB_UI/UI_container/action_container"]
+[node name="attack_button" type="Button" parent="UI/BattleSceneTB_UI/UI_container/action_container"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "ATTACK"
 
-[node name="guard_button" type="Button" parent="BattleSceneTB_UI/UI_container/action_container"]
+[node name="guard_button" type="Button" parent="UI/BattleSceneTB_UI/UI_container/action_container"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "GUARD"
 
-[node name="item_button" type="Button" parent="BattleSceneTB_UI/UI_container/action_container"]
+[node name="item_button" type="Button" parent="UI/BattleSceneTB_UI/UI_container/action_container"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "ITEM"
 
-[node name="stat_container" type="HSplitContainer" parent="BattleSceneTB_UI/UI_container"]
+[node name="stat_container" type="HSplitContainer" parent="UI/BattleSceneTB_UI/UI_container"]
 layout_mode = 2
 size_flags_vertical = 6
 collapsed = true
 drag_area_highlight_in_editor = true
 
-[node name="hp" type="Label" parent="BattleSceneTB_UI/UI_container/stat_container"]
+[node name="hp" type="Label" parent="UI/BattleSceneTB_UI/UI_container/stat_container"]
 layout_mode = 2
 text = "HP: 10000 / 10000"
 
-[node name="mp" type="Label" parent="BattleSceneTB_UI/UI_container/stat_container"]
+[node name="mp" type="Label" parent="UI/BattleSceneTB_UI/UI_container/stat_container"]
 layout_mode = 2
 text = "MP: 10000 / 10000"
 
-[node name="Attack_container" type="VBoxContainer" parent="BattleSceneTB_UI"]
-layout_mode = 0
-offset_left = -463.0
-offset_top = -88.0
-offset_right = -313.0
-offset_bottom = 162.0
+[node name="Attack_container" type="VBoxContainer" parent="UI/BattleSceneTB_UI"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+
+[node name="Inventory_container" type="GridContainer" parent="UI/BattleSceneTB_UI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Action_label" type="Label" parent="UI/BattleSceneTB_UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -23.0
+offset_top = 100.0
+offset_right = 23.0
+offset_bottom = 155.0
+grow_horizontal = 2
+text = "aa"
+label_settings = SubResource("LabelSettings_v7fdu")
+horizontal_alignment = 1
+
+[node name="Turns_label" type="Label" parent="UI/BattleSceneTB_UI"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -102.0
+offset_top = -27.5
+offset_right = -56.0
+offset_bottom = 27.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "aa"
+label_settings = SubResource("LabelSettings_v7fdu")
+horizontal_alignment = 2
 
 [node name="BattleSceneTB_camera" type="Camera2D" parent="."]
 
@@ -110,6 +171,6 @@ libraries = {
 
 [node name="turn_timer" type="Timer" parent="."]
 
-[connection signal="pressed" from="BattleSceneTB_UI/UI_container/action_container/attack_button" to="." method="_on_attack_button_pressed"]
-[connection signal="pressed" from="BattleSceneTB_UI/UI_container/action_container/guard_button" to="." method="_on_guard_button_pressed"]
-[connection signal="pressed" from="BattleSceneTB_UI/UI_container/action_container/item_button" to="." method="_on_item_button_pressed"]
+[connection signal="pressed" from="UI/BattleSceneTB_UI/UI_container/action_container/attack_button" to="." method="_on_attack_button_pressed"]
+[connection signal="pressed" from="UI/BattleSceneTB_UI/UI_container/action_container/guard_button" to="." method="_on_guard_button_pressed"]
+[connection signal="pressed" from="UI/BattleSceneTB_UI/UI_container/action_container/item_button" to="." method="_on_item_button_pressed"]

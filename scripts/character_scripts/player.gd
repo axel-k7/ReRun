@@ -135,9 +135,6 @@ func attack_input():
 		if Input.is_action_just_released("ability_menu"):
 			emit_signal("ability_menu_deactivate")
 
-func on_damaged(amount: int):
-	hp -= amount
-
 func die():
 	pass
 

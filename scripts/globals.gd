@@ -113,3 +113,13 @@ func on_map_loaded():
 	check_closest_interactable()
 	player_controls(true)
 	main.emit_signal("loading_finished")
+
+func system_message(message: String):
+	var sys_msg_label = main.ui_container.get_node("SystemMessage")
+	sys_msg_label.text = message
+	var tween = create_tween()
+	tween.tween_property(sys_msg_label, "modulate:a", 1, 0.5)
+	await tween.finished
+	tween.tween_property(sys_msg_label, "modulate:a", 0, 1)
+	await tween.finished
+	tween.tween_callback(queue_free)

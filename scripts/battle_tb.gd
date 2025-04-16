@@ -4,13 +4,18 @@ extends Node
 @onready var target_marker = $Select_marker
 @onready var turn_timer = $turn_timer
 @onready var target_marker_anim = $Select_marker/AnimationPlayer
-@onready var attack_button = $BattleSceneTB_UI/UI_container/action_container/attack_button
-@onready var guard_button = $BattleSceneTB_UI/UI_container/action_container/guard_button
-@onready var item_button = $BattleSceneTB_UI/UI_container/action_container/item_button
-@onready var player_hp_label: Label = $BattleSceneTB_UI/UI_container/stat_container/hp
-@onready var player_mp_label: Label = $BattleSceneTB_UI/UI_container/stat_container/mp
-@onready var atk_container = $BattleSceneTB_UI/Attack_container
+@onready var ui_layer = $UI
+@onready var attack_button = $UI/BattleSceneTB_UI/UI_container/action_container/attack_button
+@onready var guard_button = $UI/BattleSceneTB_UI/UI_container/action_container/guard_button
+@onready var item_button = $UI/BattleSceneTB_UI/UI_container/action_container/item_button
+@onready var player_hp_label: Label = $UI/BattleSceneTB_UI/UI_container/stat_container/hp
+@onready var player_mp_label: Label = $UI/BattleSceneTB_UI/UI_container/stat_container/mp
+@onready var atk_container = $UI/BattleSceneTB_UI/Attack_container
+@onready var inv_container = $UI/BattleSceneTB_UI/Inventory_container
+@onready var action_label = $UI/BattleSceneTB_UI/Action_label
+@onready var turns_label = $UI/BattleSceneTB_UI/Turns_label
 @onready var atk_option_scene = preload("res://scenes/ui/tb_attack_preset.tscn")
+@onready var item_option_scene = preload("res://scenes/ui/tb_item_preset.tscn")
 @onready var camera = $BattleSceneTB_camera
 @onready var allyNode = $Allies
 @onready var enemyNode = $Enemies
@@ -34,6 +39,7 @@ var enemyAmount
 func _ready():
 	target_marker_anim.play("rotate")
 	self.visible = false
+	ui_layer.visible = false
 	atk_container.visible = false
 	set_process(false)
 
@@ -67,6 +73,7 @@ func start_battle(ally_array: Array, enemy_array: Array):
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	Globals.player_controls(false)
 	self.visible = true
+	ui_layer.visible = true
 	target_marker.visible = false
 	Globals.player.camera.current = false
 	camera.make_current()
@@ -84,6 +91,7 @@ func end_battle(result: String):
 	await get_tree().create_timer(2).timeout
 	Globals.player_controls(true)
 	self.visible = false
+	ui_layer.visible = false
 	Globals.player.camera.current = true
 	BattleManagerTb.battle_active = false
 	BattleManagerTb.battle_paused = false
@@ -101,9 +109,9 @@ func end_battle(result: String):
 	
 	if result == "defeat":
 		Globals.player.global_position = Vector3(0, 0, 0)
-		print("battle result: ", result)
 	elif result == "victory":
-		print("battle result: ", result)
+		pass
+	action_message(result.capitalize())
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	Globals.main.emit_signal("loading_finished")
 
@@ -148,16 +156,17 @@ func action_handler():
 			NPC_action()
 		elif !acting_chr.is_in_group("NPC"):
 			is_player_acting = true
-		print(acting_chr.name, " taking action")
+		action_message(acting_chr.name + " taking action")
+		turns_label.text = "Turns: " + str(turns)
 		
 		await action_taken
 		atk_container.visible = false
 		for child in atk_container.get_children():
 			child.queue_free()
 		turns -= 1
+		turns_label.text = "Turns: " + str(turns)
 		action_index += 1
 		selecting_action = false
-		print("turns left: ", turns)
 		turn_timer.start(1)
 		await turn_timer.timeout
 		if turns <= 0 && is_ally_turn:
@@ -174,7 +183,6 @@ func action_handler():
 		await turn_timer.timeout
 		if BattleManagerTb.battle_active:
 			action_handler()
-	
 
 func do_action(action: String):
 	if action == "attack":
@@ -185,10 +193,16 @@ func do_action(action: String):
 				acting_chr.tb_attack(selected_target, allies)
 		if !acting_chr.is_in_group("NPC") :
 			display_attacks(acting_chr)
+	elif action == "guard":
+		acting_chr.guard_multiplier = 0.5
+	elif action == "item":
+		if Globals.player.inventory.size() > 0:
+			display_inventory(acting_chr)
+		else: action_message("Inventory Empty")
 
 func NPC_action():
 	var random_character_index
-	var wait_time: float = 0.1#1 + randf()
+	var wait_time: float = 1 + randf()
 	await get_tree().create_timer(wait_time).timeout
 	if is_ally_turn:
 		random_character_index = randi_range(0, enemies.size()-1)
@@ -236,11 +250,22 @@ func display_attacks(character: Object):
 func _atk_option_pressed(attacker: Object, atk_name: String, damage: int, cost: int):
 	Globals.damage(selected_target, damage)
 	attacker.mp -= cost
-	print(attacker.name, " used ", atk_name, "(", damage, " DMG)", " on ", selected_target.name, " for ", cost, " MP")
+	action_message(attacker.name + " used " + atk_name + " on " + selected_target.name + "!")
 	emit_signal("action_taken")
 	enemyIndex = 0
 	is_player_acting = false
 	target_marker.visible = false
+	
+func display_inventory(character: Object):
+	selecting_action = true
+	inv_container.visible = true
+	inv_container.size.y = 40*character.inventory.size()
+	for item in character.inventory:
+		var item_option = item_option_scene.instantiate()
+		inv_container.add_child(item_option)
+		item_option.get_child(0).texture = load("res://vfx/item_sprites/" + item.name + ".png")
+		item_option.get_child(1).text = item.name
+
 
 func _on_attack_button_pressed():
 	if is_player_acting && !selecting_action:
@@ -253,4 +278,14 @@ func _on_guard_button_pressed():
 func _on_item_button_pressed():
 	if is_player_acting && !selecting_action:
 		do_action("item")
-	
+		print("aaaaa")
+
+
+func action_message(message: String):
+	action_label.text = message
+	var tween = create_tween()
+	tween.tween_property(action_label, "modulate:a", 1, 0.5)
+	tween.tween_property(action_label, "modulate:a", 0, 1).set_delay(1)
+	await tween.finished
+	tween.stop()
+	tween.tween_callback(queue_free)

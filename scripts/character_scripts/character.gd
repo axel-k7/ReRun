@@ -1,13 +1,13 @@
 extends CharacterBody3D
 
-var audio: AudioStreamPlayer3D
-var raycast: RayCast3D
-var attack_animation: AnimationPlayer
-var attack_idle_timer: Timer
-var weapon: Object
-
 @export var Cname: String = "name"
 @export var image: CompressedTexture2D = preload("res://vfx/smiley.png")
+@export var custom_gravity = 60
+@export var move_speed: float = 7
+@export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/tb_preset.png")
+@export var tb_sprite_enemy: CompressedTexture2D = preload("res://vfx/tb_preset.png")
+@export var hurt_sfx: AudioStream = preload("res://sfx/hurt_preset.wav")
+@export var dialogue_sfx: AudioStream = preload("res://sfx/hah.wav")
 @export var lines: Array[String] = [
 	"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp",
 	"Line 2",
@@ -15,13 +15,11 @@ var weapon: Object
 ]
 var dialogue_finished: bool = false
 
-@export var custom_gravity = 60
-@export var move_speed: float = 7
-@export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/tb_preset.png")
-@export var tb_sprite_enemy: CompressedTexture2D = preload("res://vfx/tb_preset.png")
-@export var hurt_sfx: AudioStream = preload("res://sfx/hurt_preset.wav")
-@export var dialogue_sfx: AudioStream = preload("res://sfx/hah.wav")
-
+var audio: AudioStreamPlayer3D
+var raycast: RayCast3D
+var attack_animation: AnimationPlayer
+var attack_idle_timer: Timer
+var weapon: Object
 var target_velocity = Vector3.ZERO
 var raycast_end_pos: Vector3
 
@@ -42,10 +40,12 @@ var inventory: Array
 var experience: float = 0
 var level: int = 1
 
-var max_hp = 150
+@export var max_hp = 150
+@export var max_mp = 100
+@export var defense = 1.0
 var hp = max_hp
-var max_mp = 100
 var mp = max_mp
+var guard_multiplier: float = 1.0
 var attacks: Array[Array] = [
 		#Attack name (string), Damage(int), MP cost(int), Local or instanced (string), Attack chain length (int), raycast (bool) -> NOT IMPLEMENTED  -> ||damage type(string), description(string)||
 		[ "Slash", 5, 1, "local", 2, false],
@@ -129,7 +129,8 @@ func do_raycast():
 	else: raycast_end_pos = raycast.target_position
 
 func on_damaged(amount: int):
-	hp -= amount
+	hp -= (amount * guard_multiplier) * defense
+	guard_multiplier = 1.0
 
 func die():
 	pass
