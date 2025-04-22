@@ -93,7 +93,6 @@ func tb_attack(target: Object, _side: Array): #side is for custom npcs in need o
 	var cost = attack[2]
 	
 	Globals.damage(target, dmg)
-	print(self.name, " used ", atk_name, " (", dmg, " DMG)", " on ", target.name, " for ", cost, " MP")
 
 func on_damaged(amount: int):
 	hp -= amount
@@ -104,6 +103,9 @@ func on_damaged(amount: int):
 	
 func die():
 	Globals.player.experience += exp_given
-	#ragdoll()
 	can_move = false
 	self.rotate(Vector3(1, 0, 0), 0.5)
+	death_effect()
+	await get_tree().create_timer(5).timeout
+	self.queue_free()
+	

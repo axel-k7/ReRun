@@ -22,7 +22,6 @@ func start_dialogue(lines: Array, target: Object, continue_after: bool):
 	if !target.dialogue_finished:
 		if !dialogue_active:
 			dialogue_active = true
-			print("dialogue started with: ", target.name)
 			if BattleManagerTb.battle_active:
 				BattleManagerTb.battle_paused = true
 			dialogue.set_up_dialogue(target)

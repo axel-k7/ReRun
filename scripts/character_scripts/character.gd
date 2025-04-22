@@ -7,6 +7,7 @@ extends CharacterBody3D
 @export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/tb_preset.png")
 @export var tb_sprite_enemy: CompressedTexture2D = preload("res://vfx/tb_preset.png")
 @export var hurt_sfx: AudioStream = preload("res://sfx/hurt_preset.wav")
+@export var death_vfx_scene: PackedScene = preload("res://scenes/effects/poof.tscn")
 @export var dialogue_sfx: AudioStream = preload("res://sfx/hah.wav")
 @export var lines: Array[String] = [
 	"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp",
@@ -133,4 +134,9 @@ func on_damaged(amount: int):
 	guard_multiplier = 1.0
 
 func die():
-	pass
+	death_effect()
+
+func death_effect():
+	var effect = death_vfx_scene.instantiate()
+	self.add_child(effect)
+	effect.emitting = true

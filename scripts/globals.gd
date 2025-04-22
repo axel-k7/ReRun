@@ -109,7 +109,6 @@ func on_map_loading():
 
 func on_map_loaded():
 	await get_tree().create_timer(1.5).timeout
-	print("MAP LOADED")
 	check_closest_interactable()
 	player_controls(true)
 	main.emit_signal("loading_finished")
@@ -119,7 +118,7 @@ func system_message(message: String):
 	sys_msg_label.text = message
 	var tween = create_tween()
 	tween.tween_property(sys_msg_label, "modulate:a", 1, 0.5)
+	tween.tween_property(sys_msg_label, "modulate:a", 0, 1).set_delay(1)
 	await tween.finished
-	tween.tween_property(sys_msg_label, "modulate:a", 0, 1)
-	await tween.finished
+	tween.stop()
 	tween.tween_callback(queue_free)

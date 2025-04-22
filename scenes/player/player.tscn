@@ -207,6 +207,7 @@ blend_times = [&"RESET", &"RESET", 0.3]
 [node name="Sword" parent="." instance=ExtResource("2_dovo2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.536601, 0.27763, -0.674832)
 attack_chain = 2
+damage = 50
 
 [node name="PlayerInteractMarker" parent="." instance=ExtResource("3_gmlin")]
 visible = false

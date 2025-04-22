@@ -25,7 +25,6 @@ func set_up_dialogue(target):
 	name_label.text = target.Cname
 
 func update_text(lines: Array, target: Object, continue_after: bool):
-	print("current dialogue target: ", target.name)
 	text_label.visible_characters = 0
 	if line_index < lines.size():
 		text_label.text = lines[line_index]
@@ -46,7 +45,6 @@ func update_text(lines: Array, target: Object, continue_after: bool):
 		
 func _on_dialogue_over(target: Object):
 	if target.has_method("dialogue_over"):
-		print("dialogue over with: ", target.name)
 		DialogueManager.dialogue_active = false
 		target.dialogue_over()
 	else: return

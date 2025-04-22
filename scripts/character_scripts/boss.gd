@@ -66,7 +66,6 @@ func tb_attack(target: Object, side: Array):
 	var cost = attack[2]
 	
 	Globals.damage(target, dmg)
-	print(self.name, " used ", atk_name, " (", dmg, " DMG)", " on ", target.name, " for ", cost, " MP")
 	actions_taken += 1
 
 func on_damaged(amount: int):

@@ -27,7 +27,6 @@ func set_up_ability_menu():
 	ability_menu = ability_menu_scene.instantiate()
 	ui_container.add_child(ability_menu)
 	ability_menu.visible = false
-	print(ability_menu)
 
 func spawn_player():
 	var player_scene =  load("res://scenes/player/player.tscn")
