@@ -38,6 +38,12 @@ tracks/1/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_wjqdv"]
+resource_name = "slash_attack_animation"
+
+[sub_resource type="Animation" id="Animation_fih3v"]
+resource_name = "slash_attack2_animation"
+
 [sub_resource type="Animation" id="Animation_08dug"]
 resource_name = "spear_attack1_animation"
 length = 0.9
@@ -65,12 +71,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [true, false]
 }
-
-[sub_resource type="Animation" id="Animation_wjqdv"]
-resource_name = "slash_attack_animation"
-
-[sub_resource type="Animation" id="Animation_fih3v"]
-resource_name = "slash_attack2_animation"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wjqdv"]
 _data = {

@@ -8,9 +8,9 @@ extends "res://scripts/character_scripts/character.gd"
 @export var flee_distance: float = 2
 
 var fleeing: bool = false #for use in functions to be added:
-var attacking: bool = true # movement functions while not in combat
-var direction: Vector3 = Vector3.FORWARD
+var can_attack: bool = true # movement functions while not in combat
 var can_move: bool = true
+var direction: Vector3 = Vector3.FORWARD
 
 
 func _ready():
@@ -30,7 +30,7 @@ func get_variables():
 	get_weapon_info()
 
 func _physics_process(delta: float):
-	if can_move && !BattleManagerTb.battle_active:
+	if can_move && !BattleManagerTb.battle_active && !Globals.paused:
 		movement(delta)
 
 func interact_action():
@@ -68,7 +68,7 @@ func fight_formation():
 	elif distance_to_player < neutral_distance && distance_to_player > flee_distance:
 		velocity.x = 0
 		velocity.z = 0
-		if attack_ready:
+		if attack_ready && can_attack:
 			fight()
 	elif distance_to_player < flee_distance:
 		velocity = -(nav_agent.get_next_path_position() - self.global_position).normalized() * move_speed/1.5

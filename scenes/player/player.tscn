@@ -59,6 +59,32 @@ tracks/3/keys = {
 "values": [Vector3(0, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_75vfm"]
+resource_name = "beam_attack_animation"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 6.28319), Vector3(0, 0, 12.5664), Vector3(0, 0, 18.8496)]
+}
+
+[sub_resource type="Animation" id="Animation_0owmy"]
+resource_name = "inferno_attack_animation"
+length = 1.5
+
+[sub_resource type="Animation" id="Animation_qek5x"]
+resource_name = "slash_attack_animation"
+
+[sub_resource type="Animation" id="Animation_5gtgg"]
+resource_name = "slash_attack_animation"
+
 [sub_resource type="Animation" id="Animation_gmlin"]
 resource_name = "sword_attack1_animation"
 length = 0.53
@@ -138,32 +164,6 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector3(-1.51844, 0.473682, 0), Vector3(-1.39044, -1.26383, 1.03343)]
 }
-
-[sub_resource type="Animation" id="Animation_75vfm"]
-resource_name = "beam_attack_animation"
-length = 1.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1, 1.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 6.28319), Vector3(0, 0, 12.5664), Vector3(0, 0, 18.8496)]
-}
-
-[sub_resource type="Animation" id="Animation_0owmy"]
-resource_name = "inferno_attack_animation"
-length = 1.5
-
-[sub_resource type="Animation" id="Animation_qek5x"]
-resource_name = "slash_attack_animation"
-
-[sub_resource type="Animation" id="Animation_5gtgg"]
-resource_name = "slash_attack_animation"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p47bc"]
 _data = {

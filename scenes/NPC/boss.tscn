@@ -151,7 +151,6 @@ libraries = {
 
 [node name="Sword" parent="." instance=ExtResource("2_n0jt7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3076, 0.078648, -0.696966)
-monitoring = false
 wielder = "enemy"
 
 [connection signal="animation_finished" from="attack_animation" to="." method="_on_animation_player_animation_finished"]

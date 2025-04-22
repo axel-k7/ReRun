@@ -10,6 +10,7 @@ var target_interactable: Object
 @onready var can_player_attack: bool = false
 @onready var main: Node3D
 const gravity = 60
+var paused: bool = false
 
 var config_data: Dictionary = {
 	"current_map": "",
@@ -23,12 +24,6 @@ func _ready() -> void:
 	load_config_file()
 	map_loaded.connect(on_map_loaded)
 	map_loading.connect(on_map_loading)
-
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("menu"):
-		save_config_file()
-		await get_tree().create_timer(0.5).timeout #wait for data to save
-		get_tree().quit()
 
 func add_interact(body):
 	var interact_scene =  preload("res://scenes/items/interact_area.tscn")

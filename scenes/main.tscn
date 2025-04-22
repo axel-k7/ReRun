@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2i1gdkxcyn82"]
+[gd_scene load_steps=4 format=3 uid="uid://b2i1gdkxcyn82"]
 
 [ext_resource type="Script" uid="uid://tj2v15ihp5sa" path="res://scripts/main.gd" id="1_26nwy"]
+[ext_resource type="PackedScene" uid="uid://3n5ktffruh2s" path="res://scenes/ui/menu.tscn" id="2_0wfyh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_o5qli"]
 font_size = 40
@@ -28,3 +29,5 @@ offset_bottom = 105.0
 grow_horizontal = 2
 label_settings = SubResource("LabelSettings_o5qli")
 horizontal_alignment = 1
+
+[node name="Menu" parent="UiContainer" instance=ExtResource("2_0wfyh")]

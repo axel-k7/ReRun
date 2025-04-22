@@ -1,6 +1,7 @@
 extends Node3D
 
 @onready var ui_container: CanvasLayer = $UiContainer
+@onready var menu: Control = $UiContainer/Menu
 @onready var map_container = $MapContainer
 var map
 
@@ -66,3 +67,18 @@ func on_loading_finished():
 	if loading_screen == null:
 		return
 	loading_screen.emit_signal("finished_loading")
+	
+
+func _input(event):
+	if Input.is_action_just_pressed("menu"):
+		toggle_menu()
+
+func toggle_menu():
+	if Globals.paused == false:
+		Globals.paused = true
+		menu.emit_signal("activate")
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	elif Globals.paused == true:
+		Globals.paused = false
+		menu.emit_signal("deactivate")
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)

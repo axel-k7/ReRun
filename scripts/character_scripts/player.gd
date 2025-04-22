@@ -20,7 +20,8 @@ func _ready():
 	Globals.load_inventory()
 
 func _physics_process(delta):
-	movement_handler(delta)
+	if !Globals.paused:
+		movement_handler(delta)
 
 func get_variables():
 	raycast = $CameraPivot/Camera3D/RayCast3D
@@ -61,11 +62,12 @@ func movement_inputs(_delta):
 
 
 func _input(event):
-	mouse_movement(event)
-	toggle_mouse()
-	interact_input()
-	drop_input()
-	attack_input()
+	if !Globals.paused:
+		mouse_movement(event)
+		toggle_mouse()
+		interact_input()
+		drop_input()
+		attack_input()
 
 func mouse_movement(event):
 	if event is InputEventMouseMotion && Globals.can_rotate_camera:
