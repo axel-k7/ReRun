@@ -1,4 +1,4 @@
-extends "res://scripts/character_scripts/character.gd"
+extends Character
 
 @export var sensitivity = 1000
 
@@ -17,7 +17,7 @@ func _ready():
 	inventory_updated.connect(on_inventory_updated)
 	ability_menu_activate.connect(Globals.main.ability_menu.on_activate)
 	ability_menu_deactivate.connect(Globals.main.ability_menu.on_deactivate)
-	Globals.load_inventory()
+	BattleManagerTb.allies.append(self)
 
 func _physics_process(delta):
 	if !Globals.paused:
@@ -118,13 +118,24 @@ func interact_input():
 
 func drop_input():
 	if Input.is_action_just_pressed("drop_item") && inventory.size() > 0:
-		var item_scene: PackedScene = load("res://scenes/items/item_scenes/" + inventory[0] + ".tscn")
-		inventory.remove_at(0)
-		var item_to_drop: RigidBody3D = item_scene.instantiate()
-		get_parent().add_child(item_to_drop)
-		item_to_drop.global_position = self.global_position
-		emit_signal("inventory_updated")
+		drop_item()
 
+func drop_item():
+	var item_scene: PackedScene = load("res://scenes/items/item_scenes/" + inventory[0] + ".tscn")
+	inventory.remove_at(0)
+	var item_to_drop: RigidBody3D = item_scene.instantiate()
+	get_parent().add_child(item_to_drop)
+	item_to_drop.global_position = self.global_position
+	emit_signal("inventory_updated")
+
+func use_item(item_index: int):
+	var item_scene: PackedScene = load("res://scenes/items/item_scenes/" + inventory[item_index] + ".tscn")
+	var item: RigidBody3D = item_scene.instantiate()
+	inventory.remove_at(item_index)
+	get_parent().add_child(item)
+	item.global_position = self.global_position
+	item.use_item()
+	emit_signal("inventory_updated")
 
 func attack_input():
 	if Globals.can_player_attack && attack_ready:

@@ -1,4 +1,4 @@
-extends "res://scripts/character_scripts/character.gd"
+extends Character
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @export var interact_radius: float = 2.0

@@ -117,12 +117,11 @@ grow_vertical = 2
 
 [node name="Inventory_container" type="GridContainer" parent="UI/BattleSceneTB_UI"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 40.0
-grow_horizontal = 0
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 600.0
+grow_vertical = 2
+columns = 4
 
 [node name="Action_label" type="Label" parent="UI/BattleSceneTB_UI"]
 layout_mode = 1

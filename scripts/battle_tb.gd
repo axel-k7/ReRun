@@ -73,6 +73,7 @@ func start_battle(ally_array: Array, enemy_array: Array):
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	Globals.player_controls(false)
 	self.visible = true
+	Globals.main.ui_container.visible = false
 	ui_layer.visible = true
 	target_marker.visible = false
 	Globals.player.camera.current = false
@@ -91,6 +92,7 @@ func end_battle(result: String):
 	await get_tree().create_timer(2).timeout
 	Globals.player_controls(true)
 	self.visible = false
+	Globals.main.ui_container.visible = true
 	ui_layer.visible = false
 	Globals.player.camera.current = true
 	BattleManagerTb.battle_active = false
@@ -161,7 +163,10 @@ func action_handler():
 		
 		await action_taken
 		atk_container.visible = false
+		inv_container.visible = false
 		for child in atk_container.get_children():
+			child.queue_free()
+		for child in inv_container.get_children():
 			child.queue_free()
 		turns -= 1
 		turns_label.text = "Turns: " + str(turns)
@@ -195,6 +200,7 @@ func do_action(action: String):
 			display_attacks(acting_chr)
 	elif action == "guard":
 		acting_chr.guard_multiplier = 0.5
+		emit_signal("action_taken")
 	elif action == "item":
 		if Globals.player.inventory.size() > 0:
 			display_inventory(acting_chr)
@@ -257,15 +263,27 @@ func _atk_option_pressed(attacker: Object, atk_name: String, damage: int, cost: 
 	target_marker.visible = false
 	
 func display_inventory(character: Object):
+	var row_size = 4
+	var item_index = 0
 	selecting_action = true
 	inv_container.visible = true
-	inv_container.size.y = 40*character.inventory.size()
+	inv_container.size.y = 150*character.inventory.size()
 	for item in character.inventory:
 		var item_option = item_option_scene.instantiate()
 		inv_container.add_child(item_option)
-		item_option.get_child(0).texture = load("res://vfx/item_sprites/" + item.name + ".png")
-		item_option.get_child(1).text = item.name
+		item_option.get_child(0).texture = load("res://vfx/item_sprites/" + item + ".png")
+		item_option.get_child(1).text = item
+		item_option.pressed.connect(_inv_option_pressed.bind(character, item_index))
+		item_index += 1
 
+func _inv_option_pressed(character: Object, item_index: int):
+	character.use_item(item_index) #currently only exists on player, can be added to others
+	emit_signal("action_taken")
+	enemyIndex = 0
+	is_player_acting = false
+	target_marker.visible = false
+	
+	update_healthbars()
 
 func _on_attack_button_pressed():
 	if is_player_acting && !selecting_action:
@@ -278,7 +296,6 @@ func _on_guard_button_pressed():
 func _on_item_button_pressed():
 	if is_player_acting && !selecting_action:
 		do_action("item")
-		print("aaaaa")
 
 
 func action_message(message: String):
@@ -289,3 +306,9 @@ func action_message(message: String):
 	await tween.finished
 	tween.stop()
 	tween.tween_callback(queue_free)
+
+func update_healthbars():
+	for child in allyNode.get_children():
+		child.hp_bar.value = child.character.hp
+	for child in enemyNode.get_children():
+		child.hp_bar.value = child.character.hp

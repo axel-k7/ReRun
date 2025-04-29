@@ -36,6 +36,7 @@ func spawn_player():
 	print(Globals.config_data["player_spawn_position"])
 	player.global_position = Globals.config_data["player_spawn_position"]
 	Globals.player = player
+	Globals.load_inventory()
 
 func spawn_boss(boss_name: String):
 	var boss_scene = load("res://scenes/NPC/" + boss_name + ".tscn")

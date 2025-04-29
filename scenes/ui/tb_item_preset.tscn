@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpohrkiaedgo5"]
+[gd_scene load_steps=3 format=3 uid="uid://bpohrkiaedgo5"]
+
+[ext_resource type="Texture2D" uid="uid://djgqo2ymd1mr3" path="res://vfx/item_sprites/item_background.png" id="1_2ta0e"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_jns78"]
 font_size = 20
@@ -6,20 +8,41 @@ font_color = Color(0, 0, 0, 1)
 outline_size = 3
 
 [node name="TbItemPreset" type="Button"]
-offset_right = 100.0
-offset_bottom = 100.0
+offset_right = 150.0
+offset_bottom = 150.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 0.729412)
+icon = ExtResource("1_2ta0e")
+flat = true
 
 [node name="Sprite" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 100.0
-offset_bottom = 100.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_right = 100.0
-offset_bottom = 100.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "item"
 label_settings = SubResource("LabelSettings_jns78")
 horizontal_alignment = 1

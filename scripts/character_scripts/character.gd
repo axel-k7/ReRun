@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name Character
 
 @export var Cname: String = "name"
 @export var image: CompressedTexture2D = preload("res://vfx/smiley.png")

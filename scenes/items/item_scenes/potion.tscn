@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://n1cuaw4g8k5o"]
 
-[ext_resource type="Script" uid="uid://crhnpc7emtupj" path="res://scripts/item.gd" id="1_jgdbr"]
+[ext_resource type="Script" uid="uid://cx8afxynyyfbx" path="res://scripts/potion.gd" id="1_hgas2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hgas2"]
 radius = 0.4
@@ -33,8 +33,7 @@ bottom_radius = 0.1
 height = 0.1
 
 [node name="potion" type="RigidBody3D"]
-script = ExtResource("1_jgdbr")
-item = "potion"
+script = ExtResource("1_hgas2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0673764, 0)

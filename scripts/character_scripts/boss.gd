@@ -7,7 +7,7 @@ var line_index: int = 0
 
 func _ready() -> void:
 	get_variables()
-	BattleManagerTb.allies.append(self)
+	#BattleManagerTb.allies.append(self)
 	audio.stream = dialogue_sfx
 	self.add_to_group("NPC")
 	update_lines()
