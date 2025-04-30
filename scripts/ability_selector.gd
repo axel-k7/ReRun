@@ -11,6 +11,12 @@ var active: bool = false
 func _ready() -> void:
 	self.visible = false
 	self.size = get_viewport_rect().size
+	for container in ability_buttons:
+		container.size = get_viewport_rect().size/2
+	ability_buttons[0].position = Vector2(0,0)
+	ability_buttons[1].position = Vector2(0,get_viewport_rect().size.y/2)
+	ability_buttons[2].position = Vector2(get_viewport_rect().size.x/2,0)
+	ability_buttons[3].position = Vector2(get_viewport_rect().size.x/2,get_viewport_rect().size.y/2)
 
 func on_activate():
 	for i in ability_buttons.size():

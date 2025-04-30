@@ -15,7 +15,7 @@ extends Node
 @onready var action_label = $UI/BattleSceneTB_UI/Action_label
 @onready var turns_label = $UI/BattleSceneTB_UI/Turns_label
 @onready var atk_option_scene = preload("res://scenes/ui/tb_attack_preset.tscn")
-@onready var item_option_scene = preload("res://scenes/ui/tb_item_preset.tscn")
+@onready var item_option_scene = preload("res://scenes/ui/tb_item_button_preset.tscn")
 @onready var camera = $BattleSceneTB_camera
 @onready var allyNode = $Allies
 @onready var enemyNode = $Enemies
@@ -263,7 +263,6 @@ func _atk_option_pressed(attacker: Object, atk_name: String, damage: int, cost: 
 	target_marker.visible = false
 	
 func display_inventory(character: Object):
-	var row_size = 4
 	var item_index = 0
 	selecting_action = true
 	inv_container.visible = true
@@ -277,7 +276,7 @@ func display_inventory(character: Object):
 		item_index += 1
 
 func _inv_option_pressed(character: Object, item_index: int):
-	character.use_item(item_index) #currently only exists on player, can be added to others
+	character.use_item(item_index, null) #currently only exists on player, can be added to others
 	emit_signal("action_taken")
 	enemyIndex = 0
 	is_player_acting = false

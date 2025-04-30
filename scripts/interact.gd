@@ -6,7 +6,7 @@ extends Area3D
 func _ready() -> void:
 	interactable = get_parent()
 	if interactable == null: return
-	var new_shape: SphereShape3D = SphereShape3D.new()
+	var new_shape = SphereShape3D.new()
 	new_shape.radius = interactable.interact_radius
 	interact_area.shape = new_shape
 

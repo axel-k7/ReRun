@@ -66,7 +66,6 @@ func _input(event):
 		mouse_movement(event)
 		toggle_mouse()
 		interact_input()
-		drop_input()
 		attack_input()
 
 func mouse_movement(event):
@@ -114,26 +113,32 @@ func interact_input():
 				DialogueManager.current_dialogue_target.interact_action()
 		else: interact_marker.visible = false
 	else: interact_marker.visible = false
-		
 
-func drop_input():
-	if Input.is_action_just_pressed("drop_item") && inventory.size() > 0:
-		drop_item()
-
-func drop_item():
-	var item_scene: PackedScene = load("res://scenes/items/item_scenes/" + inventory[0] + ".tscn")
-	inventory.remove_at(0)
+func drop_item(item_index, item_name): #call with either name or index for positional or first instance removal
+	var item_scene: PackedScene
+	if item_index == null:
+		inventory.erase(item_name)
+		item_scene = load("res://scenes/items/item_scenes/" + item_name + ".tscn")
+	elif item_name == null:
+		inventory.remove_at(item_index)
+		item_scene = load("res://scenes/items/item_scenes/" + inventory[item_index] + ".tscn")
 	var item_to_drop: RigidBody3D = item_scene.instantiate()
 	get_parent().add_child(item_to_drop)
 	item_to_drop.global_position = self.global_position
 	emit_signal("inventory_updated")
 
-func use_item(item_index: int):
-	var item_scene: PackedScene = load("res://scenes/items/item_scenes/" + inventory[item_index] + ".tscn")
+func use_item(item_index, item_name):
+	var item_scene: PackedScene
+	if item_index == null:
+		inventory.erase(item_name)
+		item_scene = load("res://scenes/items/item_scenes/" + item_name + ".tscn")
+	elif item_name == null:
+		inventory.remove_at(item_index)
+		item_scene = load("res://scenes/items/item_scenes/" + inventory[item_index] + ".tscn")
 	var item: RigidBody3D = item_scene.instantiate()
-	inventory.remove_at(item_index)
 	get_parent().add_child(item)
 	item.global_position = self.global_position
+	item.interact_radius = 0
 	item.use_item()
 	emit_signal("inventory_updated")
 
@@ -154,3 +159,12 @@ func die():
 func on_inventory_updated():
 	print(inventory)
 	#Globals.save_inventory_data(inventory)
+
+func _on_enemy_range_body_entered(body: Node3D) -> void:
+	if !body.is_in_group("NPC") || !body.side == "enemy":
+		return
+	else: BattleManagerTb.enemies.append(body)
+
+func _on_enemy_range_body_exited(body: Node3D) -> void:
+	if BattleManagerTb.enemies.has(body):
+		BattleManagerTb.enemies.erase(body)

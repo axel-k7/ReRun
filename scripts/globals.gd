@@ -63,6 +63,7 @@ func save_inventory_data(data: Array):
 	var config_file: ConfigFile = ConfigFile.new()
 	config_file.set_value("player", "inventory", data)
 	config_file.save("res://data/player_data.cfg")
+	print("saved inventory: ", data)
 
 func load_inventory():
 	if player != null:

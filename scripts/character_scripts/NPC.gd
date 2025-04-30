@@ -1,6 +1,10 @@
 extends Character
+class_name NPC
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
+@onready var attack_particles: GPUParticles3D = $attack_particles
+@onready var atk_particle_timer: Timer = $attack_particles/attack_particle_timer
+@export var has_interaction: bool = false
 @export var interact_radius: float = 2.0
 @export var side: String = "enemy"
 @export var exp_given: float = 50
@@ -15,17 +19,20 @@ var direction: Vector3 = Vector3.FORWARD
 
 func _ready():
 	get_variables()
-	BattleManagerTb.enemies.append(self)
-	Globals.add_interact(self)
-	audio.stream = dialogue_sfx
+	#BattleManagerTb.enemies.append(self)
+	if has_interaction:
+		Globals.add_interact(self)
+	speech_audio_player.stream = dialogue_sfx
 	self.add_to_group("NPC")
 
 func get_variables():
 	weapon = $Spear
-	audio = $AudioStreamPlayer3D
-	raycast = $RayCast3D
+	speech_audio_player = $dialogue_sfx
+	attack_audio_player = $attack_sfx
 	attack_animation = $attack_animation
+	body_animation = $body_animation
 	attack_idle_timer = $attack_timer
+	raycast = $RayCast3D
 	self.add_to_group(side)
 	get_weapon_info()
 
@@ -75,6 +82,7 @@ func fight_formation():
 
 func fight():
 	if attack_ready:
+		attack_ready = false
 		var ability_type = randi_range(0, 100)
 		if ability_type <= 10:
 			ability_type = "ability"
@@ -83,6 +91,11 @@ func fight():
 			ability_type = "weapon"
 		else:#elif ability_type == 3:
 			ability_type = "projectile"
+		
+		if wep_atk_index == 1:
+			attack_particles.emitting = true
+			atk_particle_timer.start()
+			await atk_particle_timer.timeout
 		do_attack(ability_type)
 	
 func tb_attack(target: Object, _side: Array): #side is for custom npcs in need of special targetting

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bpohrkiaedgo5"]
 
-[ext_resource type="Texture2D" uid="uid://djgqo2ymd1mr3" path="res://vfx/item_sprites/item_background.png" id="1_2ta0e"]
+[ext_resource type="Texture2D" uid="uid://djgqo2ymd1mr3" path="res://vfx/item_sprites/item_background.png" id="1_4p7qd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_jns78"]
 font_size = 20
@@ -13,7 +13,7 @@ offset_bottom = 150.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/icon_hover_color = Color(1, 1, 1, 0.729412)
-icon = ExtResource("1_2ta0e")
+icon = ExtResource("1_4p7qd")
 flat = true
 
 [node name="Sprite" type="TextureRect" parent="."]

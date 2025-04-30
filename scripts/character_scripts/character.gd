@@ -17,12 +17,14 @@ class_name Character
 ]
 var dialogue_finished: bool = false
 
-var audio: AudioStreamPlayer3D
-var raycast: RayCast3D
+var speech_audio_player: AudioStreamPlayer3D
+var attack_audio_player: AudioStreamPlayer3D
+var body_animation: AnimationPlayer
 var attack_animation: AnimationPlayer
 var attack_idle_timer: Timer
 var weapon: Object
 var target_velocity = Vector3.ZERO
+var raycast: RayCast3D
 var raycast_end_pos: Vector3
 
 const anim_reset_time: float = 1.0

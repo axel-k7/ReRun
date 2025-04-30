@@ -30,7 +30,7 @@ func update_text(lines: Array, target: Object, continue_after: bool):
 		text_label.text = lines[line_index]
 		for letter_index in lines[line_index].length():
 			text_label.visible_characters += 1
-			target.audio.play()
+			target.speech_audio_player.play()
 			letter_timer.start()
 			await letter_timer.timeout
 	

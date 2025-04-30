@@ -15,6 +15,7 @@ has_boss = true
 
 [node name="hero" parent="." instance=ExtResource("4_lpitx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.7012, 1.77089, -13.5266)
+has_interaction = true
 
 [node name="MapSwitcher" parent="." instance=ExtResource("8_uhp3l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.09391, 2, -22.8432)

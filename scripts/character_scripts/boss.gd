@@ -8,7 +8,7 @@ var line_index: int = 0
 func _ready() -> void:
 	get_variables()
 	#BattleManagerTb.allies.append(self)
-	audio.stream = dialogue_sfx
+	speech_audio_player.stream = dialogue_sfx
 	self.add_to_group("NPC")
 	update_lines()
 
@@ -22,7 +22,7 @@ func get_variables():
 	]
 	
 	weapon = $Sword
-	audio = $AudioStreamPlayer3D
+	speech_audio_player = $AudioStreamPlayer3D
 	raycast = $RayCast3D
 	attack_animation = $attack_animation
 	attack_idle_timer = $attack_timer

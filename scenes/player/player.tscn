@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b6rnni1gow6rt"]
+[gd_scene load_steps=15 format=3 uid="uid://b6rnni1gow6rt"]
 
 [ext_resource type="Script" uid="uid://dt3esow3i6y8y" path="res://scripts/character_scripts/player.gd" id="1_jr5d1"]
 [ext_resource type="PackedScene" uid="uid://bsd5vd18g3ywh" path="res://scenes/weapons/sword.tscn" id="2_dovo2"]
@@ -176,6 +176,9 @@ _data = {
 &"sword_attack2_animation": SubResource("Animation_p47bc")
 }
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_gmlin"]
+radius = 5.0
+
 [node name="player" type="CharacterBody3D"]
 script = ExtResource("1_jr5d1")
 
@@ -212,6 +215,13 @@ damage = 50
 [node name="PlayerInteractMarker" parent="." instance=ExtResource("3_gmlin")]
 visible = false
 
+[node name="enemy_range" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="enemy_range"]
+shape = SubResource("SphereShape3D_gmlin")
+
 [connection signal="inventory_updated" from="." to="." method="_on_inventory_updated"]
 [connection signal="animation_finished" from="AttackAnimationPlayer" to="." method="_on_attack_animation_player_animation_finished"]
 [connection signal="animation_started" from="AttackAnimationPlayer" to="." method="_on_attack_animation_player_animation_started"]
+[connection signal="body_entered" from="enemy_range" to="." method="_on_enemy_range_body_entered"]
+[connection signal="body_exited" from="enemy_range" to="." method="_on_enemy_range_body_exited"]

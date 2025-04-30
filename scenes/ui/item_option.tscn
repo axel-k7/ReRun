@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://bt8mbu1y0eg2v"]
+
+[ext_resource type="Texture2D" uid="uid://djgqo2ymd1mr3" path="res://vfx/item_sprites/item_background.png" id="1_8ypgi"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8ypgi"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8sjbm"]
+font_size = 20
+font_color = Color(0, 0, 0, 1)
+outline_size = 3
+
+[node name="item_options" type="OptionButton"]
+offset_right = 150.0
+offset_bottom = 150.0
+theme_override_icons/icon = ExtResource("1_8ypgi")
+theme_override_icons/arrow = SubResource("CompressedTexture2D_8ypgi")
+flat = true
+icon_alignment = 1
+item_count = 2
+popup/item_0/text = "USE"
+popup/item_0/id = 0
+popup/item_1/text = "DROP"
+popup/item_1/id = 1
+
+[node name="item_icon" type="TextureRect" parent="."]
+layout_mode = 2
+offset_right = 150.0
+offset_bottom = 150.0
+
+[node name="item_text" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "item"
+label_settings = SubResource("LabelSettings_8sjbm")
+horizontal_alignment = 1
+vertical_alignment = 1

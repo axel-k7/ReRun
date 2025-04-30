@@ -2,6 +2,8 @@ extends Control
 
 @onready var confirm_exit = $ConfirmExitRect
 @onready var navbar = $ButtonNavBar
+@onready var inv_container = $InventoryContainer
+@onready var item_option_scene = preload("res://scenes/ui/item_option.tscn")
 var toggle_time: float = 0.3
 
 signal activate
@@ -10,7 +12,7 @@ signal deactivate
 func _ready():
 	activate.connect(on_activate)
 	deactivate.connect(on_deactivate)
-	self.size = get_viewport_rect().size
+	#self.size = get_viewport_rect().size
 	self.position.y += navbar.size.y
 
 func on_activate():
@@ -23,6 +25,9 @@ func on_activate():
 
 func on_deactivate():
 	confirm_exit.visible = false
+	inv_container.visible = false
+	for child in inv_container.get_children():
+			child.queue_free()
 	var tween = create_tween()
 	tween.tween_property(self, "position", Vector2(0, navbar.size.y), toggle_time)
 	await tween.finished
@@ -49,3 +54,26 @@ func _on_unstuck_button_pressed():
 func _on_confirm_exit_pressed():
 	await get_tree().create_timer(0.5).timeout
 	get_tree().quit()
+
+func _on_inventory_button_pressed() -> void:
+	if inv_container.visible == false:
+		inv_container.visible = true
+		inv_container.size.y = 150*Globals.player.inventory.size()
+		for item in Globals.player.inventory:
+			var item_option = item_option_scene.instantiate()
+			inv_container.add_child(item_option)
+			item_option.get_child(0).texture = load("res://vfx/item_sprites/" + item + ".png")
+			item_option.get_child(1).text = item
+			item_option.item_selected.connect(_inv_item_selected.bind(item_option, item))
+	elif inv_container.visible == true:
+		inv_container.visible = false
+		for child in inv_container.get_children():
+			child.queue_free()
+
+func _inv_item_selected(index, item_option, item_name):
+	item_option.queue_free()
+	if index == 0:
+		Globals.player.use_item(null, item_name)
+	elif index == 1:
+		Globals.player.drop_item(null, item_name)
+	else: return
