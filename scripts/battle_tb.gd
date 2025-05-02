@@ -237,6 +237,7 @@ func remove_from_party(character, side):
 func display_attacks(character: Object):
 	selecting_action = true
 	atk_container.visible = true
+	inv_container.visible = false
 	atk_container.size.y = 40*character.attacks.size()
 	for attack in character.attacks:
 		var atk_option = atk_option_scene.instantiate()
@@ -265,6 +266,7 @@ func _atk_option_pressed(attacker: Object, atk_name: String, damage: int, cost: 
 func display_inventory(character: Object):
 	var item_index = 0
 	selecting_action = true
+	atk_container.visible = false
 	inv_container.visible = true
 	inv_container.size.y = 150*character.inventory.size()
 	for item in character.inventory:

@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://bj2x8de4ojesa"]
+
+[ext_resource type="Script" uid="uid://d1f34e4bx1oqy" path="res://scenes/weapons/weapon.gd" id="1_3tvtt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3tvtt"]
+albedo_color = Color(0.184314, 0.266667, 0.364706, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_kok54"]
+material = SubResource("StandardMaterial3D_3tvtt")
+radius = 0.2
+height = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_napua"]
+albedo_color = Color(0.172833, 0.172833, 0.172833, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_8fn8c"]
+material = SubResource("StandardMaterial3D_napua")
+top_radius = 0.0
+bottom_radius = 0.05
+height = 0.3
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_rn8gy"]
+height = 0.3
+radius = 0.25
+
+[node name="claw" type="Area3D"]
+monitoring = false
+script = ExtResource("1_3tvtt")
+weapon_name = "claw"
+attack_chain = 3
+wielder = "enemy"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("SphereMesh_kok54")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0101728, -0.289085)
+mesh = SubResource("CylinderMesh_8fn8c")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.965926, 0.258819, 0, 1.13133e-08, -4.2222e-08, 1, 0.258819, -0.965926, -4.37114e-08, 0.131407, -9.91353e-09, -0.226795)
+mesh = SubResource("CylinderMesh_8fn8c")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.965926, -0.258819, 0, -1.13133e-08, -4.2222e-08, 1, -0.258819, -0.965926, -4.37114e-08, -0.131, -0.01, -0.227)
+mesh = SubResource("CylinderMesh_8fn8c")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.204447, 0)
+shape = SubResource("CylinderShape3D_rn8gy")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

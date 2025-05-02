@@ -65,10 +65,10 @@ signal battle_over
 func get_weapon_info():
 	for i in weapon_info:
 		weapon_info[i] = null
-	weapon_info["weapon_name"] = weapon.weapon_name
-	weapon_info["attack_type"] = weapon.attack_type
-	weapon_info["attack_chain"] = weapon.attack_chain
-	weapon_info["will_raycast"] = weapon.will_raycast
+		weapon_info["weapon_name"] = weapon.weapon_name
+		weapon_info["attack_type"] = weapon.attack_type
+		weapon_info["attack_chain"] = weapon.attack_chain
+		weapon_info["will_raycast"] = weapon.will_raycast
 	
 func do_attack(type: String):
 	attack_ready = false

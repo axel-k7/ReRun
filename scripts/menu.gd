@@ -56,10 +56,14 @@ func _on_confirm_exit_pressed():
 	get_tree().quit()
 
 func _on_inventory_button_pressed() -> void:
+	var item_y_limit = round(((get_viewport_rect().size.y/4)*3)/150)
+	var item_index = 0
 	if inv_container.visible == false:
 		inv_container.visible = true
-		inv_container.size.y = 150*Globals.player.inventory.size()
 		for item in Globals.player.inventory:
+			item_index += 1
+			if item_index == item_y_limit:
+				inv_container.columns += 1
 			var item_option = item_option_scene.instantiate()
 			inv_container.add_child(item_option)
 			item_option.get_child(0).texture = load("res://vfx/item_sprites/" + item + ".png")

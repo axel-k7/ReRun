@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://bqx7yknedt8v"]
+[gd_scene load_steps=2 format=3 uid="uid://3n5ktffruh2s"]
 
 [ext_resource type="Script" uid="uid://cuawb03gtxrd7" path="res://scripts/menu.gd" id="1_7w7rl"]
 
@@ -117,9 +117,12 @@ flat = true
 
 [node name="InventoryContainer" type="GridContainer" parent="."]
 visible = false
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 1
+offset_right = 150.0
+offset_bottom = 150.0
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
 
 [connection signal="pressed" from="ButtonNavBar/HBoxContainer/InventoryButton" to="." method="_on_inventory_button_pressed"]
 [connection signal="pressed" from="ButtonNavBar/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]

@@ -1,0 +1,147 @@
+[gd_scene load_steps=14 format=3 uid="uid://bgwn0fr78rc"]
+
+[ext_resource type="Script" uid="uid://cuxmp0vggvmf0" path="res://scripts/character_scripts/NPC.gd" id="1_270vp"]
+[ext_resource type="PackedScene" uid="uid://dnylqglew4g6w" path="res://scenes/weapons/spear.tscn" id="2_08dug"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_270vp"]
+albedo_color = Color(1, 0.517647, 0.431373, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cuef7"]
+material = SubResource("StandardMaterial3D_270vp")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ds2em"]
+
+[sub_resource type="Animation" id="Animation_i7rtx"]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("spear:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.588632, 0.0908811, 0.187936)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("spear:monitoring")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_wjqdv"]
+resource_name = "slash_attack_animation"
+
+[sub_resource type="Animation" id="Animation_fih3v"]
+resource_name = "slash_attack2_animation"
+
+[sub_resource type="Animation" id="Animation_08dug"]
+resource_name = "spear_attack1_animation"
+length = 0.9
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("spear:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.588632, 0.0908811, -0.410355), Vector3(0.588632, 0.0908811, -1.38746), Vector3(0.588632, 0.0908811, -0.410355)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("spear:monitoring")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.36),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wjqdv"]
+_data = {
+&"RESET": SubResource("Animation_i7rtx"),
+&"slash_attack1_animation": SubResource("Animation_wjqdv"),
+&"slash_attack2_animation": SubResource("Animation_fih3v"),
+&"spear_attack1_animation": SubResource("Animation_08dug")
+}
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_08dug"]
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i7rtx"]
+transparency = 1
+albedo_color = Color(1, 0.85098, 0, 0.607843)
+emission_enabled = true
+emission = Color(0.956863, 0.796078, 0, 1)
+emission_energy_multiplier = 2.5
+grow_amount = 0.5
+
+[sub_resource type="TorusMesh" id="TorusMesh_wjqdv"]
+material = SubResource("StandardMaterial3D_i7rtx")
+inner_radius = 0.4
+outer_radius = 0.5
+
+[node name="NPC" type="CharacterBody3D"]
+script = ExtResource("1_270vp")
+lines = Array[String](["Line 1", "Line 2", "Line 3"])
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_cuef7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_ds2em")
+
+[node name="dialogue_sfx" type="AudioStreamPlayer3D" parent="."]
+
+[node name="attack_sfx" type="AudioStreamPlayer3D" parent="."]
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_max_distance = 10.01
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.165013, -0.986291, 0, 0.986291, 0.165013, 0, 0.708469, 0)
+target_position = Vector3(0, -40, 0)
+
+[node name="attack_timer" type="Timer" parent="."]
+
+[node name="body_animation" type="AnimationPlayer" parent="."]
+
+[node name="attack_animation" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_wjqdv")
+}
+playback_default_blend_time = 0.3
+blend_times = [&"RESET", &"RESET", 0.3]
+
+[node name="spear" parent="." instance=ExtResource("2_08dug")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.588632, 0.0908811, 0.187936)
+
+[node name="attack_particles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25237, 0)
+emitting = false
+amount = 1
+lifetime = 0.7
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_08dug")
+draw_pass_1 = SubResource("TorusMesh_wjqdv")
+
+[node name="attack_particle_timer" type="Timer" parent="attack_particles"]
+wait_time = 0.7
+one_shot = true
+
+[connection signal="animation_finished" from="attack_animation" to="." method="_on_attack_animation_player_animation_finished"]

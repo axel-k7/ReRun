@@ -1,0 +1,310 @@
+[gd_scene load_steps=24 format=3 uid="uid://bbd1vh4grp4sl"]
+
+[ext_resource type="Script" uid="uid://b1jhtc2tvbi0w" path="res://scripts/character_scripts/ghoul.gd" id="1_4pw7w"]
+[ext_resource type="PackedScene" uid="uid://bj2x8de4ojesa" path="res://scenes/weapons/claw.tscn" id="2_73sr5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_270vp"]
+albedo_color = Color(0.183439, 0.265446, 0.36449, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cuef7"]
+material = SubResource("StandardMaterial3D_270vp")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xctmu"]
+albedo_color = Color(0.244776, 0.244776, 0.244776, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_0037n"]
+material = SubResource("StandardMaterial3D_xctmu")
+inner_radius = 0.056
+outer_radius = 0.505
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jqe37"]
+albedo_color = Color(0.0562916, 0.0562916, 0.0562916, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_mmrt0"]
+material = SubResource("StandardMaterial3D_jqe37")
+outer_radius = 0.415
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0f3lx"]
+albedo_color = Color(1, 0.839216, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_urhcf"]
+material = SubResource("StandardMaterial3D_0f3lx")
+radius = 0.05
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j4bar"]
+albedo_color = Color(0.103744, 0.103744, 0.103744, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2lrfh"]
+material = SubResource("StandardMaterial3D_j4bar")
+size = Vector3(0.15, 0.1, 0.05)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ds2em"]
+
+[sub_resource type="Animation" id="Animation_i7rtx"]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Claw:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.712949, 0.238361, -0.379287)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Claw:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.235019, 1.17966, -1.59973)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Claw:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_wjqdv"]
+resource_name = "slash_attack_animation"
+
+[sub_resource type="Animation" id="Animation_fih3v"]
+resource_name = "slash_attack2_animation"
+
+[sub_resource type="Animation" id="Animation_08dug"]
+resource_name = "claw_attack1_animation"
+length = 0.9
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Claw:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.45, 0.5, 0.55),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.712949, 0.238361, -0.379287), Vector3(0.993349, 0.238361, -0.0160439), Vector3(0.895692, 0.238361, -0.393867), Vector3(0.357002, 0.238361, -1.01407), Vector3(-0.356787, -0.0572042, -0.928818), Vector3(-0.532111, -0.0484195, -0.79308)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Claw:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.45, 0.5, 0.55),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.235019, 1.17966, -1.59973), Vector3(-0.235019, 0.622847, -1.59973), Vector3(-0.194381, 0.98046, -1.57006), Vector3(-0.327163, 1.91666, -1.57751), Vector3(-0.488599, 2.15514, -1.6881), Vector3(-0.34909, 2.11574, -1.59152)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Claw:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_73sr5"]
+resource_name = "claw_attack2_animation"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Claw:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.2, 0.25, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.532111, -0.0484195, -0.79308), Vector3(-0.504319, 0.293937, -0.79308), Vector3(-0.274734, 0.332613, -0.921954), Vector3(-0.147608, 0.332613, -0.921954), Vector3(0.606059, 1.19976, -0.681294), Vector3(0.606059, 1.19976, -0.681294)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Claw:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.2, 0.25, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.34909, 2.11574, -1.59152), Vector3(-0.41016, 2.09012, -1.17016), Vector3(-0.110069, 1.76232, -1.09735), Vector3(0.107044, 1.43463, -1.12704), Vector3(-0.428753, 0.899931, -0.929104), Vector3(-0.428753, 0.899931, -0.929104)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Claw:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.13, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_4pw7w"]
+resource_name = "claw_attack3_animation"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Claw:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.606059, 1.19976, -0.681294), Vector3(0.189694, 0.775682, -1.00197), Vector3(0.0629354, 0.362831, -1.03758), Vector3(0.0629354, -0.0714244, -0.863136)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Claw:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.428753, 0.899931, -0.929104), Vector3(-0.774081, 1.06828, -0.645434), Vector3(-0.942292, 1.29935, -0.959007), Vector3(-1.24285, 1.37893, -1.09787)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Claw:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wjqdv"]
+_data = {
+&"RESET": SubResource("Animation_i7rtx"),
+&"claw_attack1_animation": SubResource("Animation_08dug"),
+&"claw_attack2_animation": SubResource("Animation_73sr5"),
+&"claw_attack3_animation": SubResource("Animation_4pw7w"),
+&"slash_attack1_animation": SubResource("Animation_wjqdv"),
+&"slash_attack2_animation": SubResource("Animation_fih3v")
+}
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_08dug"]
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i7rtx"]
+transparency = 1
+albedo_color = Color(1, 0.85098, 0, 0.607843)
+emission_enabled = true
+emission = Color(0.956863, 0.796078, 0, 1)
+emission_energy_multiplier = 2.5
+grow_amount = 0.5
+
+[sub_resource type="TorusMesh" id="TorusMesh_wjqdv"]
+material = SubResource("StandardMaterial3D_i7rtx")
+inner_radius = 0.4
+outer_radius = 0.5
+
+[node name="ghoul" type="CharacterBody3D"]
+script = ExtResource("1_4pw7w")
+neutral_distance = 1.5
+flee_distance = 1.4
+Cname = "Ghoul"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_cuef7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 0.972877, -0.231323, 0, 0.231323, 0.972877, 0, 0.446111, -0.0314595)
+mesh = SubResource("TorusMesh_0037n")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 0.972776, -0.231748, 0, 0.231748, 0.972776, 0, 0.433721, -0.0445568)
+mesh = SubResource("TorusMesh_mmrt0")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.240356, 0.781755, -0.301342)
+mesh = SubResource("SphereMesh_urhcf")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.214112, 0.7847, -0.322792)
+mesh = SubResource("SphereMesh_urhcf")
+skeleton = NodePath("../MeshInstance3D2")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.604437, 0.411405, -0.682204, 0.347715, 0.634223, 0.690547, 0.716764, -0.654605, 0.240296, 0.169502, 0.830011, -0.280431)
+mesh = SubResource("BoxMesh_2lrfh")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.456645, -0.435796, 0.775601, -0.376303, 0.695362, 0.612265, -0.806146, -0.571449, 0.153542, -0.19093, 0.817316, -0.275766)
+mesh = SubResource("BoxMesh_2lrfh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_ds2em")
+
+[node name="dialogue_sfx" type="AudioStreamPlayer3D" parent="."]
+
+[node name="attack_sfx" type="AudioStreamPlayer3D" parent="."]
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_max_distance = 10.01
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.165013, -0.986291, 0, 0.986291, 0.165013, 0, 0.708469, 0)
+target_position = Vector3(0, -40, 0)
+
+[node name="attack_timer" type="Timer" parent="."]
+
+[node name="body_animation" type="AnimationPlayer" parent="."]
+
+[node name="attack_animation" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_wjqdv")
+}
+playback_default_blend_time = 0.3
+blend_times = [&"RESET", &"RESET", 0.3]
+
+[node name="Claw" parent="." instance=ExtResource("2_73sr5")]
+transform = Transform3D(0.204154, 0.387309, 0.899062, -0.972103, -0.0281368, 0.232861, 0.115486, -0.92152, 0.37076, 0.712949, 0.238361, -0.379287)
+
+[node name="attack_particles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25237, 0)
+emitting = false
+amount = 1
+lifetime = 0.7
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_08dug")
+draw_pass_1 = SubResource("TorusMesh_wjqdv")
+
+[node name="attack_particle_timer" type="Timer" parent="attack_particles"]
+wait_time = 0.7
+one_shot = true
+
+[connection signal="animation_finished" from="attack_animation" to="." method="_on_attack_animation_player_animation_finished"]

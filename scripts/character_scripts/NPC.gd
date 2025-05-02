@@ -15,7 +15,7 @@ var fleeing: bool = false #for use in functions to be added:
 var can_attack: bool = true # movement functions while not in combat
 var can_move: bool = true
 var direction: Vector3 = Vector3.FORWARD
-
+var attack_type
 
 func _ready():
 	get_variables()
@@ -83,21 +83,24 @@ func fight_formation():
 func fight():
 	if attack_ready:
 		attack_ready = false
-		var ability_type = randi_range(0, 100)
-		if ability_type <= 10:
-			ability_type = "ability"
-			selected_ability = randi_range(0, attacks.size()-2)
-		elif ability_type > 10:
-			ability_type = "weapon"
-		else:#elif ability_type == 3:
-			ability_type = "projectile"
-		
+		select_attack()
 		if wep_atk_index == 1:
 			attack_particles.emitting = true
 			atk_particle_timer.start()
 			await atk_particle_timer.timeout
-		do_attack(ability_type)
+		do_attack(attack_type)
+
+func select_attack():
+	attack_type = randi_range(0, 100)
+	if attack_type <= 10:
+		attack_type = "ability"
+		selected_ability = randi_range(0, attacks.size()-2)
+	elif attack_type > 10:
+		attack_type = "weapon"
+	else:#elif attack_type == 3:
+		attack_type = "projectile"
 	
+
 func tb_attack(target: Object, _side: Array): #side is for custom npcs in need of special targetting
 	var chosen_attack = randi_range(0, attacks.size()-1)
 	var attack = attacks[chosen_attack]
