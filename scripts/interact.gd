@@ -2,6 +2,7 @@ extends Area3D
 
 @onready var interactable: Object
 @onready var interact_area: CollisionShape3D = $CollisionShape3D
+var forced_interaction: bool = false
 
 func _ready() -> void:
 	interactable = get_parent()
@@ -12,8 +13,11 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node3D) -> void:
 	if body.name == "player":
-		Globals.check_closest_interactable()
-
+		if forced_interaction == false:
+			Globals.check_closest_interactable()
+		elif forced_interaction == true:
+			Globals.check_closest_interactable()
+			get_parent().interact_action()
 
 func _on_body_exited(body: Node3D) -> void:
 	if body.name == "player":

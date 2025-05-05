@@ -42,7 +42,6 @@ func _on_exit_button_pressed():
 		confirm_exit.visible = false
 
 func _on_save_button_pressed():
-	Globals.save_inventory_data(Globals.player.inventory)
 	Globals.save_config_file()
 	Globals.system_message("Data Saved")
 

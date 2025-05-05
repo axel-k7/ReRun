@@ -181,7 +181,12 @@ radius = 5.0
 
 [node name="player" type="CharacterBody3D"]
 script = ExtResource("1_jr5d1")
-move_speed = 70.0
+Cname = "Hero"
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.952215, 0.30543, 0, -0.30543, 0.952215, 0, 2, 0)
+target_position = Vector3(0, 0, -20)
+collision_mask = 5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_a2xtk")
@@ -198,14 +203,14 @@ spot_attenuation = 1.6
 spot_angle = 80.0
 
 [node name="CameraPivot" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 1, 1.21162, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.920723, 0.390217, 0, -0.390217, 0.920723, 0, 4.44376, 6.2581)
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+spring_length = 6.0
+margin = 0.5
 
-[node name="RayCast3D" type="RayCast3D" parent="CameraPivot/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 0.989564, -0.144097, 0, 0.144097, 0.989564, 0, 0, 0)
-target_position = Vector3(0, 0, -40)
-collision_mask = 5
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
 
 [node name="AttackAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

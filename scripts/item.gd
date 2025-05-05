@@ -4,12 +4,13 @@ class_name Item
 @export var type: String = "interactable"
 @export var item: String = "item"
 @export var interact_radius: float = 3.0
-@export var has_interact: bool = true
+@export var has_interaction: bool = true
+@export var forced_interaction: bool = false
 var mesh
 
 func _ready():
-	if has_interact:
-		Globals.add_interact(self)
+	if has_interaction:
+		Globals.add_interact(self, forced_interaction)
 
 func interact_action():
 	Globals.player.inventory.append(self.item)

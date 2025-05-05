@@ -88,6 +88,12 @@ func start_battle(ally_array: Array, enemy_array: Array):
 	turn_handler()
 
 func end_battle(result: String):
+	if result == "defeat":
+		Globals.player.global_position = Vector3(0, 0, 0)
+	elif result == "victory":
+		pass
+	action_message(result.capitalize())
+	
 	Globals.main.emit_signal("loading_start")
 	await get_tree().create_timer(2).timeout
 	Globals.player_controls(true)
@@ -109,11 +115,6 @@ func end_battle(result: String):
 		child.queue_free()
 	set_process(false)
 	
-	if result == "defeat":
-		Globals.player.global_position = Vector3(0, 0, 0)
-	elif result == "victory":
-		pass
-	action_message(result.capitalize())
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	Globals.main.emit_signal("loading_finished")
 
@@ -158,7 +159,7 @@ func action_handler():
 			NPC_action()
 		elif !acting_chr.is_in_group("NPC"):
 			is_player_acting = true
-		action_message(acting_chr.name + " taking action")
+		action_message(acting_chr.Cname + " taking action")
 		turns_label.text = "Turns: " + str(turns)
 		
 		await action_taken
@@ -257,7 +258,7 @@ func display_attacks(character: Object):
 func _atk_option_pressed(attacker: Object, atk_name: String, damage: int, cost: int):
 	Globals.damage(selected_target, damage)
 	attacker.mp -= cost
-	action_message(attacker.name + " used " + atk_name + " on " + selected_target.name + "!")
+	action_message(attacker.Cname + " used " + atk_name + " on " + selected_target.name + "!")
 	emit_signal("action_taken")
 	enemyIndex = 0
 	is_player_acting = false

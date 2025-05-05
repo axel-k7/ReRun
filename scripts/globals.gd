@@ -12,24 +12,29 @@ var target_interactable: Object
 const gravity = 60
 var paused: bool = false
 
-var config_data: Dictionary = {
+var world_config_data: Dictionary = {
 	"current_map": "",
-	"player_spawn_position": Vector3()
+}
+var player_config_data: Dictionary = {
+	"inventory": "",
+	"spawn_position": "",
 }
 
 signal map_loading
 signal map_loaded
 
 func _ready() -> void:
-	load_config_file()
+	load_config_file("world")
 	map_loaded.connect(on_map_loaded)
 	map_loading.connect(on_map_loading)
 
-func add_interact(body):
+func add_interact(body, forced):
 	var interact_scene =  preload("res://scenes/items/interact_area.tscn")
 	var interact_area: Area3D = interact_scene.instantiate()
 	body.add_child(interact_area)
 	body.add_to_group("interactables")
+	if forced:
+		interact_area.forced_interaction = true
 	
 #function below would run in process for more accurate interact-range-checks, due to performance issues its instead limited to situational checks
 func check_closest_interactable():
@@ -58,45 +63,40 @@ func damage_flash(target):
 	target.modulate = Color(1, 0, 0)
 	await get_tree().create_timer(0.2).timeout
 	target.modulate = Color(1, 1, 1)
-	
-func save_inventory_data(data: Array):
-	var config_file: ConfigFile = ConfigFile.new()
-	config_file.set_value("player", "inventory", data)
-	config_file.save("res://data/player_data.cfg")
-	print("saved inventory: ", data)
-
-func load_inventory():
-	if player != null:
-		var config_file = ConfigFile.new()
-		var error_check = config_file.load("res://data/player_data.cfg")
-		if error_check != OK:
-			return
-	
-		var loaded_inventory = config_file.get_value("player", "inventory")
-		player.inventory = loaded_inventory
 
 func save_config_file():
 	save_config_variables()
-	var config_file = ConfigFile.new()
-	var error_check = config_file.load("res://data/world_data.cfg")
-	if error_check != OK:
+	var world_config_file = ConfigFile.new()
+	var player_config_file = ConfigFile.new()
+	var world_error_check = world_config_file.load("res://data/world_data.cfg")
+	var player_error_check = world_config_file.load("res://data/world_data.cfg")
+	if world_error_check != OK || player_error_check != OK:
 		return
-	for config_item in config_data.keys():
-		config_file.set_value("world", str(config_item), config_data[config_item])
-		print(config_item, " set as: ", config_data[config_item])
-	config_file.save("res://data/world_data.cfg")
+	for config_item in world_config_data.keys():
+		world_config_file.set_value("world", str(config_item), world_config_data[config_item])
+		print(config_item, " set as: ", world_config_data[config_item])
+	for config_item in player_config_data.keys():
+		player_config_file.set_value("player", str(config_item), player_config_data[config_item])
+		print(config_item, " set as: ", player_config_data[config_item])
+	world_config_file.save("res://data/world_data.cfg")
+	player_config_file.save("res://data/player_data.cfg")
 
 func save_config_variables():
-	config_data["current_map"] = main.map_container.get_child(0).name
-	config_data["player_spawn_position"] = player.global_position
+	world_config_data["current_map"] = main.map_container.get_child(0).name
+	player_config_data["inventory"] = player.inventory
+	player_config_data["spawn_position"] = player.global_position
 
-func load_config_file():
+func load_config_file(file_name: String):
 	var config_file = ConfigFile.new()
-	var error_check = config_file.load("res://data/world_data.cfg")
+	var error_check = config_file.load("res://data/" + file_name + "_data.cfg")
 	if error_check != OK:
 		return
-	for config_item in config_data.keys():
-		config_data[config_item] = config_file.get_value("world", str(config_item))
+	if file_name == "world":
+		for config_item in world_config_data.keys():
+			world_config_data[config_item] = config_file.get_value("world", str(config_item))
+	elif file_name == "player":
+		for config_item in player_config_data.keys():
+			player_config_data[config_item] = config_file.get_value("player", str(config_item))
 
 func on_map_loading():
 	print("CHANGING MAP")

@@ -26,6 +26,7 @@ func set_up_dialogue(target):
 
 func update_text(lines: Array, target: Object, continue_after: bool):
 	text_label.visible_characters = 0
+	Globals.can_interact = false
 	if line_index < lines.size():
 		text_label.text = lines[line_index]
 		for letter_index in lines[line_index].length():
@@ -36,6 +37,7 @@ func update_text(lines: Array, target: Object, continue_after: bool):
 	
 	line_index += 1
 	Globals.can_interact = true
+	print("aaaa")
 	if line_index > lines.size():
 		dialogue_over.emit(target)
 		self.visible = false

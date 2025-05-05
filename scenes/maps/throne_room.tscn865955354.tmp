@@ -197,11 +197,8 @@ script = ExtResource("1_yprba")
 [node name="NPC_spawners" type="Node3D" parent="."]
 
 [node name="NPC_spawner" parent="NPC_spawners" instance=ExtResource("2_j5igb")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.907, 13, -86.995)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.907241, 12.9429, -78.9948)
 NPC = ExtResource("3_5wsgj")
-
-[node name="Player_spawn_pos" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 23)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_1r63t")
@@ -400,7 +397,7 @@ shape = SubResource("BoxShape3D_hkot6")
 mesh = SubResource("BoxMesh_xvun4")
 
 [node name="wall11" type="StaticBody3D" parent="NavigationRegion3D/Baseplate"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 20, 20.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 20, 18)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Baseplate/wall11"]
 shape = SubResource("BoxShape3D_5wsgj")
@@ -409,7 +406,7 @@ shape = SubResource("BoxShape3D_5wsgj")
 mesh = SubResource("BoxMesh_1n8a5")
 
 [node name="wall12" type="StaticBody3D" parent="NavigationRegion3D/Baseplate"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 20, 20.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 20, 18)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Baseplate/wall12"]
 shape = SubResource("BoxShape3D_5wsgj")

@@ -2,7 +2,8 @@ extends Character
 
 @export var sensitivity = 1000
 
-@onready var camera = $CameraPivot/Camera3D
+@onready var pivot = $CameraPivot
+@onready var camera = $CameraPivot/SpringArm3D/Camera3D
 @onready var interact_marker = $PlayerInteractMarker
 
 var closest_interactable: Object
@@ -24,7 +25,7 @@ func _physics_process(delta):
 		movement_handler(delta)
 
 func get_variables():
-	raycast = $CameraPivot/Camera3D/RayCast3D
+	raycast = $RayCast3D
 	attack_animation = $AttackAnimationPlayer
 	attack_idle_timer = $AttackIdleTimer
 	weapon = $Sword
@@ -63,16 +64,16 @@ func movement_inputs(_delta):
 
 func _input(event):
 	if !Globals.paused:
-		mouse_movement(event)
+		camera_rotation(event)
 		toggle_mouse()
 		interact_input()
 		attack_input()
 
-func mouse_movement(event):
+func camera_rotation(event):
 	if event is InputEventMouseMotion && Globals.can_rotate_camera:
 		rotation.y -= event.relative.x / sensitivity
-		$CameraPivot.rotation.x -= event.relative.y / sensitivity
-		$CameraPivot.rotation.x = clamp($CameraPivot.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+		pivot.rotation.x -= event.relative.y / sensitivity
+		pivot.rotation.x = clamp(pivot.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 func toggle_mouse():
 	if Input.is_action_just_pressed("mouse_lock"):
@@ -108,7 +109,7 @@ func interact_input():
 			if Input.is_action_just_pressed("interact") && Globals.can_interact:
 				interaction_target.interact_action()
 				interact_marker.visible = false
-		elif DialogueManager.dialogue_active:
+		elif DialogueManager.dialogue_active && Globals.can_interact:
 			if Input.is_action_just_pressed("interact"):
 				DialogueManager.current_dialogue_target.interact_action()
 		else: interact_marker.visible = false

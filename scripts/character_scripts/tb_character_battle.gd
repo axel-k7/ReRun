@@ -10,7 +10,7 @@ signal die
 
 func set_up_self(given_character: Object, side: String, party_index: int):
 	character = given_character
-	self.name = character.name + " TB"
+	self.name = character.Cname
 	if side == "ally":
 		sprite.texture = character.tb_sprite_ally
 		self.global_position.y += 200
@@ -26,7 +26,7 @@ func set_up_self(given_character: Object, side: String, party_index: int):
 		name_label.position.y += sprite.texture.get_height()/2
 	
 	sfx.stream = character.hurt_sfx
-	name_label.text = character.name
+	name_label.text = character.Cname
 	hp_bar.max_value = character.max_hp
 	hp_bar.value = character.hp
 

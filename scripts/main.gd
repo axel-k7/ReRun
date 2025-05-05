@@ -31,32 +31,27 @@ func set_up_ability_menu():
 	ability_menu.visible = false
 
 func spawn_player():
+	Globals.load_config_file("player")
 	var player_scene =  load("res://scenes/player/player.tscn")
 	var player = player_scene.instantiate()
 	self.add_child(player)
-	print(Globals.config_data["player_spawn_position"])
-	player.global_position = Globals.config_data["player_spawn_position"]
+	player.global_position = Globals.player_config_data["spawn_position"]
 	Globals.player = player
-	Globals.load_inventory()
-
-func spawn_boss(boss_name: String):
-	var boss_scene = load("res://scenes/NPC/" + boss_name + ".tscn")
-	var boss = boss_scene.instantiate()
-	self.add_child(boss)
-	boss.global_position = map.boss_spawn.global_position
 
 func load_map():
 	BattleManagerTb.enemies.clear() #any allies need to be outside of the map scene for this to function properly
-	var map_to_load = load(str("res://scenes/maps/", Globals.config_data["current_map"], ".tscn"))
+	var map_to_load = load(str("res://scenes/maps/", Globals.world_config_data["current_map"], ".tscn"))
 	map = map_to_load.instantiate()
-	
 	await get_tree().create_timer(0.5).timeout #wait for loading screen to appear
 	if map_container.get_children() != []: #if a map is already loaded: remove it
+		Globals.player_config_data["spawn_position"] = null #wipe saved spawn position
 		var loaded_map = map_container.get_child(0)
 		loaded_map.queue_free()
 		
 	map_container.add_child(map)
-	Globals.config_data["current_map"] = "test_map_2"
+	Globals.world_config_data["current_map"] = "test_map_2"
+	if Globals.player_config_data["spawn_position"] == null:
+		Globals.player.global_position = map.player_spawn_pos #spawn player at map spawn point if no data
 	map.spawn_npcs()
 
 func on_loading_start():

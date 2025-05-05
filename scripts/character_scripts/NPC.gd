@@ -5,6 +5,7 @@ class_name NPC
 @onready var attack_particles: GPUParticles3D = $attack_particles
 @onready var atk_particle_timer: Timer = $attack_particles/attack_particle_timer
 @export var has_interaction: bool = false
+@export var force_interaction: bool = false
 @export var interact_radius: float = 2.0
 @export var side: String = "enemy"
 @export var exp_given: float = 50
@@ -21,7 +22,7 @@ func _ready():
 	get_variables()
 	#BattleManagerTb.enemies.append(self)
 	if has_interaction:
-		Globals.add_interact(self)
+		Globals.add_interact(self, force_interaction)
 	speech_audio_player.stream = dialogue_sfx
 	self.add_to_group("NPC")
 
@@ -107,7 +108,7 @@ func tb_attack(target: Object, _side: Array): #side is for custom npcs in need o
 	var atk_name = attack[0]
 	var dmg = attack[1]
 	var cost = attack[2]
-	
+	BattleManagerTb.battle_scene.action_message(self.Cname + " used " + atk_name + " on " + target.name + "!")
 	Globals.damage(target, dmg)
 
 func on_damaged(amount: int):
