@@ -3,6 +3,7 @@ extends Node3D
 @onready var ui_container: CanvasLayer = $UiContainer
 @onready var menu: Control = $UiContainer/Menu
 @onready var map_container = $MapContainer
+@onready var npc_container = $NPCContainer
 var map
 
 @onready var loading_screen_scene = preload("res://scenes/ui/loading_screen.tscn")
@@ -56,9 +57,7 @@ func load_map():
 		
 	map_container.add_child(map)
 	Globals.config_data["current_map"] = "test_map_2"
-	
-	if map.has_boss:
-		spawn_boss("boss")
+	map.spawn_npcs()
 
 func on_loading_start():
 	loading_screen = loading_screen_scene.instantiate()
@@ -68,7 +67,6 @@ func on_loading_finished():
 	if loading_screen == null:
 		return
 	loading_screen.emit_signal("finished_loading")
-	
 
 func _input(event):
 	if Input.is_action_just_pressed("menu"):

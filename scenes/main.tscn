@@ -14,6 +14,8 @@ shadow_color = Color(0, 0, 0, 0.792157)
 [node name="Main" type="Node3D"]
 script = ExtResource("1_26nwy")
 
+[node name="NPCContainer" type="Node3D" parent="."]
+
 [node name="MapContainer" type="Node3D" parent="."]
 
 [node name="UiContainer" type="CanvasLayer" parent="."]

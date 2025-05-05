@@ -1,6 +1,6 @@
 extends StaticBody3D
 
-@export var target_map_name: String = "test_map_1"
+@export var target_map_name: String = "throne_room"
 @export var interact_radius: float = 2.0
 
 func _ready() -> void:
