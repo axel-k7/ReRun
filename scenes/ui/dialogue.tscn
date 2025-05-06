@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://hq5e8wli2a4v"]
 
-[ext_resource type="Script" uid="uid://dj3nibo86if32" path="res://scripts/dialogue.gd" id="1_84wqv"]
+[ext_resource type="Script" uid="uid://dj3nibo86if32" path="res://scripts/ui_scripts/dialogue.gd" id="1_84wqv"]
 [ext_resource type="Texture2D" uid="uid://s70cjjojwrr" path="res://vfx/smiley.png" id="2_65ue4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_84wqv"]

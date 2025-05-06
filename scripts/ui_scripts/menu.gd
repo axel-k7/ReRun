@@ -42,17 +42,18 @@ func _on_exit_button_pressed():
 		confirm_exit.visible = false
 
 func _on_save_button_pressed():
-	Globals.save_config_file()
+	Globals.save_config_file(false)
 	Globals.system_message("Data Saved")
 
-func _on_unstuck_button_pressed():
-	if Globals.player == null:
-		return
-	Globals.player.global_position = Vector3(0, 10, 0)
+func _on_reset_button_pressed() -> void:
+	Globals.save_config_file(true)
+	Globals.system_message("Data Reset")
 
 func _on_confirm_exit_pressed():
+	Globals.main.emit_signal("loading_start")
+	self.visible = false
 	await get_tree().create_timer(0.5).timeout
-	get_tree().quit()
+	Globals.main.reset_game()
 
 func _on_inventory_button_pressed() -> void:
 	var item_y_limit = round(((get_viewport_rect().size.y/4)*3)/150)

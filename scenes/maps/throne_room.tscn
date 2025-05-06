@@ -1,12 +1,11 @@
-[gd_scene load_steps=58 format=3 uid="uid://4ipv7palv0jb"]
+[gd_scene load_steps=57 format=3 uid="uid://4ipv7palv0jb"]
 
-[ext_resource type="Script" uid="uid://bmh5qgj256u3" path="res://scripts/map.gd" id="1_yprba"]
+[ext_resource type="Script" uid="uid://bmh5qgj256u3" path="res://scripts/map_scripts/map.gd" id="1_yprba"]
 [ext_resource type="PackedScene" uid="uid://kj3uudhd3tny" path="res://scenes/maps/map_parts/NPC_spawner.tscn" id="2_j5igb"]
 [ext_resource type="PackedScene" uid="uid://qhrcubikyyej" path="res://scenes/NPC/characters/demon_knight.tscn" id="3_5wsgj"]
 [ext_resource type="Texture2D" uid="uid://ctdo4cp2qqhvd" path="res://vfx/map_textures/tiles.png" id="4_yprba"]
 [ext_resource type="Texture2D" uid="uid://bm8oumhbwqlfs" path="res://vfx/map_textures/fortified.png" id="5_j5igb"]
 [ext_resource type="PackedScene" uid="uid://n1cuaw4g8k5o" path="res://scenes/items/item_scenes/potion.tscn" id="5_xer63"]
-[ext_resource type="Texture2D" uid="uid://dp22t0brhhodq" path="res://vfx/map_textures/brick.png" id="6_5wsgj"]
 [ext_resource type="PackedScene" uid="uid://c2bkq1dttjual" path="res://scenes/items/item_scenes/brick.tscn" id="6_hkot6"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_1r63t"]
@@ -58,7 +57,6 @@ size = Vector3(5, 100, 120)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1n8a5"]
 albedo_color = Color(0.621524, 0.621524, 0.621524, 1)
-albedo_texture = ExtResource("6_5wsgj")
 metallic = 0.25
 uv1_scale = Vector3(1.5, 1.5, 1.5)
 

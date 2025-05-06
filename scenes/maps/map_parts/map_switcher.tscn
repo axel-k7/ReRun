@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b5t5qb4d6rdkd"]
 
-[ext_resource type="Script" uid="uid://ds20v72cd6mst" path="res://scripts/map_switcher.gd" id="1_r38uj"]
+[ext_resource type="Script" uid="uid://ds20v72cd6mst" path="res://scripts/map_scripts/map_objects/map_switcher.gd" id="1_r38uj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bhryh"]
 size = Vector3(2, 3, 1)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://n1cuaw4g8k5o"]
 
-[ext_resource type="Script" uid="uid://cx8afxynyyfbx" path="res://scripts/potion.gd" id="1_hgas2"]
+[ext_resource type="Script" uid="uid://cx8afxynyyfbx" path="res://scripts/interactables_scripts/potion.gd" id="1_hgas2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hgas2"]
 radius = 0.4

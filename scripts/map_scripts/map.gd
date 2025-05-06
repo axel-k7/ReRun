@@ -1,4 +1,5 @@
 extends Node
+class_name Map
 
 @onready var npc_spawners: Array[Node] = $NPC_spawners.get_children()
 @onready var player_spawn_pos= $Player_spawn_pos.global_position

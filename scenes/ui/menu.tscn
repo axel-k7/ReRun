@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://3n5ktffruh2s"]
 
-[ext_resource type="Script" uid="uid://cuawb03gtxrd7" path="res://scripts/menu.gd" id="1_7w7rl"]
+[ext_resource type="Script" uid="uid://cuawb03gtxrd7" path="res://scripts/ui_scripts/menu.gd" id="1_7w7rl"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -56,14 +56,14 @@ theme_override_font_sizes/font_size = 66
 text = "SAVE"
 flat = true
 
-[node name="UnstuckButton" type="Button" parent="ButtonNavBar/HBoxContainer"]
+[node name="ResetButton" type="Button" parent="ButtonNavBar/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_hover_pressed_color = Color(0.929715, 0.929715, 0.929715, 1)
 theme_override_colors/font_hover_color = Color(0.775063, 0.775063, 0.775063, 1)
 theme_override_colors/font_color = Color(0.898039, 0.517647, 0, 1)
 theme_override_font_sizes/font_size = 66
-text = "UNSTUCK"
+text = "RESET"
 flat = true
 
 [node name="ExitButton" type="Button" parent="ButtonNavBar/HBoxContainer"]
@@ -126,6 +126,6 @@ theme_override_constants/v_separation = 5
 
 [connection signal="pressed" from="ButtonNavBar/HBoxContainer/InventoryButton" to="." method="_on_inventory_button_pressed"]
 [connection signal="pressed" from="ButtonNavBar/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
-[connection signal="pressed" from="ButtonNavBar/HBoxContainer/UnstuckButton" to="." method="_on_unstuck_button_pressed"]
+[connection signal="pressed" from="ButtonNavBar/HBoxContainer/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="ButtonNavBar/HBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="ConfirmExitRect/ConfirmExit" to="." method="_on_confirm_exit_pressed"]

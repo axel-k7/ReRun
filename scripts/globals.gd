@@ -11,6 +11,7 @@ var target_interactable: Object
 @onready var main: Node3D
 const gravity = 60
 var paused: bool = false
+var game_started: bool = false
 
 var world_config_data: Dictionary = {
 	"current_map": "",
@@ -18,6 +19,11 @@ var world_config_data: Dictionary = {
 var player_config_data: Dictionary = {
 	"inventory": "",
 	"spawn_position": "",
+	"max_hp": "",
+	"hp": "",
+	"max_mp": "",
+	"mp": "",
+	"attacks": "",
 }
 
 signal map_loading
@@ -64,8 +70,12 @@ func damage_flash(target):
 	await get_tree().create_timer(0.2).timeout
 	target.modulate = Color(1, 1, 1)
 
-func save_config_file():
-	save_config_variables()
+func save_config_file(reset):
+	if !reset:
+		save_config_variables()
+	elif reset:
+		reset_config_variables()
+		print("aaaa")
 	var world_config_file = ConfigFile.new()
 	var player_config_file = ConfigFile.new()
 	var world_error_check = world_config_file.load("res://data/world_data.cfg")
@@ -85,6 +95,21 @@ func save_config_variables():
 	world_config_data["current_map"] = main.map_container.get_child(0).name
 	player_config_data["inventory"] = player.inventory
 	player_config_data["spawn_position"] = player.global_position
+	player_config_data["max_hp"] = player.max_hp
+	player_config_data["hp"] = player.hp
+	player_config_data["max_mp"] = player.max_mp
+	player_config_data["mp"] = player.mp
+	player_config_data["attacks"] = player.attacks
+
+func reset_config_variables():
+	world_config_data["current_map"] = "throne_room"
+	player_config_data["inventory"] = []
+	player_config_data["spawn_position"] = ""
+	player_config_data["max_hp"] = 100
+	player_config_data["hp"] = 100
+	player_config_data["max_mp"] = 100
+	player_config_data["mp"] = 100
+	player_config_data["attacks"] = []
 
 func load_config_file(file_name: String):
 	var config_file = ConfigFile.new()

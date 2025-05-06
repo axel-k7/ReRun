@@ -18,7 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Globals="*res://scripts/globals.gd"
-DialogueManager="*res://scripts/dialogue_manager.gd"
+DialogueManager="*res://scripts/ui_scripts/dialogue_manager.gd"
 BattleManagerTb="*res://scripts/battle_manager_tb.gd"
 
 [input]

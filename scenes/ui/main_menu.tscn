@@ -1,0 +1,75 @@
+[gd_scene load_steps=3 format=3 uid="uid://dc0xttimbxqin"]
+
+[ext_resource type="Script" uid="uid://dsiitvidbwl0h" path="res://scripts/ui_scripts/main_menu.gd" id="1_fe2o3"]
+[ext_resource type="Texture2D" uid="uid://dg6iyl74dckvr" path="res://vfx/main_menu.png" id="1_sl1te"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fe2o3")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_sl1te")
+expand_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -77.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ExitButton" type="Button" parent="MarginContainer/HBoxContainer/HSplitContainer"]
+layout_mode = 2
+theme_override_colors/icon_hover_color = Color(0.470076, 0.470076, 0.470076, 1)
+theme_override_font_sizes/font_size = 50
+text = "EXIT"
+
+[node name="SettingsButton" type="Button" parent="MarginContainer/HBoxContainer/HSplitContainer"]
+layout_mode = 2
+theme_override_colors/icon_hover_color = Color(0.470076, 0.470076, 0.470076, 1)
+theme_override_font_sizes/font_size = 50
+text = "SETTINGS"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="LoadButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/icon_hover_color = Color(0.470076, 0.470076, 0.470076, 1)
+theme_override_font_sizes/font_size = 50
+text = "LOAD GAME"
+
+[node name="NewGameButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/icon_hover_color = Color(0.470076, 0.470076, 0.470076, 1)
+theme_override_font_sizes/font_size = 50
+text = "NEW GAME"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/HSplitContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/HSplitContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
