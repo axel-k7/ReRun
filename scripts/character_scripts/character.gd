@@ -2,7 +2,7 @@ extends CharacterBody3D
 class_name Character
 
 @export var Cname: String = "name"
-@export var image: CompressedTexture2D = preload("res://vfx/smiley.png")
+@export var image: CompressedTexture2D = preload("res://vfx/character_sprites/missing.png")
 @export var custom_gravity = 60
 @export var move_speed: float = 7
 @export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/tb_preset.png")

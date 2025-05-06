@@ -1,6 +1,6 @@
 extends Node
 
-@onready var text_label: Label = $DialogueContainer/VBoxContainer/Text
+@onready var text_label: Label = $DialogueContainer/VBoxContainer/TextContainer/Text
 @onready var name_label: Label = $DialogueContainer/VBoxContainer/Name
 @onready var container: HSplitContainer = $DialogueContainer
 @onready var background: ColorRect = $ColorRect
@@ -17,6 +17,7 @@ func _ready():
 	background.size = container.size
 	self.size = container.size
 	self.global_position = Vector2(get_viewport().get_visible_rect().size.x/6, get_viewport().get_visible_rect().size.y-self.size.y)
+	text_label.custom_minimum_size = (self.size/100)*75
 
 func set_up_dialogue(target):
 	self.visible = true
@@ -31,13 +32,13 @@ func update_text(lines: Array, target: Object, continue_after: bool):
 		text_label.text = lines[line_index]
 		for letter_index in lines[line_index].length():
 			text_label.visible_characters += 1
-			target.speech_audio_player.play()
+			if !target.speech_audio_player == null:
+				target.speech_audio_player.play()
 			letter_timer.start()
 			await letter_timer.timeout
 	
 	line_index += 1
 	Globals.can_interact = true
-	print("aaaa")
 	if line_index > lines.size():
 		dialogue_over.emit(target)
 		self.visible = false

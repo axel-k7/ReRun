@@ -46,8 +46,10 @@ func _on_save_button_pressed():
 	Globals.system_message("Data Saved")
 
 func _on_reset_button_pressed() -> void:
-	Globals.save_config_file(true)
-	Globals.system_message("Data Reset")
+	if Globals.player == null:
+		return
+	Globals.player.global_position = Vector3(0, 5, 0)
+	Globals.system_message("Unstuck Player")
 
 func _on_confirm_exit_pressed():
 	Globals.main.emit_signal("loading_start")

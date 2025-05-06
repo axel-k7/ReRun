@@ -75,7 +75,6 @@ func save_config_file(reset):
 		save_config_variables()
 	elif reset:
 		reset_config_variables()
-		print("aaaa")
 	var world_config_file = ConfigFile.new()
 	var player_config_file = ConfigFile.new()
 	var world_error_check = world_config_file.load("res://data/world_data.cfg")

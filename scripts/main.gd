@@ -12,6 +12,8 @@ var loading_screen: Object
 var ability_menu: Object
 @onready var main_menu_scene = preload("res://scenes/ui/main_menu.tscn")
 var main_menu: Object
+@onready var narrator_scene = preload("res://scenes/ui/narrator_message.tscn")
+var narrator: Object
 
 signal loading_start
 signal loading_finished
@@ -19,6 +21,7 @@ signal new_game
 signal load_game
 signal settings
 signal exit
+signal narrator_finished
 
 func _ready():
 	set_up_main_menu()
@@ -58,7 +61,6 @@ func load_map():
 		Globals.player_config_data["spawn_position"] = null #wipe saved spawn position
 		var loaded_map = map_container.get_child(0)
 		loaded_map.queue_free()
-		
 	map_container.add_child(map)
 	Globals.world_config_data["current_map"] = "test_map_2"
 	if Globals.player_config_data["spawn_position"] == null:
@@ -79,11 +81,11 @@ func reset_game():
 
 func start_game():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	main_menu.queue_free()
 	DialogueManager.emit_signal("loading_complete")
 	load_map()
 	set_up_ability_menu()
 	await loading_finished
+	main_menu.queue_free()
 	spawn_player()
 	Globals.game_started = true
 
@@ -99,6 +101,7 @@ func on_loading_finished():
 func on_new_game():
 	Globals.save_config_file(true)
 	start_game()
+	intro_sequence()
 
 func on_load_game():
 	Globals.load_config_file("world")
@@ -119,6 +122,22 @@ func on_exit():
 func _input(event):
 	if Input.is_action_just_pressed("menu") && Globals.game_started:
 		toggle_menu()
+
+func intro_sequence():
+	Globals.game_started = false
+	Globals.paused = true
+	var lines: Array[String] = [
+		"You are the Hero of humanity, sent on a mission to defeat the Demon King and put an end to their tyranny.",
+		"After countless of hard fought battles, you and your party of adventurers finally arrive at the Demon King's chamber."
+	]
+	narrator = narrator_scene.instantiate()
+	await loading_finished
+	ui_container.add_child(narrator)
+	narrator.narrate(lines, "res://vfx/view.png")
+	await narrator_finished
+	Globals.paused = false
+	Globals.game_started = true
+	Globals.player.emit_signal("intro_talk_start")
 
 func toggle_menu():
 	if Globals.paused == false:

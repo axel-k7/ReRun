@@ -41,10 +41,6 @@ func _physics_process(delta: float):
 	if can_move && !BattleManagerTb.battle_active && !Globals.paused:
 		movement(delta)
 
-func interact_action():
-	DialogueManager.start_dialogue(lines, self, false)
-	can_move = false
-
 func dialogue_over():
 	dialogue_finished = true
 	DialogueManager.emit_signal("dialogue_over")

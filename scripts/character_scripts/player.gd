@@ -8,6 +8,7 @@ extends Character
 
 var closest_interactable: Object
 
+signal intro_talk_start
 signal attack_anim_started
 signal ability_menu_activate
 signal ability_menu_deactivate
@@ -18,6 +19,7 @@ func _ready():
 	inventory_updated.connect(on_inventory_updated)
 	ability_menu_activate.connect(Globals.main.ability_menu.on_activate)
 	ability_menu_deactivate.connect(Globals.main.ability_menu.on_deactivate)
+	intro_talk_start.connect(intro_dialogue)
 	BattleManagerTb.allies.append(self)
 
 func _physics_process(delta):
@@ -81,7 +83,6 @@ func toggle_mouse():
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
 
 func interactable_check():
 	if Globals.target_interactables.size() == 0:
@@ -169,3 +170,13 @@ func _on_enemy_range_body_entered(body: Node3D) -> void:
 func _on_enemy_range_body_exited(body: Node3D) -> void:
 	if BattleManagerTb.enemies.has(body):
 		BattleManagerTb.enemies.erase(body)
+
+func intro_dialogue():
+	var intro_lines: Array[String] = [
+		"Line 1",
+		"Line 2"
+	]
+	DialogueManager.start_dialogue(intro_lines, self, true)
+
+func interact_action():
+	intro_dialogue()
