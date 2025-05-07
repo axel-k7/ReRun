@@ -16,6 +16,7 @@ var main_menu: Object
 var narrator: Object
 
 signal loading_start
+signal loading_active
 signal loading_finished
 signal new_game
 signal load_game
@@ -50,21 +51,20 @@ func spawn_player():
 	Globals.player = player
 	match typeof(Globals.player_config_data["spawn_position"]):
 		TYPE_VECTOR3: player.global_position = Globals.player_config_data["spawn_position"]
+		TYPE_STRING: Globals.player.global_position = map.player_spawn_pos #spawn player at map spawn point if no data
 
 func load_map():
 	emit_signal("loading_start")
 	BattleManagerTb.enemies.clear() #any allies need to be outside of the map scene for this to function properly
 	var map_to_load = load(str("res://scenes/maps/", Globals.world_config_data["current_map"], ".tscn"))
 	map = map_to_load.instantiate()
-	await get_tree().create_timer(0.5).timeout #wait for loading screen to appear
+	await loading_active
 	if map_container.get_children() != []: #if a map is already loaded: remove it
-		Globals.player_config_data["spawn_position"] = null #wipe saved spawn position
+		Globals.player_config_data["spawn_position"] = "" #wipe saved spawn position
 		var loaded_map = map_container.get_child(0)
 		loaded_map.queue_free()
 	map_container.add_child(map)
 	Globals.world_config_data["current_map"] = "test_map_2"
-	if Globals.player_config_data["spawn_position"] == null:
-		Globals.player.global_position = map.player_spawn_pos #spawn player at map spawn point if no data
 	map.spawn_npcs()
 	await get_tree().create_timer(1).timeout #artificial delay
 	emit_signal("loading_finished")
@@ -88,6 +88,7 @@ func start_game():
 	main_menu.queue_free()
 	spawn_player()
 	Globals.game_started = true
+	Globals.paused = false
 
 func on_loading_start():
 	loading_screen = loading_screen_scene.instantiate()
@@ -138,6 +139,7 @@ func intro_sequence():
 	Globals.paused = false
 	Globals.game_started = true
 	Globals.player.emit_signal("intro_talk_start")
+	Globals.set_player_intro_stats(true)
 
 func toggle_menu():
 	if Globals.paused == false:

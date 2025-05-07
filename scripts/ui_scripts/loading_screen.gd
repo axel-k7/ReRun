@@ -14,6 +14,7 @@ func fade_screen():
 	var tween = create_tween()
 	tween.tween_property(background, "modulate:a", 1, 0.5)
 	await tween.finished
+	Globals.main.emit_signal("loading_active")
 	tween.stop()
 	tween.tween_callback(queue_free)
 

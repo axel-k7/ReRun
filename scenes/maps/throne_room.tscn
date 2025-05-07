@@ -1,9 +1,11 @@
-[gd_scene load_steps=57 format=3 uid="uid://4ipv7palv0jb"]
+[gd_scene load_steps=59 format=3 uid="uid://4ipv7palv0jb"]
 
 [ext_resource type="Script" uid="uid://bmh5qgj256u3" path="res://scripts/map_scripts/map.gd" id="1_yprba"]
 [ext_resource type="PackedScene" uid="uid://kj3uudhd3tny" path="res://scenes/maps/map_parts/NPC_spawner.tscn" id="2_j5igb"]
 [ext_resource type="PackedScene" uid="uid://qhrcubikyyej" path="res://scenes/NPC/characters/demon_knight.tscn" id="3_5wsgj"]
+[ext_resource type="PackedScene" uid="uid://bbd1vh4grp4sl" path="res://scenes/NPC/characters/ghoul.tscn" id="4_5wsgj"]
 [ext_resource type="Texture2D" uid="uid://ctdo4cp2qqhvd" path="res://vfx/map_textures/tiles.png" id="4_yprba"]
+[ext_resource type="PackedScene" uid="uid://c387syvb460q0" path="res://scenes/NPC/characters/demon_king.tscn" id="5_1n8a5"]
 [ext_resource type="Texture2D" uid="uid://bm8oumhbwqlfs" path="res://vfx/map_textures/fortified.png" id="5_j5igb"]
 [ext_resource type="PackedScene" uid="uid://n1cuaw4g8k5o" path="res://scenes/items/item_scenes/potion.tscn" id="5_xer63"]
 [ext_resource type="PackedScene" uid="uid://c2bkq1dttjual" path="res://scenes/items/item_scenes/brick.tscn" id="6_hkot6"]
@@ -197,6 +199,46 @@ script = ExtResource("1_yprba")
 [node name="NPC_spawner" parent="NPC_spawners" instance=ExtResource("2_j5igb")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.907, 13, -86.995)
 NPC = ExtResource("3_5wsgj")
+NPC_variables = {
+"force_interaction": true,
+"has_interaction": true,
+"interact_radius": 10.0,
+"side": "enemy",
+"stationary": true
+}
+
+[node name="NPC_spawner2" parent="NPC_spawners" instance=ExtResource("2_j5igb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, -27)
+NPC = ExtResource("4_5wsgj")
+NPC_variables = {
+"force_interaction": true,
+"has_interaction": true,
+"interact_radius": 10.0,
+"side": "enemy",
+"stationary": true
+}
+
+[node name="NPC_spawner3" parent="NPC_spawners" instance=ExtResource("2_j5igb")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -7.36632, 0.5, -27.9072)
+NPC = ExtResource("4_5wsgj")
+NPC_variables = {
+"force_interaction": false,
+"has_interaction": false,
+"interact_radius": 0.0,
+"side": "enemy",
+"stationary": true
+}
+
+[node name="NPC_spawner4" parent="NPC_spawners" instance=ExtResource("2_j5igb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.520123, 14.05, -193.194)
+NPC = ExtResource("5_1n8a5")
+NPC_variables = {
+"force_interaction": true,
+"has_interaction": true,
+"interact_radius": 30.0,
+"side": "enemy",
+"stationary": true
+}
 
 [node name="Player_spawn_pos" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 23)

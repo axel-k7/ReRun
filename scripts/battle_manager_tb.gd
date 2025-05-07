@@ -12,4 +12,6 @@ func _ready():
 	self.add_child(battle_scene)
 
 func start_battle(ally_array: Array[Object], enemy_array: Array[Object]):
+	Globals.main.emit_signal("loading_start")
+	await Globals.main.loading_active
 	battle_scene.start_battle(ally_array, enemy_array)

@@ -173,8 +173,7 @@ func _on_enemy_range_body_exited(body: Node3D) -> void:
 
 func intro_dialogue():
 	var intro_lines: Array[String] = [
-		"Line 1",
-		"Line 2"
+		"Just a few more steps, my friends, and all of this will finally be over!",
 	]
 	DialogueManager.start_dialogue(intro_lines, self, true)
 

@@ -142,3 +142,23 @@ func system_message(message: String):
 	await tween.finished
 	tween.stop()
 	tween.tween_callback(queue_free)
+
+func set_player_intro_stats(powerful: bool):
+	if player != null:
+		if powerful == true:
+			can_player_attack = false
+			player.max_hp = 500
+			player.hp = 500
+			player.max_mp = 250
+			player.mp = 250
+			player.attacks.append([ "Sword of Justice", 50, 15, "instance", 1, false])
+			player.attacks.append([ "Fireball", 20, 5, "instance", 1, false])
+		elif powerful == false:
+			can_player_attack = false
+			player.max_hp = 20
+			player.hp = 20
+			player.max_mp = 10
+			player.mp = 10
+			player.attacks = [
+				[ "Slash", 5, 3, "local", 1, false],
+			]

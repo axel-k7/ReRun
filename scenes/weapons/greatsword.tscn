@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3 uid="uid://b7hy12yjbrbul"]
+
+[ext_resource type="Script" uid="uid://d1f34e4bx1oqy" path="res://scenes/weapons/weapon.gd" id="1_ni8ri"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ni8ri"]
+albedo_color = Color(0.230365, 0.0652073, 0.0173168, 1)
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_ni8ri"]
+material = SubResource("StandardMaterial3D_ni8ri")
+radius = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wtuku"]
+albedo_color = Color(0.359069, 0.359069, 0.359069, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_wtuku"]
+material = SubResource("StandardMaterial3D_wtuku")
+radius = 0.15
+height = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_cs8in"]
+material = SubResource("StandardMaterial3D_wtuku")
+size = Vector3(0.3, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cs8in"]
+albedo_color = Color(0.881937, 0.881937, 0.881937, 1)
+metallic = 0.29
+
+[sub_resource type="PrismMesh" id="PrismMesh_8tj64"]
+material = SubResource("StandardMaterial3D_cs8in")
+size = Vector3(0.15, 0.2, 3.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_v7kgo"]
+material = SubResource("StandardMaterial3D_cs8in")
+size = Vector3(0.15, 3.5, 0.6)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o616w"]
+radius = 0.1
+height = 1.0
+
+[node name="greatsword" type="Area3D"]
+monitoring = false
+script = ExtResource("1_ni8ri")
+weapon_name = "greatsword"
+wielder = "enemy"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("TubeTrailMesh_ni8ri")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("SphereMesh_wtuku")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_cs8in")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2.35, -0.4)
+mesh = SubResource("PrismMesh_8tj64")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(-1, -8.74228e-08, -3.82137e-15, 0, -4.37114e-08, 1, -8.74228e-08, 1, 4.37114e-08, 0, 2.35, 0.4)
+mesh = SubResource("PrismMesh_8tj64")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35, 0)
+mesh = SubResource("BoxMesh_v7kgo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06902, 0)
+shape = SubResource("CapsuleShape3D_o616w")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

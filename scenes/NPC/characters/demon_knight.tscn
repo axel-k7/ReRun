@@ -116,9 +116,6 @@ outer_radius = 0.5
 
 [node name="demon_knight" type="CharacterBody3D"]
 script = ExtResource("1_kyw3d")
-has_interaction = true
-force_interaction = true
-interact_radius = 10.0
 Cname = "Demon Knight"
 lines = Array[String](["YOU WILL NOT REACH HIS MAJESTY!", "YOUR RAMPAGE ENDS HERE!"])
 

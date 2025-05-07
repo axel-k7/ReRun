@@ -25,7 +25,7 @@ func start_dialogue(lines: Array, target: Object, continue_after: bool):
 			if BattleManagerTb.battle_active:
 				BattleManagerTb.battle_paused = true
 			Globals.can_interact = false
-			if !Globals.player == null: 
+			if !Globals.player == null && BattleManagerTb.battle_active == false: 
 				Globals.player.camera.look_at(target.global_position)
 			dialogue.set_up_dialogue(target)
 			dialogue.update_text(lines, target, continue_after)
@@ -34,5 +34,6 @@ func start_dialogue(lines: Array, target: Object, continue_after: bool):
 	else: return
 
 func on_dialogue_over():
-	Globals.player.camera.rotation = Vector3.ZERO
+	print("aaaa")
+	Globals.player.camera.transform.basis = Basis()
 	dialogue_active = false

@@ -49,5 +49,6 @@ func update_text(lines: Array, target: Object, continue_after: bool):
 func _on_dialogue_over(target: Object):
 	if target.has_method("dialogue_over"):
 		DialogueManager.dialogue_active = false
+		DialogueManager.emit_signal("dialogue_over")
 		target.dialogue_over()
 	else: return

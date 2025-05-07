@@ -8,6 +8,7 @@ class_name NPC
 @export var force_interaction: bool = false
 @export var interact_radius: float = 2.0
 @export var side: String = "enemy"
+@export var stationary: bool = false
 @export var exp_given: float = 50
 @export var neutral_distance: float = 3
 @export var flee_distance: float = 2
@@ -17,6 +18,7 @@ var can_attack: bool = true # movement functions while not in combat
 var can_move: bool = true
 var direction: Vector3 = Vector3.FORWARD
 var attack_type
+var damaged_index: int = 0
 
 func _ready():
 	get_variables()
@@ -38,17 +40,21 @@ func get_variables():
 	get_weapon_info()
 
 func _physics_process(delta: float):
-	if can_move && !BattleManagerTb.battle_active && !Globals.paused:
+	if can_move && !stationary && !BattleManagerTb.battle_active && !Globals.paused && !Globals.player == null:
 		movement(delta)
+	elif stationary && !Globals.player == null:
+		look_at(Globals.player.global_position)
 
 func dialogue_over():
-	dialogue_finished = true
+	dialogue_index += 1
 	DialogueManager.emit_signal("dialogue_over")
 	if !BattleManagerTb.battle_active:
 		BattleManagerTb.start_battle(BattleManagerTb.allies, BattleManagerTb.enemies)
 		can_move = true
 	elif BattleManagerTb.battle_active:
 		BattleManagerTb.battle_paused = false
+	if dialogue_index >= dialogue_amount:
+		dialogue_finished = true
 
 func movement(delta: float):
 	update_target_position(Globals.player.global_position)

@@ -13,6 +13,8 @@ func spawn_npcs():
 		spawned_enemy.queue_free()
 	for spawner in npc_spawners:
 		var npc = spawner.NPC.instantiate()
+		for attribute in spawner.NPC_variables.keys():
+			npc.set(attribute, spawner.NPC_variables[attribute])
 		Globals.main.npc_container.add_child(npc)
 		npc.global_position = spawner.global_position
 		npc.rotation = spawner.rotation

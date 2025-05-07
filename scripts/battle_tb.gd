@@ -79,7 +79,7 @@ func start_battle(ally_array: Array, enemy_array: Array):
 	Globals.player.camera.current = false
 	camera.make_current()
 	set_process(true)
-	
+	Globals.main.emit_signal("loading_finished")
 	set_up_characters(ally_array, "ally")
 	set_up_characters(enemy_array, "enemy")
 	
@@ -92,6 +92,7 @@ func end_battle(result: String):
 		Globals.player.global_position = Vector3(0, 0, 0)
 	elif result == "victory":
 		pass
+	else: pass
 	action_message(result.capitalize())
 	
 	Globals.main.emit_signal("loading_start")
@@ -197,7 +198,7 @@ func do_action(action: String):
 				acting_chr.tb_attack(selected_target, enemies)
 			elif !is_ally_turn:
 				acting_chr.tb_attack(selected_target, allies)
-		if !acting_chr.is_in_group("NPC") :
+		if !acting_chr.is_in_group("NPC"):
 			display_attacks(acting_chr)
 	elif action == "guard":
 		acting_chr.guard_multiplier = 0.5

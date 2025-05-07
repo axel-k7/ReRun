@@ -15,6 +15,8 @@ class_name Character
 	"Line 2",
 	"Line 3"
 ]
+@export var dialogue_amount: int = 1
+var dialogue_index: int = 1
 var dialogue_finished: bool = false
 
 var speech_audio_player: AudioStreamPlayer3D
@@ -47,8 +49,8 @@ var level: int = 1
 @export var max_hp = 150
 @export var max_mp = 100
 @export var defense = 1.0
-var hp = max_hp
-var mp = max_mp
+@onready var hp = max_hp
+@onready var mp = max_mp
 var guard_multiplier: float = 1.0
 var attacks: Array[Array] = [
 		#Attack name (string), Damage(int), MP cost(int), Local or instanced (string), Attack chain length (int), raycast (bool) -> NOT IMPLEMENTED  -> ||damage type(string), description(string)||
@@ -135,6 +137,10 @@ func do_raycast():
 func on_damaged(amount: int):
 	hp -= (amount * guard_multiplier) * defense
 	guard_multiplier = 1.0
+
+func interact_action():
+	print("interaction not found")
+	return
 
 func die():
 	death_effect()
