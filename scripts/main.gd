@@ -37,6 +37,8 @@ func _ready():
 func set_up_main_menu():
 	main_menu = main_menu_scene.instantiate()
 	ui_container.add_child(main_menu)
+	if loading_screen != null:
+		loading_screen.emit_signal("finished_loading")
 
 func set_up_ability_menu():
 	ability_menu = ability_menu_scene.instantiate()
@@ -49,9 +51,10 @@ func spawn_player():
 	var player = player_scene.instantiate()
 	self.add_child(player)
 	Globals.player = player
-	match typeof(Globals.player_config_data["spawn_position"]):
-		TYPE_VECTOR3: player.global_position = Globals.player_config_data["spawn_position"]
-		TYPE_STRING: Globals.player.global_position = map.player_spawn_pos #spawn player at map spawn point if no data
+	if Globals.world_config_data["new_save"] == false:
+		Globals.apply_player_data()
+	#if Globals.player_config_data["spawn_position"] == " ":
+	#	Globals.player.set("global_position", map.player_spawn_pos)
 
 func load_map():
 	emit_signal("loading_start")
@@ -75,9 +78,10 @@ func reset_game():
 		child.queue_free()
 	for child in npc_container.get_children():
 		child.queue_free()
+	BattleManagerTb.allies.clear()
+	BattleManagerTb.enemies.clear()
 	Globals.player.queue_free()
-	Globals.main.set_up_main_menu()
-	Globals.main.emit_signal("loading_finished")
+	set_up_main_menu()
 
 func start_game():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -92,11 +96,17 @@ func start_game():
 
 func on_loading_start():
 	loading_screen = loading_screen_scene.instantiate()
+	if Globals.player != null:
+		Globals.player_controls(false)
 	ui_container.add_child(loading_screen)
 
 func on_loading_finished():
 	if loading_screen == null:
 		return
+	if Globals.player != null && !DialogueManager.dialogue_active && !Globals.cutscene_active:
+		Globals.player_controls(true)
+		if map.map_name == "Throne Room":
+			Globals.can_player_attack = false
 	loading_screen.emit_signal("finished_loading")
 
 func on_new_game():
@@ -106,13 +116,11 @@ func on_new_game():
 
 func on_load_game():
 	Globals.load_config_file("world")
-	Globals.load_config_file("player") #for debugging
-	start_game()
-	#if !Globals.world_config_data["current_map"] == "throne_room":
-	#	Globals.load_config_file("player")
-	#	start_game() #player must have completed the first map to save & load their game
-	#else: 
-	#	Globals.system_message("No save file available")
+	Globals.load_config_file("player")
+	if Globals.world_config_data["new_save"] == false:
+		start_game()
+	else: 
+		Globals.system_message("No save file available")
 
 func on_settings():
 	pass
@@ -121,20 +129,25 @@ func on_exit():
 	get_tree().quit()
 
 func _input(event):
-	if Input.is_action_just_pressed("menu") && Globals.game_started:
+	if Input.is_action_just_pressed("menu") && Globals.game_started && !BattleManagerTb.battle_active && !DialogueManager.dialogue_active:
 		toggle_menu()
+
+
+func narrate(lines, image_path):
+	narrator = narrator_scene.instantiate()
+	ui_container.add_child(narrator)
+	narrator.narrate(lines, image_path)
 
 func intro_sequence():
 	Globals.game_started = false
 	Globals.paused = true
+	Globals.player_controls(false)
 	var lines: Array[String] = [
 		"You are the Hero of humanity, sent on a mission to defeat the Demon King and put an end to their tyranny.",
-		"After countless of hard fought battles, you and your party of adventurers finally arrive at the Demon King's chamber."
+		"After countless of hard fought battles, you finally arrive at the Demon King's chamber."
 	]
-	narrator = narrator_scene.instantiate()
 	await loading_finished
-	ui_container.add_child(narrator)
-	narrator.narrate(lines, "res://vfx/view.png")
+	narrate(lines, "res://vfx/view.png")
 	await narrator_finished
 	Globals.paused = false
 	Globals.game_started = true

@@ -163,7 +163,8 @@ target_position = Vector3(0, -40, 0)
 
 [node name="greatsword" parent="." instance=ExtResource("2_cph8i")]
 transform = Transform3D(0.87001, -0.25, -0.42495, -0.0292344, 0.834234, -0.550635, 0.492167, 0.491481, 0.718483, 1.50792, 0, -0.259951)
-weapon_name = ""
+attack_chain = 2
+damage = 50
 
 [node name="body_animation" type="AnimationPlayer" parent="."]
 

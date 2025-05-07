@@ -118,6 +118,7 @@ outer_radius = 0.5
 script = ExtResource("1_kyw3d")
 Cname = "Demon Knight"
 lines = Array[String](["YOU WILL NOT REACH HIS MAJESTY!", "YOUR RAMPAGE ENDS HERE!"])
+max_hp = 100
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_cuef7")

@@ -3,12 +3,9 @@
 [ext_resource type="Script" uid="uid://bmh5qgj256u3" path="res://scripts/map_scripts/map.gd" id="1_yprba"]
 [ext_resource type="PackedScene" uid="uid://kj3uudhd3tny" path="res://scenes/maps/map_parts/NPC_spawner.tscn" id="2_j5igb"]
 [ext_resource type="PackedScene" uid="uid://qhrcubikyyej" path="res://scenes/NPC/characters/demon_knight.tscn" id="3_5wsgj"]
-[ext_resource type="PackedScene" uid="uid://bbd1vh4grp4sl" path="res://scenes/NPC/characters/ghoul.tscn" id="4_5wsgj"]
 [ext_resource type="Texture2D" uid="uid://ctdo4cp2qqhvd" path="res://vfx/map_textures/tiles.png" id="4_yprba"]
 [ext_resource type="PackedScene" uid="uid://c387syvb460q0" path="res://scenes/NPC/characters/demon_king.tscn" id="5_1n8a5"]
 [ext_resource type="Texture2D" uid="uid://bm8oumhbwqlfs" path="res://vfx/map_textures/fortified.png" id="5_j5igb"]
-[ext_resource type="PackedScene" uid="uid://n1cuaw4g8k5o" path="res://scenes/items/item_scenes/potion.tscn" id="5_xer63"]
-[ext_resource type="PackedScene" uid="uid://c2bkq1dttjual" path="res://scenes/items/item_scenes/brick.tscn" id="6_hkot6"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_1r63t"]
 
@@ -188,11 +185,23 @@ size = Vector3(100, 0.1, 20)
 material = SubResource("StandardMaterial3D_i1p8p")
 size = Vector3(10, 0.1, 40)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_ker1n"]
+size = Vector3(15, 10, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ps0y5"]
+albedo_color = Color(0.266012, 0.211064, 0.168284, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jcp2h"]
+material = SubResource("StandardMaterial3D_ps0y5")
+size = Vector3(15, 10, 1)
+
 [sub_resource type="Environment" id="Environment_yprba"]
 ambient_light_color = Color(1, 1, 1, 1)
 
-[node name="throne_room" type="Node3D"]
+[node name="throne_room" type="Node3D" node_paths=PackedStringArray("boss_door")]
 script = ExtResource("1_yprba")
+map_name = "Throne Room"
+boss_door = NodePath("NavigationRegion3D/boss_door")
 
 [node name="NPC_spawners" type="Node3D" parent="."]
 
@@ -208,28 +217,6 @@ NPC_variables = {
 }
 
 [node name="NPC_spawner2" parent="NPC_spawners" instance=ExtResource("2_j5igb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, -27)
-NPC = ExtResource("4_5wsgj")
-NPC_variables = {
-"force_interaction": true,
-"has_interaction": true,
-"interact_radius": 10.0,
-"side": "enemy",
-"stationary": true
-}
-
-[node name="NPC_spawner3" parent="NPC_spawners" instance=ExtResource("2_j5igb")]
-transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -7.36632, 0.5, -27.9072)
-NPC = ExtResource("4_5wsgj")
-NPC_variables = {
-"force_interaction": false,
-"has_interaction": false,
-"interact_radius": 0.0,
-"side": "enemy",
-"stationary": true
-}
-
-[node name="NPC_spawner4" parent="NPC_spawners" instance=ExtResource("2_j5igb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.520123, 14.05, -193.194)
 NPC = ExtResource("5_1n8a5")
 NPC_variables = {
@@ -538,14 +525,18 @@ mesh = SubResource("BoxMesh_ps0y5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 0, -37)
 mesh = SubResource("BoxMesh_ps0y5")
 
-[node name="potion" parent="." instance=ExtResource("5_xer63")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.75146, 0.8, -4.28609)
+[node name="boss_door" type="StaticBody3D" parent="NavigationRegion3D"]
+visible = false
 
-[node name="brick" parent="." instance=ExtResource("6_hkot6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6935, 0.55, -4.17752)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/boss_door"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, -90)
+shape = SubResource("BoxShape3D_ker1n")
+disabled = true
 
-[node name="potion2" parent="." instance=ExtResource("5_xer63")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.249676, 0.8, 7.0608)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/boss_door"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, -90)
+mesh = SubResource("BoxMesh_jcp2h")
+skeleton = NodePath("../CollisionShape3D")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_yprba")

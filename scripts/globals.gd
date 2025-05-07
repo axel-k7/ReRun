@@ -12,8 +12,10 @@ var target_interactable: Object
 const gravity = 60
 var paused: bool = false
 var game_started: bool = false
+var cutscene_active: bool = false
 
 var world_config_data: Dictionary = {
+	"new_save": true,
 	"current_map": "",
 }
 var player_config_data: Dictionary = {
@@ -56,11 +58,11 @@ func check_closest_interactable():
 func sort_closest(object1, object2):
 	return object1.global_position.distance_to(player.global_position) < object2.global_position.distance_to(player.global_position)
 
-func player_controls(option: bool):
-	can_move = option
-	can_interact = option
-	can_rotate_camera = option
-	can_player_attack = option
+func player_controls(allow: bool):
+	can_move = allow
+	can_interact = allow
+	can_rotate_camera = allow
+	can_player_attack = allow
 
 func damage(target: Object, amount: int):
 	target.on_damaged(amount)
@@ -89,21 +91,26 @@ func save_config_file(reset):
 		print(config_item, " set as: ", player_config_data[config_item])
 	world_config_file.save("res://data/world_data.cfg")
 	player_config_file.save("res://data/player_data.cfg")
-
+	system_message("Saved data")
+	
 func save_config_variables():
+	world_config_data["new_save"] = false
 	world_config_data["current_map"] = main.map_container.get_child(0).name
-	player_config_data["inventory"] = player.inventory
-	player_config_data["spawn_position"] = player.global_position
-	player_config_data["max_hp"] = player.max_hp
-	player_config_data["hp"] = player.hp
-	player_config_data["max_mp"] = player.max_mp
-	player_config_data["mp"] = player.mp
-	player_config_data["attacks"] = player.attacks
-
+	for data_type in player_config_data.keys():
+		player_config_data[data_type] = player.get(data_type)
+		if data_type == "spawn_position":
+			player_config_data[data_type] = player.global_position
+	
+func apply_player_data():
+	for data_type in player_config_data.keys():
+		player_config_data[data_type]
+		player.set(data_type, player_config_data[data_type])
+	
 func reset_config_variables():
+	world_config_data["new_save"] = true
 	world_config_data["current_map"] = "throne_room"
 	player_config_data["inventory"] = []
-	player_config_data["spawn_position"] = ""
+	player_config_data["spawn_position"] = " "
 	player_config_data["max_hp"] = 100
 	player_config_data["hp"] = 100
 	player_config_data["max_mp"] = 100
@@ -130,7 +137,6 @@ func on_map_loading():
 func on_map_loaded():
 	await get_tree().create_timer(1.5).timeout
 	check_closest_interactable()
-	player_controls(true)
 	main.emit_signal("loading_finished")
 
 func system_message(message: String):
@@ -151,6 +157,7 @@ func set_player_intro_stats(powerful: bool):
 			player.hp = 500
 			player.max_mp = 250
 			player.mp = 250
+			player.attacks.clear()
 			player.attacks.append([ "Sword of Justice", 50, 15, "instance", 1, false])
 			player.attacks.append([ "Fireball", 20, 5, "instance", 1, false])
 		elif powerful == false:
@@ -159,6 +166,7 @@ func set_player_intro_stats(powerful: bool):
 			player.hp = 20
 			player.max_mp = 10
 			player.mp = 10
+			player.attacks.clear()
 			player.attacks = [
 				[ "Slash", 5, 3, "local", 1, false],
 			]

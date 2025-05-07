@@ -16,7 +16,7 @@ class_name Character
 	"Line 3"
 ]
 @export var dialogue_amount: int = 1
-var dialogue_index: int = 1
+var dialogue_index: int = 0
 var dialogue_finished: bool = false
 
 var speech_audio_player: AudioStreamPlayer3D
@@ -141,6 +141,18 @@ func on_damaged(amount: int):
 func interact_action():
 	print("interaction not found")
 	return
+
+func dialogue_over():
+	dialogue_index += 1
+	dialogue_over_function()
+	if BattleManagerTb.battle_active:
+		BattleManagerTb.battle_paused = false
+		Globals.main.ui_container.visible = false
+	if dialogue_index >= dialogue_amount:
+		dialogue_finished = true
+
+func dialogue_over_function():
+	pass #define in other scripts
 
 func die():
 	death_effect()

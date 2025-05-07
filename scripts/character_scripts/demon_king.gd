@@ -11,47 +11,50 @@ func get_variables():
 	self.add_to_group(side)
 	get_weapon_info()
 	attacks = [
-		[ "Death Slash", 500, 1, "local", 1, false],
-		[ "Stomp", 500, 1, "local", 1, false],
+		[ "Death Slash", 300, 1, "local", 1, false],
+		[ "Stomp", 300, 1, "local", 1, false],
 	]
 
 func interact_action():
 	DialogueManager.start_dialogue(lines, self, false)
+	Globals.main.map.toggle_boss_door(true)
 
 func dialogue_over():
+	dialogue_index += 1
 	DialogueManager.emit_signal("dialogue_over")
 	if dialogue_index == 1:
 		BattleManagerTb.enemies.append(self)
 		BattleManagerTb.start_battle(BattleManagerTb.allies, BattleManagerTb.enemies)
 	if dialogue_index == 2 && BattleManagerTb.battle_active:
 		BattleManagerTb.battle_scene.end_battle("")
-	if dialogue_index == 3 && !BattleManagerTb.battle_active:
+		lines = [
+			"DIE!!"
+		]
+		DialogueManager.start_dialogue(lines, self, false)
+	if dialogue_index == 3:
+		can_attack = true
 		can_move = true
 		stationary = false
-		Globals.main.enable_realtime()
-	dialogue_index += 1
 	if dialogue_index > dialogue_amount:
 		dialogue_finished = true
 
 func on_damaged(amount: int):
 	hp -= amount
 	damaged_index += 1
-	if damaged_index == 1:
+	if damaged_index == 2:
 		lines = [
-			"Attacking in turns, huh.",
+			"Attacking in turns, huh?",
 			"Truly, you are no better than a rat.",
 			"I will not stand for this any longer!",
 			"Fight me, coward!"
 		]
 		DialogueManager.start_dialogue(lines, self, false)
 
-func tb_attack(target: Object, _side: Array): #side is for custom npcs in need of special targetting
-	if target.name == "Hero" && _side.size() > 1:
+func tb_attack(target: Object, _side: Array):
+	if target.name == "Hero" && _side.size() > 1: #target any party member that isnt the player first
 		target = _side[randi_range(0, _side.size()-1)]
 		tb_attack(target, _side)
-		print("stopped")
 		return
-	print("continued")
 	var chosen_attack = randi_range(0, attacks.size()-1)
 	var attack = attacks[chosen_attack]
 	var atk_name = attack[0]

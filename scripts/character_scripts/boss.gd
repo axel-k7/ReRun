@@ -2,7 +2,6 @@ extends "res://scripts/character_scripts/NPC.gd"
 
 var actions_taken: int = 0
 var times_damaged: int = 0
-var dialogue_index: int = 0
 var line_index: int = 0
 
 func _ready() -> void:

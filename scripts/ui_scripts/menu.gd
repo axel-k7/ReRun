@@ -43,9 +43,8 @@ func _on_exit_button_pressed():
 
 func _on_save_button_pressed():
 	Globals.save_config_file(false)
-	Globals.system_message("Data Saved")
 
-func _on_reset_button_pressed() -> void:
+func _on_unstuck_button_pressed() -> void:
 	if Globals.player == null:
 		return
 	Globals.player.global_position = Vector3(0, 5, 0)
@@ -54,6 +53,7 @@ func _on_reset_button_pressed() -> void:
 func _on_confirm_exit_pressed():
 	Globals.main.emit_signal("loading_start")
 	self.visible = false
+	confirm_exit.visible = false
 	await get_tree().create_timer(0.5).timeout
 	Globals.main.reset_game()
 
@@ -62,6 +62,8 @@ func _on_inventory_button_pressed() -> void:
 	var item_index = 0
 	if inv_container.visible == false:
 		inv_container.visible = true
+		if Globals.player.inventory.size() == 0:
+			Globals.system_message("Inventory Empty")
 		for item in Globals.player.inventory:
 			item_index += 1
 			if item_index == item_y_limit:

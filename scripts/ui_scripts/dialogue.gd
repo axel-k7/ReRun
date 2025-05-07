@@ -40,9 +40,9 @@ func update_text(lines: Array, target: Object, continue_after: bool):
 	line_index += 1
 	Globals.can_interact = true
 	if line_index > lines.size():
-		dialogue_over.emit(target)
 		self.visible = false
 		Globals.player_controls(continue_after)
+		dialogue_over.emit(target)
 		text_label.text = ""
 		line_index = 0
 		

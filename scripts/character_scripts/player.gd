@@ -7,6 +7,7 @@ extends Character
 @onready var interact_marker = $PlayerInteractMarker
 
 var closest_interactable: Object
+var spawn_position = " "
 
 signal intro_talk_start
 signal attack_anim_started
@@ -156,7 +157,7 @@ func attack_input():
 			emit_signal("ability_menu_deactivate")
 
 func die():
-	pass
+	Globals.main.map.toggle_boss_door(false)
 
 func on_inventory_updated():
 	print(inventory)
@@ -173,9 +174,16 @@ func _on_enemy_range_body_exited(body: Node3D) -> void:
 
 func intro_dialogue():
 	var intro_lines: Array[String] = [
-		"Just a few more steps, my friends, and all of this will finally be over!",
+		"Just a few more steps and all of this will finally be over...",
 	]
-	DialogueManager.start_dialogue(intro_lines, self, true)
+	DialogueManager.start_dialogue(intro_lines, self, false)
+
+func dialogue_over():
+	dialogue_index += 1
+	if dialogue_index >= dialogue_amount:
+		dialogue_finished = true
+		Globals.player_controls(true)
+		Globals.can_player_attack = false
 
 func interact_action():
 	intro_dialogue()

@@ -10,6 +10,10 @@ func interact_action():
 	if DialogueManager.dialogue.line_index == lines.size()-1:
 		BattleManagerTb.enemies.append(self)
 
+func dialogue_over_function():
+	if !BattleManagerTb.battle_active:
+		BattleManagerTb.start_battle(BattleManagerTb.allies, BattleManagerTb.enemies)
+
 func get_variables():
 	weapon = $Spear
 	attacks = [

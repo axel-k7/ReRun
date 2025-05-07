@@ -45,17 +45,6 @@ func _physics_process(delta: float):
 	elif stationary && !Globals.player == null:
 		look_at(Globals.player.global_position)
 
-func dialogue_over():
-	dialogue_index += 1
-	DialogueManager.emit_signal("dialogue_over")
-	if !BattleManagerTb.battle_active:
-		BattleManagerTb.start_battle(BattleManagerTb.allies, BattleManagerTb.enemies)
-		can_move = true
-	elif BattleManagerTb.battle_active:
-		BattleManagerTb.battle_paused = false
-	if dialogue_index >= dialogue_amount:
-		dialogue_finished = true
-
 func movement(delta: float):
 	update_target_position(Globals.player.global_position)
 	fight_formation()

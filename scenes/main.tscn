@@ -21,6 +21,7 @@ script = ExtResource("1_26nwy")
 [node name="UiContainer" type="CanvasLayer" parent="."]
 
 [node name="SystemMessage" type="Label" parent="UiContainer"]
+z_index = 2
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
