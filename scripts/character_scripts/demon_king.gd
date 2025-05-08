@@ -46,7 +46,7 @@ func on_damaged(amount: int):
 	damaged_index += 1
 	if damaged_index == 2:
 		lines = [
-			"Attacking in turns, huh?",
+			"Taking turns attacking? Shameless.",
 			"Truly, you are no better than a rat.",
 			"Face me in real combat, coward!"
 		]

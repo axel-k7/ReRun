@@ -3,6 +3,7 @@ extends Node
 @onready var text_label: Label = $DialogueContainer/VBoxContainer/TextContainer/Text
 @onready var name_label: Label = $DialogueContainer/VBoxContainer/Name
 @onready var container: HSplitContainer = $DialogueContainer
+@onready var character_portrait: TextureRect = $DialogueContainer/TextureRect
 @onready var background: ColorRect = $ColorRect
 @onready var letter_timer: Timer = $letterTimer
 
@@ -19,11 +20,12 @@ func _ready():
 	self.global_position = Vector2(get_viewport().get_visible_rect().size.x/6, get_viewport().get_visible_rect().size.y-self.size.y)
 	text_label.custom_minimum_size = (self.size/100)*75
 
-func set_up_dialogue(target):
+func set_up_dialogue(target: Object):
 	self.visible = true
 	DialogueManager.dialogue_active = true
 	Globals.player_controls(false)
 	name_label.text = target.Cname
+	character_portrait.texture = target.image
 
 func update_text(lines: Array, target: Object, movement_after: bool):
 	text_label.visible_characters = 0

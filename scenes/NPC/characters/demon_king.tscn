@@ -1,6 +1,8 @@
-[gd_scene load_steps=26 format=3 uid="uid://c387syvb460q0"]
+[gd_scene load_steps=28 format=3 uid="uid://c387syvb460q0"]
 
 [ext_resource type="Script" uid="uid://bgtthviyqinsi" path="res://scripts/character_scripts/demon_king.gd" id="1_cph8i"]
+[ext_resource type="Texture2D" uid="uid://b133f76r8p0gs" path="res://vfx/character_sprites/demon_king/demon_king_portrait.png" id="2_3uid3"]
+[ext_resource type="Texture2D" uid="uid://lktj42me7rgd" path="res://vfx/character_sprites/demon_king/dk_tb_base_enemy.png" id="2_ccghc"]
 [ext_resource type="PackedScene" uid="uid://b7hy12yjbrbul" path="res://scenes/weapons/greatsword.tscn" id="2_cph8i"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_270vp"]
@@ -255,6 +257,8 @@ outer_radius = 0.5
 script = ExtResource("1_cph8i")
 neutral_distance = 5.0
 Cname = "Demon King"
+image = ExtResource("2_3uid3")
+tb_sprite_enemy = ExtResource("2_ccghc")
 lines = Array[String](["So you've arrived, little rat.", "Face me and be crushed!"])
 dialogue_amount = 3
 max_hp = 500

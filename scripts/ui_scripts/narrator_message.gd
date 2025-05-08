@@ -9,15 +9,17 @@ var lines: Array[String] = []
 var line_index = 0
 var can_continue: bool = false
 var time: float = 0
+var dark_on_line
 
 func _process(delta):
 	if can_continue == true:
 		time += delta
 		next_icon.modulate.a = sin(time)
 
-func narrate(given_lines: Array[String], image_path: String):
+func narrate(given_lines: Array[String], image_name: String, darken_on_line: int):
+	dark_on_line = darken_on_line
 	Globals.cutscene_active = true
-	var image = load(image_path)
+	var image = load("res://vfx/narration_graphics/" + image_name + ".png")
 	background.texture = image
 	next_icon.modulate.a = 0
 	background.size.y = get_viewport_rect().size.y
@@ -33,10 +35,19 @@ func narrate(given_lines: Array[String], image_path: String):
 	tween.stop()
 	tween.tween_callback(free)
 
+func darken_background():
+	var tween = get_tree().create_tween()
+	tween.tween_property(background, "modulate", Color.BLACK, 1.5)
+	await tween.finished
+	tween.stop()
+	tween.tween_callback(free)
+
 func _input(event):
 	if Input.is_action_pressed("interact") && can_continue:
 		next_icon.modulate.a = 0
 		line_index += 1
+		if dark_on_line != 0 && line_index == dark_on_line-1:
+			darken_background()
 		update_text()
 		wait()
 
@@ -60,4 +71,5 @@ func deactivate():
 	tween.tween_callback(free)
 	Globals.main.emit_signal("narrator_finished")
 	Globals.cutscene_active = false
+	Globals.paused = false
 	self.queue_free()

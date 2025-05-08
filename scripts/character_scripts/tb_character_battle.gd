@@ -36,6 +36,6 @@ func on_damaged(amount: int):
 	sfx.play()
 	Globals.damage_flash(self)
 	if character.hp <= 0:
-		sprite.rotate(1)
+		sprite.rotate(1.6)
 		emit_signal("die")
 		character.die()

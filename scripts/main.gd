@@ -63,7 +63,7 @@ func load_map(map_name: String):
 	map = map_to_load.instantiate()
 	await loading_active
 	if map_container.get_children() != []: #if a map is already loaded: remove it
-		Globals.player_config_data["spawn_position"] = Vector3(0, 0, 0) #wipe saved spawn position
+		Globals.player_config_data["position"] = Vector3(0, 0, 0) #wipe saved spawn position
 		var loaded_map = map_container.get_child(0)
 		loaded_map.queue_free()
 	map_container.add_child(map)
@@ -134,10 +134,10 @@ func _input(event):
 		toggle_menu()
 
 
-func narrate(lines, image_path):
+func narrate(lines, image_path, darken_on_line):
 	narrator = narrator_scene.instantiate()
 	ui_container.add_child(narrator)
-	narrator.narrate(lines, image_path)
+	narrator.narrate(lines, image_path, darken_on_line)
 
 func intro_sequence():
 	Globals.game_started = false
@@ -148,7 +148,7 @@ func intro_sequence():
 		"After countless of hard fought battles, you finally arrive at the Demon King's chamber."
 	]
 	await loading_finished
-	narrate(lines, "res://vfx/view.png")
+	narrate(lines, "intro_view", 0)
 	await narrator_finished
 	Globals.paused = false
 	Globals.game_started = true
@@ -158,6 +158,18 @@ func intro_sequence():
 func on_intro_defeat():
 	load_map("fields_of_defeat")
 	Globals.player.move_speed = 7.0
+	var lines: Array[String] = [
+		"Some time later.",
+		"With the hero dead, humanity could no longer hold out against demonkind.",
+		"test"
+	]
+	await loading_finished
+	narrate(lines, "intro_view", 2)
+	await narrator_finished
+	lines = [
+		"...",
+	]
+	DialogueManager.start_dialogue(lines, Globals.player, true)
 
 func toggle_menu():
 	if Globals.paused == false:

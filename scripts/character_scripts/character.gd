@@ -101,6 +101,8 @@ func do_attack(type: String):
 	
 	elif attack_type == "instance" || attack_type == "projectile":
 		var attack_scene = load("res://scenes/attacks/" + attack_name + ".tscn")
+		if attack_scene == null:
+			return
 		var attack = attack_scene.instantiate()
 		if !raycasting:
 			self.add_child(attack)

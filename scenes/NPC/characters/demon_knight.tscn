@@ -1,10 +1,12 @@
-[gd_scene load_steps=18 format=3 uid="uid://qhrcubikyyej"]
+[gd_scene load_steps=20 format=3 uid="uid://qhrcubikyyej"]
 
 [ext_resource type="Script" uid="uid://b4garg6o358ix" path="res://scripts/character_scripts/demon_knight.gd" id="1_kyw3d"]
 [ext_resource type="PackedScene" uid="uid://dnylqglew4g6w" path="res://scenes/weapons/spear.tscn" id="2_bva5n"]
+[ext_resource type="Texture2D" uid="uid://dcfoh30aseigg" path="res://vfx/character_sprites/demon_knight_portrait.png" id="2_dtou7"]
+[ext_resource type="Texture2D" uid="uid://7xnwpp3uviln" path="res://vfx/character_sprites/demon_knight_tb_enemy.png" id="2_yk87n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_270vp"]
-albedo_color = Color(1, 0.517647, 0.431373, 1)
+albedo_color = Color(0.560784, 0.0392157, 0.14902, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cuef7"]
 material = SubResource("StandardMaterial3D_270vp")
@@ -117,6 +119,8 @@ outer_radius = 0.5
 [node name="demon_knight" type="CharacterBody3D"]
 script = ExtResource("1_kyw3d")
 Cname = "Demon Knight"
+image = ExtResource("2_dtou7")
+tb_sprite_enemy = ExtResource("2_yk87n")
 lines = Array[String](["YOU WILL NOT REACH HIS MAJESTY!", "YOUR RAMPAGE ENDS HERE!"])
 max_hp = 100
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c48t4wuvq7r2y"
-path="res://.godot/imported/view.png-a7b214f207c79e352271a6c78ade6eca.ctex"
+uid="uid://7xnwpp3uviln"
+path="res://.godot/imported/demon_knight_tb_enemy.png-35ccc35b9a3a541fcbd525bfc6104892.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://vfx/view.png"
-dest_files=["res://.godot/imported/view.png-a7b214f207c79e352271a6c78ade6eca.ctex"]
+source_file="res://vfx/character_sprites/demon_knight_tb_enemy.png"
+dest_files=["res://.godot/imported/demon_knight_tb_enemy.png-35ccc35b9a3a541fcbd525bfc6104892.ctex"]
 
 [params]
 
