@@ -25,7 +25,7 @@ func set_up_dialogue(target):
 	Globals.player_controls(false)
 	name_label.text = target.Cname
 
-func update_text(lines: Array, target: Object, continue_after: bool):
+func update_text(lines: Array, target: Object, movement_after: bool):
 	text_label.visible_characters = 0
 	Globals.can_interact = false
 	if line_index < lines.size():
@@ -41,7 +41,7 @@ func update_text(lines: Array, target: Object, continue_after: bool):
 	Globals.can_interact = true
 	if line_index > lines.size():
 		self.visible = false
-		Globals.player_controls(continue_after)
+		Globals.player_controls(movement_after)
 		dialogue_over.emit(target)
 		text_label.text = ""
 		line_index = 0

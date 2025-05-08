@@ -23,11 +23,13 @@ signal load_game
 signal settings
 signal exit
 signal narrator_finished
+signal intro_sequence_defeat
 
 func _ready():
 	set_up_main_menu()
 	loading_start.connect(on_loading_start)
 	loading_finished.connect(on_loading_finished)
+	intro_sequence_defeat.connect(on_intro_defeat)
 	new_game.connect(on_new_game)
 	load_game.connect(on_load_game)
 	settings.connect(on_settings)
@@ -51,23 +53,22 @@ func spawn_player():
 	var player = player_scene.instantiate()
 	self.add_child(player)
 	Globals.player = player
-	if Globals.world_config_data["new_save"] == false:
-		Globals.apply_player_data()
-	#if Globals.player_config_data["spawn_position"] == " ":
-	#	Globals.player.set("global_position", map.player_spawn_pos)
+	Globals.apply_player_data()
 
-func load_map():
+func load_map(map_name: String):
 	emit_signal("loading_start")
+	Globals.world_config_data["current_map"] = map_name
 	BattleManagerTb.enemies.clear() #any allies need to be outside of the map scene for this to function properly
 	var map_to_load = load(str("res://scenes/maps/", Globals.world_config_data["current_map"], ".tscn"))
 	map = map_to_load.instantiate()
 	await loading_active
 	if map_container.get_children() != []: #if a map is already loaded: remove it
-		Globals.player_config_data["spawn_position"] = "" #wipe saved spawn position
+		Globals.player_config_data["spawn_position"] = Vector3(0, 0, 0) #wipe saved spawn position
 		var loaded_map = map_container.get_child(0)
 		loaded_map.queue_free()
 	map_container.add_child(map)
-	Globals.world_config_data["current_map"] = "test_map_2"
+	if Globals.player != null:
+		Globals.player.global_position = map.player_spawn_pos
 	map.spawn_npcs()
 	await get_tree().create_timer(1).timeout #artificial delay
 	emit_signal("loading_finished")
@@ -86,7 +87,7 @@ func reset_game():
 func start_game():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	DialogueManager.emit_signal("loading_complete")
-	load_map()
+	load_map(Globals.world_config_data["current_map"])
 	set_up_ability_menu()
 	await loading_finished
 	main_menu.queue_free()
@@ -153,6 +154,10 @@ func intro_sequence():
 	Globals.game_started = true
 	Globals.player.emit_signal("intro_talk_start")
 	Globals.set_player_intro_stats(true)
+
+func on_intro_defeat():
+	load_map("fields_of_defeat")
+	Globals.player.move_speed = 7.0
 
 func toggle_menu():
 	if Globals.paused == false:

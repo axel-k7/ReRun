@@ -7,7 +7,6 @@ extends Character
 @onready var interact_marker = $PlayerInteractMarker
 
 var closest_interactable: Object
-var spawn_position = " "
 
 signal intro_talk_start
 signal attack_anim_started
@@ -156,8 +155,15 @@ func attack_input():
 		if Input.is_action_just_released("ability_menu"):
 			emit_signal("ability_menu_deactivate")
 
+func on_damaged(amount: int):
+	hp -= (amount * guard_multiplier) * defense
+	guard_multiplier = 1.0
+	if hp <= 0:
+		die()
+
 func die():
-	Globals.main.map.toggle_boss_door(false)
+	Globals.paused = true
+	Globals.main.map.emit_signal("reset_map")
 
 func on_inventory_updated():
 	print(inventory)

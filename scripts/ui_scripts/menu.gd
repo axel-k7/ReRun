@@ -47,7 +47,7 @@ func _on_save_button_pressed():
 func _on_unstuck_button_pressed() -> void:
 	if Globals.player == null:
 		return
-	Globals.player.global_position = Vector3(0, 5, 0)
+	Globals.player.global_position = Globals.main.map.player_spawn_pos
 	Globals.system_message("Unstuck Player")
 
 func _on_confirm_exit_pressed():

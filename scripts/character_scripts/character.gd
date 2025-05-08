@@ -4,7 +4,7 @@ class_name Character
 @export var Cname: String = "name"
 @export var image: CompressedTexture2D = preload("res://vfx/character_sprites/missing.png")
 @export var custom_gravity = 60
-@export var move_speed: float = 7
+@export var move_speed: float = 7.0
 @export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/tb_preset.png")
 @export var tb_sprite_enemy: CompressedTexture2D = preload("res://vfx/tb_preset.png")
 @export var hurt_sfx: AudioStream = preload("res://sfx/hurt_preset.wav")

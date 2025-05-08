@@ -20,7 +20,7 @@ var world_config_data: Dictionary = {
 }
 var player_config_data: Dictionary = {
 	"inventory": "",
-	"spawn_position": "",
+	"position": "",
 	"max_hp": "",
 	"hp": "",
 	"max_mp": "",
@@ -53,7 +53,6 @@ func check_closest_interactable():
 			interactables.remove_at(index)
 		index += 1
 	interactables.sort_custom(sort_closest)
-	print("closest interactable: ", interactables[0])
 
 func sort_closest(object1, object2):
 	return object1.global_position.distance_to(player.global_position) < object2.global_position.distance_to(player.global_position)
@@ -85,10 +84,10 @@ func save_config_file(reset):
 		return
 	for config_item in world_config_data.keys():
 		world_config_file.set_value("world", str(config_item), world_config_data[config_item])
-		print(config_item, " set as: ", world_config_data[config_item])
+		print(config_item, " saved as: ", world_config_data[config_item])
 	for config_item in player_config_data.keys():
 		player_config_file.set_value("player", str(config_item), player_config_data[config_item])
-		print(config_item, " set as: ", player_config_data[config_item])
+		print(config_item, " saved as: ", player_config_data[config_item])
 	world_config_file.save("res://data/world_data.cfg")
 	player_config_file.save("res://data/player_data.cfg")
 	system_message("Saved data")
@@ -98,19 +97,23 @@ func save_config_variables():
 	world_config_data["current_map"] = main.map_container.get_child(0).name
 	for data_type in player_config_data.keys():
 		player_config_data[data_type] = player.get(data_type)
-		if data_type == "spawn_position":
+		if data_type == "position":
 			player_config_data[data_type] = player.global_position
 	
 func apply_player_data():
 	for data_type in player_config_data.keys():
 		player_config_data[data_type]
 		player.set(data_type, player_config_data[data_type])
+		print(data_type, " set as: ", player_config_data[data_type])
+		if data_type == "position":
+			if player_config_data[data_type] == Vector3(0, 0, 0):
+				player.set(data_type, main.map.player_spawn_pos)
 	
 func reset_config_variables():
 	world_config_data["new_save"] = true
 	world_config_data["current_map"] = "throne_room"
 	player_config_data["inventory"] = []
-	player_config_data["spawn_position"] = " "
+	player_config_data["position"] = Vector3(0, 0, 0)
 	player_config_data["max_hp"] = 100
 	player_config_data["hp"] = 100
 	player_config_data["max_mp"] = 100

@@ -25,17 +25,20 @@ func dialogue_over():
 	if dialogue_index == 1:
 		BattleManagerTb.enemies.append(self)
 		BattleManagerTb.start_battle(BattleManagerTb.allies, BattleManagerTb.enemies)
-	if dialogue_index == 2 && BattleManagerTb.battle_active:
+	elif dialogue_index == 2 && BattleManagerTb.battle_active:
 		BattleManagerTb.battle_scene.end_battle("")
 		lines = [
 			"DIE!!"
 		]
-		DialogueManager.start_dialogue(lines, self, false)
-	if dialogue_index == 3:
+		await get_tree().create_timer(2).timeout
+		DialogueManager.start_dialogue(lines, self, true)
+	elif dialogue_index == 3:
 		can_attack = true
 		can_move = true
 		stationary = false
-	if dialogue_index > dialogue_amount:
+		Globals.player.move_speed = 3.0
+		Globals.can_player_attack = false
+	if dialogue_index >= dialogue_amount:
 		dialogue_finished = true
 
 func on_damaged(amount: int):
@@ -45,10 +48,16 @@ func on_damaged(amount: int):
 		lines = [
 			"Attacking in turns, huh?",
 			"Truly, you are no better than a rat.",
-			"I will not stand for this any longer!",
-			"Fight me, coward!"
+			"Face me in real combat, coward!"
 		]
 		DialogueManager.start_dialogue(lines, self, false)
+
+func select_attack():
+	var random_num = randi_range(1, 4)
+	if random_num <= 3:
+		attack_type = "weapon"
+	elif random_num > 3:
+		attack_type = "ability"
 
 func tb_attack(target: Object, _side: Array):
 	if target.name == "Hero" && _side.size() > 1: #target any party member that isnt the player first

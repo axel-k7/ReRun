@@ -1,18 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://co6bsilhcd01m"]
-
-[ext_resource type="Texture2D" uid="uid://ctdo4cp2qqhvd" path="res://vfx/map_textures/tiles.png" id="1_0gqfy"]
+[gd_scene load_steps=4 format=3 uid="uid://co6bsilhcd01m"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wdcml"]
 size = Vector3(100, 1, 200)
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_jsfpr"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j5igb"]
-albedo_texture = ExtResource("1_0gqfy")
-uv1_scale = Vector3(35, 35, 35)
-
 [sub_resource type="BoxMesh" id="BoxMesh_e1mm0"]
-material = SubResource("StandardMaterial3D_j5igb")
 size = Vector3(100, 1, 200)
 
 [node name="Baseplate" type="StaticBody3D"]

@@ -2,6 +2,7 @@ extends Node
 
 @onready var dialogue_scene = preload("res://scenes/ui/dialogue.tscn")
 var dialogue_active: bool = false
+var movement_after_saved: bool = false
 var current_dialogue_target
 var dialogue
 
@@ -17,7 +18,7 @@ func set_up_dialogue():
 	Globals.main.ui_container.add_child(dialogue)
 	dialogue.dialogue_over.connect(dialogue._on_dialogue_over)
 
-func start_dialogue(lines: Array, target: Object, continue_after: bool):
+func start_dialogue(lines: Array, target: Object, movement_after: bool):
 	current_dialogue_target = target
 	if !target.dialogue_finished:
 		if !dialogue_active:
@@ -29,9 +30,10 @@ func start_dialogue(lines: Array, target: Object, continue_after: bool):
 			if !Globals.player == null && BattleManagerTb.battle_active == false: 
 				Globals.player.camera.look_at(target.global_position)
 			dialogue.set_up_dialogue(target)
-			dialogue.update_text(lines, target, continue_after)
+			dialogue.update_text(lines, target, movement_after)
+			movement_after_saved = movement_after
 		elif dialogue_active:
-			dialogue.update_text(lines, target, continue_after)
+			dialogue.update_text(lines, target, movement_after_saved)
 	else: return
 
 func on_dialogue_over():

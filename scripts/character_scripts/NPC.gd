@@ -59,7 +59,7 @@ func update_target_position(target_pos):
 	nav_agent.target_position = target_pos
 
 func fight_formation():
-	look_at(Globals.player.global_position)
+	look_at(Vector3(Globals.player.global_position.x, self.position.y, Globals.player.global_position.z))
 	var distance_to_player = self.global_position.distance_to(Globals.player.position)
 	target_velocity = transform.basis * direction * move_speed
 	if distance_to_player > neutral_distance:

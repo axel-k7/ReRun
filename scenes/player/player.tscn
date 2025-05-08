@@ -182,7 +182,6 @@ radius = 5.0
 [node name="player" type="CharacterBody3D"]
 script = ExtResource("1_jr5d1")
 Cname = "Hero"
-move_speed = 70.0
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.952215, 0.30543, 0, -0.30543, 0.952215, 0, 2, 0)
