@@ -70,6 +70,7 @@ func player_select_target():
 	target_marker.scale.x = target_sprite_size/550
 
 func start_battle(ally_array: Array, enemy_array: Array):
+	Globals.main.emit_signal("loading_finished")
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	Globals.player_controls(false)
 	self.visible = true
@@ -79,7 +80,6 @@ func start_battle(ally_array: Array, enemy_array: Array):
 	Globals.player.camera.current = false
 	camera.make_current()
 	set_process(true)
-	Globals.main.emit_signal("loading_finished")
 	set_up_characters(ally_array, "ally")
 	set_up_characters(enemy_array, "enemy")
 	
@@ -95,11 +95,8 @@ func end_battle(result: String):
 	else: pass
 	action_message(result.capitalize())
 	
-	Globals.main.emit_signal("loading_start")
-	await get_tree().create_timer(2).timeout
-	Globals.player_controls(true)
-	self.visible = false
 	Globals.main.ui_container.visible = true
+	Globals.main.emit_signal("loading_start")
 	ui_layer.visible = false
 	Globals.player.camera.current = true
 	BattleManagerTb.battle_active = false
@@ -114,11 +111,14 @@ func end_battle(result: String):
 	for child in enemyNode.get_children():
 		child.character.emit_signal("battle_over")
 		child.queue_free()
-	set_process(false)
 	
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	Globals.player_controls(true)
+	
+	await get_tree().create_timer(0.5).timeout
+	self.visible = false
 	Globals.main.emit_signal("loading_finished")
-
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	set_process(false)
 
 func set_up_characters(characters, side: String):
 	var characterIndex = 0

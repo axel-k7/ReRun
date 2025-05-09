@@ -18,7 +18,7 @@ func _ready() -> void:
 	ability_buttons[2].position = Vector2(get_viewport_rect().size.x/2,0)
 	ability_buttons[3].position = Vector2(get_viewport_rect().size.x/2,get_viewport_rect().size.y/2)
 
-func on_activate():
+func activate():
 	for i in ability_buttons.size():
 		if i < Globals.player.attacks.size():
 			ability_buttons[i].set_mouse_filter(MOUSE_FILTER_PASS)
@@ -34,7 +34,7 @@ func on_activate():
 	active = true
 	self.visible = true
 
-func on_deactivate():
+func deactivate():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	Globals.can_rotate_camera = true
 	active = false

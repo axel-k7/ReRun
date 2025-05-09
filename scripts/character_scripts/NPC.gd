@@ -19,6 +19,7 @@ var can_move: bool = true
 var direction: Vector3 = Vector3.FORWARD
 var attack_type
 var damaged_index: int = 0
+var aggrod: bool = false
 
 func _ready():
 	get_variables()
@@ -46,8 +47,12 @@ func _physics_process(delta: float):
 		look_at(Globals.player.global_position)
 
 func movement(delta: float):
-	update_target_position(Globals.player.global_position)
-	fight_formation()
+	if !aggrod: 
+		velocity.x = 0
+		velocity.z = 0
+	if aggrod:
+		update_target_position(Globals.player.global_position)
+		fight_formation()
 	if not is_on_floor():
 		velocity.y -= Globals.gravity * delta
 	else:
@@ -59,8 +64,8 @@ func update_target_position(target_pos):
 	nav_agent.target_position = target_pos
 
 func fight_formation():
-	look_at(Vector3(Globals.player.global_position.x, self.position.y, Globals.player.global_position.z))
 	var distance_to_player = self.global_position.distance_to(Globals.player.position)
+	look_at(Vector3(Globals.player.global_position.x, self.position.y, Globals.player.global_position.z))
 	target_velocity = transform.basis * direction * move_speed
 	if distance_to_player > neutral_distance:
 		velocity = (nav_agent.get_next_path_position() - self.global_position).normalized() * move_speed*1.5

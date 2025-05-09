@@ -13,6 +13,7 @@ const gravity = 60
 var paused: bool = false
 var game_started: bool = false
 var cutscene_active: bool = false
+var in_combat: bool = false
 
 var world_config_data: Dictionary = {
 	"new_save": true,
@@ -154,7 +155,7 @@ func system_message(message: String):
 
 func set_player_intro_stats(powerful: bool):
 	if player != null:
-		if powerful == true:
+		if powerful:
 			can_player_attack = false
 			player.max_hp = 500
 			player.hp = 500
@@ -163,7 +164,7 @@ func set_player_intro_stats(powerful: bool):
 			player.attacks.clear()
 			player.attacks.append([ "Sword of Justice", 50, 15, "instance", 1, false])
 			player.attacks.append([ "Fireball", 20, 5, "instance", 1, false])
-		elif powerful == false:
+		elif !powerful:
 			can_player_attack = false
 			player.max_hp = 20
 			player.hp = 20

@@ -25,6 +25,7 @@ var body_animation: AnimationPlayer
 var attack_animation: AnimationPlayer
 var attack_idle_timer: Timer
 var weapon: Object
+var stun_timer: Timer
 var target_velocity = Vector3.ZERO
 var raycast: RayCast3D
 var raycast_end_pos: Vector3
@@ -33,7 +34,6 @@ const anim_reset_time: float = 1.0
 var attack_anim_name: String
 
 var wep_atk_index: int = 1
-var is_attacking: bool = false
 var attack_ready: bool = true
 var weapon_info: Dictionary = {
 	"weapon_name": null,
@@ -51,6 +51,8 @@ var level: int = 1
 @export var defense = 1.0
 @onready var hp = max_hp
 @onready var mp = max_mp
+var stamina: float = 100.0
+var blocking: bool = false
 var guard_multiplier: float = 1.0
 var attacks: Array[Array] = [
 		#Attack name (string), Damage(int), MP cost(int), Local or instanced (string), Attack chain length (int), raycast (bool) -> NOT IMPLEMENTED  -> ||damage type(string), description(string)||
@@ -136,10 +138,6 @@ func do_raycast():
 		raycast_end_pos = raycast.get_collision_point()
 	else: raycast_end_pos = raycast.target_position
 
-func on_damaged(amount: int):
-	hp -= (amount * guard_multiplier) * defense
-	guard_multiplier = 1.0
-
 func interact_action():
 	print("interaction not found")
 	return
@@ -154,7 +152,22 @@ func dialogue_over():
 		dialogue_finished = true
 
 func dialogue_over_function():
-	pass #define in other scripts
+	pass #defined in subscripts
+
+func stun():
+	pass #defined in player.gd and NPC.gd respectively
+
+func on_damaged(amount: int):
+	if !blocking:
+		hp -= (amount * guard_multiplier) * defense
+		guard_multiplier = 1.0
+	elif blocking:
+		stamina -= amount*5
+		if stamina <= 0:
+			stun()
+			hp -= amount/2
+	if hp <= 0:
+		die()
 
 func die():
 	death_effect()

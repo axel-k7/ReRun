@@ -7,7 +7,7 @@ func _physics_process(delta):
 
 func interact_action():
 	DialogueManager.start_dialogue(lines, self, false)
-	if DialogueManager.dialogue.line_index == lines.size()-1:
+	if DialogueManager.dialogue.line_index == lines.size()-1 && !BattleManagerTb.enemies.has(self):
 		BattleManagerTb.enemies.append(self)
 
 func dialogue_over_function():

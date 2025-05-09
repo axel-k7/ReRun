@@ -36,13 +36,14 @@ func on_deactivate():
 	tween.tween_callback(queue_free)
 
 func _on_exit_button_pressed():
-	if confirm_exit.visible == false:
+	if !confirm_exit.visible:
 		confirm_exit.visible = true
-	elif confirm_exit.visible == true:
+	elif confirm_exit.visible:
 		confirm_exit.visible = false
 
 func _on_save_button_pressed():
-	Globals.save_config_file(false)
+	if !Globals.in_combat:
+		Globals.save_config_file(false)
 
 func _on_unstuck_button_pressed() -> void:
 	if Globals.player == null:
@@ -60,7 +61,7 @@ func _on_confirm_exit_pressed():
 func _on_inventory_button_pressed() -> void:
 	var item_y_limit = round(((get_viewport_rect().size.y/4)*3)/150)
 	var item_index = 0
-	if inv_container.visible == false:
+	if !inv_container.visible:
 		inv_container.visible = true
 		if Globals.player.inventory.size() == 0:
 			Globals.system_message("Inventory Empty")
@@ -73,7 +74,7 @@ func _on_inventory_button_pressed() -> void:
 			item_option.get_child(0).texture = load("res://vfx/item_sprites/" + item + ".png")
 			item_option.get_child(1).text = item
 			item_option.item_selected.connect(_inv_item_selected.bind(item_option, item))
-	elif inv_container.visible == true:
+	elif inv_container.visible:
 		inv_container.visible = false
 		for child in inv_container.get_children():
 			child.queue_free()

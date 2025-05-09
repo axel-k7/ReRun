@@ -13,9 +13,9 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node3D) -> void:
 	if body.name == "player":
-		if forced_interaction == false:
+		if !forced_interaction:
 			Globals.check_closest_interactable()
-		elif forced_interaction == true:
+		elif forced_interaction:
 			Globals.check_closest_interactable()
 			get_parent().interact_action()
 

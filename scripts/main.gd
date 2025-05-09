@@ -24,6 +24,8 @@ signal settings
 signal exit
 signal narrator_finished
 signal intro_sequence_defeat
+signal battle_start
+signal battle_end
 
 func _ready():
 	set_up_main_menu()
@@ -57,6 +59,8 @@ func spawn_player():
 
 func load_map(map_name: String):
 	emit_signal("loading_start")
+	if Globals.player != null:
+		Globals.player_controls(false)
 	Globals.world_config_data["current_map"] = map_name
 	BattleManagerTb.enemies.clear() #any allies need to be outside of the map scene for this to function properly
 	var map_to_load = load(str("res://scenes/maps/", Globals.world_config_data["current_map"], ".tscn"))
@@ -72,6 +76,10 @@ func load_map(map_name: String):
 	map.spawn_npcs()
 	await get_tree().create_timer(1).timeout #artificial delay
 	emit_signal("loading_finished")
+	if Globals.player != null && !DialogueManager.dialogue_active && !Globals.cutscene_active:
+		Globals.player_controls(true)
+		if map.map_name == "Throne Room":
+			Globals.can_player_attack = false
 
 func reset_game():
 	Globals.game_started = false
@@ -97,17 +105,11 @@ func start_game():
 
 func on_loading_start():
 	loading_screen = loading_screen_scene.instantiate()
-	if Globals.player != null:
-		Globals.player_controls(false)
 	ui_container.add_child(loading_screen)
 
 func on_loading_finished():
 	if loading_screen == null:
 		return
-	if Globals.player != null && !DialogueManager.dialogue_active && !Globals.cutscene_active:
-		Globals.player_controls(true)
-		if map.map_name == "Throne Room":
-			Globals.can_player_attack = false
 	loading_screen.emit_signal("finished_loading")
 
 func on_new_game():
@@ -161,10 +163,13 @@ func on_intro_defeat():
 	var lines: Array[String] = [
 		"Some time later.",
 		"With the hero dead, humanity could no longer hold out against demonkind.",
-		"test"
+		"One by one, cities, landmarks, every trace of humanity would face destruction by the demons.",
+		"Was it truly the end for humankind?",
+		"...",
+		'A voice reaches out to you: \n "Wont you stand, once more?"'
 	]
 	await loading_finished
-	narrate(lines, "intro_view", 2)
+	narrate(lines, "intro_defeat_view", 4)
 	await narrator_finished
 	lines = [
 		"...",
@@ -172,11 +177,11 @@ func on_intro_defeat():
 	DialogueManager.start_dialogue(lines, Globals.player, true)
 
 func toggle_menu():
-	if Globals.paused == false:
+	if !Globals.paused:
 		Globals.paused = true
 		menu.emit_signal("activate")
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	elif Globals.paused == true:
+	elif Globals.paused:
 		Globals.paused = false
 		menu.emit_signal("deactivate")
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
