@@ -14,25 +14,41 @@ font_color = Color(1, 0, 0, 1)
 [node name="Dialogue" type="Control"]
 z_index = 10
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_right = -552.0
-offset_bottom = -548.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 script = ExtResource("1_84wqv")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_right = 600.0
-offset_bottom = 100.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -100.0
+offset_right = 300.0
+grow_horizontal = 2
+grow_vertical = 0
 color = Color(0.983781, 0.740504, 0.656421, 1)
 
 [node name="DialogueContainer" type="HSplitContainer" parent="."]
-layout_mode = 0
-offset_right = 600.0
-offset_bottom = 100.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -100.0
+offset_right = 300.0
+grow_horizontal = 2
+grow_vertical = 0
 dragging_enabled = false
 drag_area_highlight_in_editor = true
 

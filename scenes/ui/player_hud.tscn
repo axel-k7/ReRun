@@ -5,31 +5,22 @@
 [ext_resource type="Texture2D" uid="uid://cmowkhs4yxfm2" path="res://vfx/ui_textures/mp_middle.png" id="5_nh6vl"]
 [ext_resource type="Texture2D" uid="uid://bd73n57dntes7" path="res://vfx/ui_textures/stamina_middle.png" id="7_3cn05"]
 
-[node name="PlayerHud" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_u7a8l")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
+[node name="PlayerHud" type="VBoxContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("1_u7a8l")
 
-[node name="hpbar" type="TextureProgressBar" parent="VBoxContainer"]
+[node name="hpbar" type="TextureProgressBar" parent="."]
 layout_mode = 2
 value = 100.0
 texture_progress = ExtResource("3_nh6vl")
 
-[node name="mpbar" type="TextureProgressBar" parent="VBoxContainer"]
+[node name="mpbar" type="TextureProgressBar" parent="."]
 layout_mode = 2
 value = 50.0
 texture_progress = ExtResource("5_nh6vl")
 
-[node name="stmbar" type="TextureProgressBar" parent="VBoxContainer"]
+[node name="stmbar" type="TextureProgressBar" parent="."]
 layout_mode = 2
 value = 25.0
 texture_progress = ExtResource("7_3cn05")

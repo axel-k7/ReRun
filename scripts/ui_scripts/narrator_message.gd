@@ -19,6 +19,7 @@ func _process(delta):
 func narrate(given_lines: Array[String], image_name: String, darken_on_line: int):
 	dark_on_line = darken_on_line
 	Globals.cutscene_active = true
+	Globals.paused = true
 	var image = load("res://vfx/narration_graphics/" + image_name + ".png")
 	background.texture = image
 	next_icon.modulate.a = 0
@@ -26,7 +27,7 @@ func narrate(given_lines: Array[String], image_name: String, darken_on_line: int
 	background.position = Vector2(0,0)
 	message.size = get_viewport_rect().size/2
 	lines = given_lines
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	update_text()
 	wait()
 	var tween = get_tree().create_tween()

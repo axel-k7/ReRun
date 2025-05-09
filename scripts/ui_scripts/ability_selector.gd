@@ -35,7 +35,7 @@ func activate():
 	self.visible = true
 
 func deactivate():
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	Globals.can_rotate_camera = true
 	active = false
 	self.visible = false

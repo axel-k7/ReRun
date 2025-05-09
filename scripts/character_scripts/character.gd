@@ -55,11 +55,10 @@ var stamina: float = 100.0
 var blocking: bool = false
 var guard_multiplier: float = 1.0
 var attacks: Array[Array] = [
-		#Attack name (string), Damage(int), MP cost(int), Local or instanced (string), Attack chain length (int), raycast (bool) -> NOT IMPLEMENTED  -> ||damage type(string), description(string)||
-		[ "Slash", 5, 1, "local", 2, false],
-		[ "Beam", 10, 3, "instance", 1, false],
-		[ "Inferno", 50, 15, "instance", 1, true],
-		[ "Arrow Shot", 15, 5, "projectile", 2, true]
+		#Attack name (string), Damage(int), MP cost(int), Local or instanced (string), Attack chain length (int), ability multiplier for local (float), raycast (bool) -> NOT IMPLEMENTED  -> ||damage type(string), description(string)||
+		[ "Slash", 5, 1, "local", 2, 2.5, false],
+		[ "Beam", 10, 3, "instance", 1, null, false],
+		[ "Inferno", 50, 15, "instance", null, 1, true],
 	]
 var selected_ability: int = 0
 
@@ -79,6 +78,7 @@ func do_attack(type: String):
 	var attack_name: String
 	var attack_type: String
 	var attack_chain: int
+	var ability_multiplier: float = 1.0
 	var raycasting: bool = false
 	
 	if type == "weapon":
@@ -91,7 +91,8 @@ func do_attack(type: String):
 		attack_name = ability[0].to_lower()
 		attack_type = ability[3]
 		attack_chain = ability[4]
-		raycasting = ability[5]
+		ability_multiplier = ability[5]
+		raycasting = ability[6]
 	
 	if wep_atk_index > attack_chain:
 			wep_atk_index = 1
@@ -99,6 +100,7 @@ func do_attack(type: String):
 	
 	if attack_type == "local":
 		attack_animation.play(attack_anim_name)
+		weapon.ability_multiplier = ability_multiplier
 		wep_atk_index += 1
 	
 	elif attack_type == "instance" || attack_type == "projectile":
@@ -122,6 +124,7 @@ func _on_attack_animation_player_animation_finished(anim_name: StringName):
 	if anim_name == attack_anim_name:
 		attack_ready = true
 		weapon.empty_targets()
+		weapon.ability_multiplier = 1.0
 		is_attack_idle()
 
 func is_attack_idle():

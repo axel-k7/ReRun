@@ -1,0 +1,165 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbi8njqai1uru"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_40ve6"]
+albedo_color = Color(0.74978, 0.74978, 0.74978, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u1285"]
+albedo_color = Color(0.669804, 0.0159284, 5.29438e-07, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_snwbm"]
+albedo_color = Color(0.125911, 0.125911, 0.125911, 1)
+
+[node name="Node" type="Node"]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.51147, 0, 14.0015)
+size = Vector3(120, 1, 145)
+material = SubResource("StandardMaterial3D_40ve6")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 72)
+radius = 60.0
+height = 1.0
+sides = 12
+material = SubResource("StandardMaterial3D_40ve6")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="CSGCombiner3D/CSGBox3D/CSGCylinder3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.166009, 0)
+radius = 26.0
+height = 1.0
+sides = 12
+material = SubResource("StandardMaterial3D_u1285")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 30, -0.684093, -30)
+polygon = PackedVector2Array(-18, 1, -18, 10, 3, 10, 13, 1)
+depth = 20.0
+material = SubResource("StandardMaterial3D_40ve6")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D/CSGPolygon3D"]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 3, 8.60893, 12.5516)
+polygon = PackedVector2Array(-13, -10, -13, 10, 3, 10, 13, 1, 14, -10)
+depth = 21.0
+material = SubResource("StandardMaterial3D_40ve6")
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="CSGCombiner3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -61.1143, -0.552473, -30)
+polygon = PackedVector2Array(-18, 1, -18, 10, 3, 10, 13, 1)
+depth = 20.0
+material = SubResource("StandardMaterial3D_40ve6")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D/CSGPolygon3D2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -18, 8.52566, -33.5647)
+polygon = PackedVector2Array(-13, -10, -13, 10, 3, 10, 14.0054, 1.37232, 14, -10)
+depth = 21.0
+material = SubResource("StandardMaterial3D_40ve6")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 8.5, -26)
+radius = 24.0
+height = 19.0
+sides = 14
+material = SubResource("StandardMaterial3D_40ve6")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D/CSGCylinder3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -103.5)
+size = Vector3(48, 19, 208)
+material = SubResource("StandardMaterial3D_40ve6")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.11132, -4)
+size = Vector3(25, 1, 171)
+material = SubResource("StandardMaterial3D_u1285")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -81)
+radius = 15.3
+height = 1.0
+sides = 24
+material = SubResource("StandardMaterial3D_u1285")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5292, 8, 66.4726)
+polygon = PackedVector2Array(0, 0, 0, 6, 2, 6, 3, 4, 2.96051, 0.56856)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 10
+material = SubResource("StandardMaterial3D_snwbm")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2/CSGPolygon3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, 0)
+radius = 2.0
+height = 29.0
+material = SubResource("StandardMaterial3D_snwbm")
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.4708, 8, 66.4726)
+polygon = PackedVector2Array(0, 0, 0, 6, 2, 6, 3, 4, 2.96051, 0.56856)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 10
+material = SubResource("StandardMaterial3D_snwbm")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2/CSGPolygon3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, 0)
+radius = 2.0
+height = 29.0
+material = SubResource("StandardMaterial3D_snwbm")
+
+[node name="CSGPolygon3D3" type="CSGPolygon3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5292, 8, 34.4726)
+polygon = PackedVector2Array(0, 0, 0, 6, 2, 6, 3, 4, 2.96051, 0.56856)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 10
+material = SubResource("StandardMaterial3D_snwbm")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2/CSGPolygon3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, 0)
+radius = 2.0
+height = 29.0
+material = SubResource("StandardMaterial3D_snwbm")
+
+[node name="CSGPolygon3D4" type="CSGPolygon3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.4708, 8, 34.4726)
+polygon = PackedVector2Array(0, 0, 0, 6, 2, 6, 3, 4, 2.96051, 0.56856)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 10
+material = SubResource("StandardMaterial3D_snwbm")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2/CSGPolygon3D4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, 0)
+radius = 2.0
+height = 29.0
+material = SubResource("StandardMaterial3D_snwbm")
+
+[node name="CSGPolygon3D5" type="CSGPolygon3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5292, 8, 3.47261)
+polygon = PackedVector2Array(0, 0, 0, 6, 2, 6, 3, 4, 2.96051, 0.56856)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 10
+material = SubResource("StandardMaterial3D_snwbm")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2/CSGPolygon3D5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, 0)
+radius = 2.0
+height = 29.0
+material = SubResource("StandardMaterial3D_snwbm")
+
+[node name="CSGPolygon3D6" type="CSGPolygon3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.4708, 8, 3.47261)
+polygon = PackedVector2Array(0, 0, 0, 6, 2, 6, 3, 4, 2.96051, 0.56856)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 10
+material = SubResource("StandardMaterial3D_snwbm")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D/CSGCylinder3D/CSGBox3D2/CSGPolygon3D6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, 0)
+radius = 2.0
+height = 29.0
+material = SubResource("StandardMaterial3D_snwbm")

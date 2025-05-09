@@ -33,4 +33,6 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06902, 0)
 shape = SubResource("CapsuleShape3D_o616w")
 
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

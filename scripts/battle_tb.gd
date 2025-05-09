@@ -94,11 +94,8 @@ func end_battle(result: String):
 		pass
 	else: pass
 	action_message(result.capitalize())
-	
-	Globals.main.ui_container.visible = true
 	Globals.main.emit_signal("loading_start")
-	ui_layer.visible = false
-	Globals.player.camera.current = true
+	await Globals.main.loading_active
 	BattleManagerTb.battle_active = false
 	BattleManagerTb.battle_paused = false
 	BattleManagerTb.enemies.clear()
@@ -111,13 +108,13 @@ func end_battle(result: String):
 	for child in enemyNode.get_children():
 		child.character.emit_signal("battle_over")
 		child.queue_free()
-	
+		
 	Globals.player_controls(true)
-	
-	await get_tree().create_timer(0.5).timeout
-	self.visible = false
+	Globals.main.ui_container.visible = true
+	ui_layer.visible = false
+	Globals.player.camera.current = true
 	Globals.main.emit_signal("loading_finished")
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	set_process(false)
 
 func set_up_characters(characters, side: String):
@@ -240,7 +237,7 @@ func display_attacks(character: Object):
 	selecting_action = true
 	atk_container.visible = true
 	inv_container.visible = false
-	atk_container.size.y = 40*character.attacks.size()
+	atk_container.size.y = 100*character.attacks.size()
 	for attack in character.attacks:
 		var atk_option = atk_option_scene.instantiate()
 		var atk_name = attack[0]

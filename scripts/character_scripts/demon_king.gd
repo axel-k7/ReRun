@@ -11,8 +11,8 @@ func get_variables():
 	self.add_to_group(side)
 	get_weapon_info()
 	attacks = [
-		[ "Death Slash", 300, 1, "local", 1, false],
-		[ "Stomp", 300, 1, "local", 1, false],
+		[ "Death Slash", 300, 1, "local", 3, 1, false],
+		[ "Stomp", 300, 1, "local", 3, 1, false],
 	]
 
 func interact_action():
@@ -23,14 +23,15 @@ func dialogue_over():
 	dialogue_index += 1
 	DialogueManager.emit_signal("dialogue_over")
 	if dialogue_index == 1:
-		BattleManagerTb.enemies.append(self)
+		if !BattleManagerTb.enemies.has(self):
+			BattleManagerTb.enemies.append(self)
 		BattleManagerTb.start_battle(BattleManagerTb.allies, BattleManagerTb.enemies)
 	elif dialogue_index == 2 && BattleManagerTb.battle_active:
 		BattleManagerTb.battle_scene.end_battle("")
 		lines = [
 			"DIE!!"
 		]
-		await get_tree().create_timer(2).timeout
+		await Globals.main.loading_finished
 		DialogueManager.start_dialogue(lines, self, true)
 	elif dialogue_index == 3:
 		can_attack = true
@@ -48,7 +49,7 @@ func on_damaged(amount: int):
 		lines = [
 			"Taking turns attacking? Shameless.",
 			"Truly, you are no better than a rat.",
-			"Face me in real combat, coward!"
+			"Face me in REAL combat, coward!"
 		]
 		DialogueManager.start_dialogue(lines, self, false)
 

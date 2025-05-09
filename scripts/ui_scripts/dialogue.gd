@@ -13,12 +13,6 @@ var line_index = 0
 
 func _ready():
 	self.visible = false
-	container.size.x = get_viewport().get_visible_rect().size.x/1.5
-	container.size.y = get_viewport().get_visible_rect().size.y/5
-	background.size = container.size
-	self.size = container.size
-	self.global_position = Vector2(get_viewport().get_visible_rect().size.x/6, get_viewport().get_visible_rect().size.y-self.size.y)
-	text_label.custom_minimum_size = (self.size/100)*75
 
 func set_up_dialogue(target: Object):
 	self.visible = true

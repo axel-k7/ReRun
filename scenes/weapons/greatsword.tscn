@@ -41,6 +41,7 @@ height = 5.0
 monitoring = false
 script = ExtResource("1_ni8ri")
 weapon_name = "greatsword"
+damage = 25
 wielder = "enemy"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -69,5 +70,7 @@ mesh = SubResource("BoxMesh_v7kgo")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 shape = SubResource("CapsuleShape3D_o616w")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

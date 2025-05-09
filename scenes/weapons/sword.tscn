@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=4 uid="uid://bsd5vd18g3ywh"]
+[gd_scene load_steps=5 format=4 uid="uid://bsd5vd18g3ywh"]
 
 [ext_resource type="Script" uid="uid://d1f34e4bx1oqy" path="res://scenes/weapons/weapon.gd" id="1_o616w"]
+[ext_resource type="AudioStream" uid="uid://cvl2q0rlcbe61" path="res://sfx/sword.ogg" id="2_3pnln"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_o616w"]
 _surfaces = [{
@@ -27,5 +28,9 @@ mesh = SubResource("ArrayMesh_o616w")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.697955, 0)
 shape = SubResource("CapsuleShape3D_3pnln")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_3pnln")
+volume_db = -8.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

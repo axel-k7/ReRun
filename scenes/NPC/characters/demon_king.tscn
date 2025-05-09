@@ -99,6 +99,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_3uid3"]
 resource_name = "death slash_attack1_animation"
+length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -138,7 +139,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_cph8i"]
 resource_name = "greatsword_attack1_animation"
-length = 1.25
+length = 1.75
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -178,7 +179,6 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_ccghc"]
 resource_name = "greatsword_attack2_animation"
-length = 0.65
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -258,6 +258,7 @@ script = ExtResource("1_cph8i")
 neutral_distance = 5.0
 Cname = "Demon King"
 image = ExtResource("2_3uid3")
+move_speed = 12.0
 tb_sprite_enemy = ExtResource("2_ccghc")
 lines = Array[String](["So you've arrived, little rat.", "Face me and be crushed!"])
 dialogue_amount = 3
@@ -331,7 +332,7 @@ target_position = Vector3(0, -40, 0)
 [node name="greatsword" parent="." instance=ExtResource("2_cph8i")]
 transform = Transform3D(0.87001, -0.25, -0.424951, -0.0292344, 0.834234, -0.550635, 0.492167, 0.491481, 0.718483, 1.50792, 0, -0.259951)
 attack_chain = 2
-damage = 50
+damage = 100
 
 [node name="body_animation" type="AnimationPlayer" parent="."]
 

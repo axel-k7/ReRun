@@ -237,6 +237,7 @@ script = ExtResource("1_4pw7w")
 neutral_distance = 1.5
 flee_distance = 1.4
 Cname = "Ghoul"
+max_hp = 50
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_cuef7")

@@ -93,7 +93,7 @@ func reset_game():
 	set_up_main_menu()
 
 func start_game():
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	DialogueManager.emit_signal("loading_complete")
 	load_map(Globals.world_config_data["current_map"])
 	set_up_ability_menu()
@@ -111,6 +111,8 @@ func on_loading_finished():
 	if loading_screen == null:
 		return
 	loading_screen.emit_signal("finished_loading")
+	if map.map_name == "Throne Room":
+			Globals.can_player_attack = false
 
 func on_new_game():
 	Globals.save_config_file(true)
@@ -126,7 +128,7 @@ func on_load_game():
 		Globals.system_message("No save file available")
 
 func on_settings():
-	pass
+	main_menu.options.visible = !main_menu.options.visible
 
 func on_exit():
 	get_tree().quit()
@@ -134,7 +136,6 @@ func on_exit():
 func _input(event):
 	if Input.is_action_just_pressed("menu") && Globals.game_started && !BattleManagerTb.battle_active && !DialogueManager.dialogue_active:
 		toggle_menu()
-
 
 func narrate(lines, image_path, darken_on_line):
 	narrator = narrator_scene.instantiate()
@@ -164,13 +165,14 @@ func on_intro_defeat():
 		"Some time later.",
 		"With the hero dead, humanity could no longer hold out against demonkind.",
 		"One by one, cities, landmarks, every trace of humanity would face destruction by the demons.",
-		"Was it truly the end for humankind?",
+		"Was this truly the end for humankind?",
 		"...",
 		'A voice reaches out to you: \n "Wont you stand, once more?"'
 	]
 	await loading_finished
 	narrate(lines, "intro_defeat_view", 4)
 	await narrator_finished
+	Globals.set_player_intro_stats(false)
 	lines = [
 		"...",
 	]
@@ -184,4 +186,4 @@ func toggle_menu():
 	elif Globals.paused:
 		Globals.paused = false
 		menu.emit_signal("deactivate")
-		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

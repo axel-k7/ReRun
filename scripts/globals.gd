@@ -148,7 +148,7 @@ func system_message(message: String):
 	sys_msg_label.text = message
 	var tween = create_tween()
 	tween.tween_property(sys_msg_label, "modulate:a", 1, 0.5)
-	tween.tween_property(sys_msg_label, "modulate:a", 0, 1).set_delay(1)
+	tween.tween_property(sys_msg_label, "modulate:a", 0, 2).set_delay(1)
 	await tween.finished
 	tween.stop()
 	tween.tween_callback(queue_free)
@@ -162,15 +162,13 @@ func set_player_intro_stats(powerful: bool):
 			player.max_mp = 250
 			player.mp = 250
 			player.attacks.clear()
-			player.attacks.append([ "Sword of Justice", 50, 15, "instance", 1, false])
-			player.attacks.append([ "Fireball", 20, 5, "instance", 1, false])
+			player.attacks.append([ "Sword of Justice", 50, 15, "instance", null, 1, false ])
+			player.attacks.append([ "Fireball", 20, 5, "instance", 1, null, false ])
 		elif !powerful:
 			can_player_attack = false
-			player.max_hp = 20
-			player.hp = 20
-			player.max_mp = 10
-			player.mp = 10
+			player.max_hp = 50
+			player.hp = 50
+			player.max_mp = 50
+			player.mp = 50
 			player.attacks.clear()
-			player.attacks = [
-				[ "Slash", 5, 3, "local", 1, false],
-			]
+			player.attacks.append([ "Slash", 25, 20, "local", 2, 2.5, false])

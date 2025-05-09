@@ -1,8 +1,9 @@
-[gd_scene load_steps=30 format=4 uid="uid://5vgsqeqsyngh"]
+[gd_scene load_steps=34 format=4 uid="uid://5vgsqeqsyngh"]
 
-[ext_resource type="Script" uid="uid://bmh5qgj256u3" path="res://scripts/map_scripts/map.gd" id="1_43l2r"]
+[ext_resource type="Script" uid="uid://b0ivw20bmg2hv" path="res://scripts/map_scripts/fields_of_defeat.gd" id="1_43l2r"]
 [ext_resource type="PackedScene" uid="uid://kj3uudhd3tny" path="res://scenes/maps/map_parts/NPC_spawner.tscn" id="2_43l2r"]
 [ext_resource type="PackedScene" uid="uid://bbd1vh4grp4sl" path="res://scenes/NPC/characters/ghoul.tscn" id="3_rpot8"]
+[ext_resource type="Script" uid="uid://bw8b2mgvi418b" path="res://scripts/map_scripts/map_objects/carpet_of_doom_and_destruction.gd" id="4_rpot8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fnrps"]
 albedo_color = Color(1, 0.847059, 0.235294, 1)
@@ -56,13 +57,13 @@ cap_top = false
 offsets = PackedFloat32Array(0, 0.454545, 0.818182)
 colors = PackedColorArray(0.981587, 0.487308, 0.30837, 1, 0.685377, 0.823944, 0.828561, 1, 0.52059, 0.863358, 1, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_1q1wm"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_43l2r"]
 gradient = SubResource("Gradient_fnrps")
 fill_from = Vector2(0.5, 0)
 fill_to = Vector2(0.5, 0.9)
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_43l2r"]
-panorama = SubResource("GradientTexture2D_1q1wm")
+panorama = SubResource("GradientTexture2D_43l2r")
 
 [sub_resource type="Sky" id="Sky_rpot8"]
 sky_material = SubResource("PanoramaSkyMaterial_43l2r")
@@ -175,9 +176,26 @@ data = PackedVector3Array(-200, 180, -200, -200, -20, 200, -200, 22, 123.02, 200
 height = 200.0
 radius = 25.0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_rpot8"]
+size = Vector3(36, 30, 106)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ej2rd"]
+albedo_color = Color(0.194898, 0.0424148, 3.00817e-08, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_jca4a"]
+_surfaces = [{
+"aabb": AABB(-1.91899, -0.0405884, -1.97964, 3.91899, 0.0811768, 3.95929),
+"attribute_data": PackedByteArray("NK5rPwAAAABSLDU/AAAAAAAAAD8AAAA/XXRRPwAAAAAvumg/AAAAAC+6aD8AAIA/L7poPwAAAAAAAAAAAAAAAAAAAAAAAIA/FLYwPgAAAABBkds+AAAAAAAAgD8AAAAAQZHbPgAAAABRLDU/AAAAAAAAgD8AAAAAjC46PgAAAADpoos+AAAAAOmiiz4AAIA/USw1PwAAAAAyrms/AAAAAAAAgD8AAAAAAAAAAAAAAACMLro9AAAAAIwuuj0AAIA/jC66PQAAAACMLjo+AAAAAIwuOj4AAIA/XXRRPwAAgD+MLjo/AACAP4wuOj8AAAAAUiw1PwAAAABGkds+AAAAAAAAAD8AAAA/NK5rPwAAAABSLDU/AAAAAAAAgD8AAAAAL7poPwAAgD9ddFE/AACAP110UT8AAAAAAAAAAAAAgD8vumg/AACAPy+6aD8AAAAAAACAPwAAAAA0rms/AAAAAAAAAD8AAAA/6aKLPgAAgD+MLjo+AACAP4wuOj4AAAAAUSw1PwAAAAAyrms/AAAAAAAAAD8AAAA/QZHbPgAAAABRLDU/AAAAAAAAAD8AAAA/jC66PQAAgD8AAAAAAACAPwAAAAAAAAAAjC46PgAAgD+MLro9AACAP4wuuj0AAAAAMq5rPwAAAAAAAIA/AAAAAAAAAD8AAAA/sOqlPAAAAACg6qU8AAAAAAAAAD8AAAA/L7roPgAAAADpogs/AAAAAOmiCz8AAIA/sOqlPAAAAACg6qU8AAAAAAAAgD8AAAAAGLYwPgAAAACw6qU8AAAAAAAAgD8AAAAAuugiPwAAAACMLjo/AAAAAIwuOj8AAIA/jC66PgAAAAAvuug+AAAAAC+66D4AAIA/6aKLPgAAAACMLro+AAAAAIwuuj4AAIA/oOqlPAAAAAAUtjA+AAAAAAAAgD8AAAAAjC46PwAAgD+66CI/AACAP7roIj8AAAAAuugiPwAAgD/pogs/AACAP+miCz8AAAAAGLYwPgAAAACw6qU8AAAAAAAAAD8AAAA/6aILPwAAAAC66CI/AAAAALroIj8AAIA/RpHbPgAAAAAYtjA+AAAAAAAAAD8AAAA/6aILPwAAgD8vuug+AACAPy+66D4AAAAAL7roPgAAgD+MLro+AACAP4wuuj4AAAAAoOqlPAAAAAAUtjA+AAAAAAAAAD8AAAA/jC66PgAAgD/poos+AACAP+miiz4AAAAAFLYwPgAAAABBkds+AAAAAAAAAD8AAAA/RpHbPgAAAAAYtjA+AAAAAAAAgD8AAAAAUiw1PwAAAABGkds+AAAAAAAAgD8AAAAAjC46PwAAAABddFE/AAAAAF10UT8AAIA/"),
+"format": 34359738391,
+"material": SubResource("StandardMaterial3D_ej2rd"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 126,
+"vertex_data": PackedByteArray("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//9/uH+4/7///0XfRd//v///+9D70P+///9oiwAAtAX//3+4AABAHP//X6sAAK8V/3///wAAhg7/f///AACGDv9///8AAIYOdHr/fwAAxMICr/9/Ay//v7ig/3+5IP+//3///2s7/7//f///azv/v/9///9rO/+//3///xcQ/7//f///FxD/v/9///8XEP+/n9T/f59U/7///2iLaIv/v5X0/3+WdP+/Aq//fwMv/7+f1P9/n1T/v37H/39/R/+//3////Fi/7//f///8WL/v/9////xYv+//3////9//z//f////3//P/9/////f/8/dhT/fwAAw/UAAMWk//+c7QAAdZT//8P1/38AAP///7//fwAA////v/9/AAD///+//38AAP///7//fwAA////v/9/AAD///+/AADqyv//idoAAHP6///EwgAAzOb//5jMUj7/fwAA1eB2FP9/AADD9cUk/38AAJztzWb/fwAAmMxSPv9/AADV4OpK/38AAIna/38AAP///7//fwAA////v/9/AAD///+/AADM5v//mMwAAFK+///V4AAA6sr//4naAABSvv//1eAAAHWU///D9QAAxaT//5zt/3///+tN/z//f///603/P/9////rTf8/AADFpP//nO0AAOrK//+J2gAAUr7//9Xg/3///yAo/z//f///ICj/P/9///8gKP8/AAB1lP//w/XFJP9/AACc7XYU/38AAMP1xST/fwAAnO3qSv9/AACJ2lI+/38AANXg/3///wAA9eb/f///AAD15v9///8AAPXm6kr/fwAAidp0ev9/AADEws1m/38AAJjM/3///wAAD9T/f///AAAP1P9///8AAA/U/38AAP///7//fwAA////v/9/AAD///+//38AAP///7//fwAA////v/9/AAD///+/AABz+v//xML///vQ+9D/v///Rd9F3/+/")
+}]
+
 [node name="fields_of_defeat" type="Node3D"]
 script = ExtResource("1_43l2r")
-map_name = "Fields of Defeat"
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
@@ -267,3 +285,17 @@ shape = SubResource("ConcavePolygonShape3D_1q1wm")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="map_boundaries"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 96.5, -32)
 shape = SubResource("CylinderShape3D_fnrps")
+
+[node name="combat_trigger" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -222.561, 37.3379, 340.465)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="combat_trigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.5, 4.5, -8.5)
+shape = SubResource("BoxShape3D_rpot8")
+
+[node name="carpet" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.512454, -5)
+mesh = SubResource("ArrayMesh_jca4a")
+script = ExtResource("4_rpot8")
+
+[connection signal="body_entered" from="combat_trigger" to="." method="_on_combat_trigger_body_entered"]

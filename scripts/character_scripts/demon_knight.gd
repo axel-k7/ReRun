@@ -17,9 +17,9 @@ func dialogue_over_function():
 func get_variables():
 	weapon = $Spear
 	attacks = [
-		[ "Spear Lunge", 25, 1, "local", 2, false],
-		[ "Fireball", 15, 3, "instance", 1, false],
-		[ "Inferno", 50, 15, "instance", 1, true],
+		[ "Spear Lunge", 25, 1, "local", 2, 2, false],
+		[ "Fireball", 15, 3, "instance", null, 1, false],
+		[ "Inferno", 50, 15, "instance", null, 1, true],
 	]
 	speech_audio_player = $dialogue_sfx
 	attack_audio_player = $attack_sfx

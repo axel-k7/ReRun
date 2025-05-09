@@ -27,7 +27,7 @@ func _ready():
 func _physics_process(delta):
 	if !Globals.paused:
 		movement_handler(delta)
-		stamina_recovery(delta)
+		stamina_handler(delta)
 
 func get_variables():
 	raycast = $RayCast3D
@@ -41,7 +41,6 @@ func get_variables():
 func movement_handler(delta):
 	if Globals.can_move:
 		movement_inputs(delta)
-		
 		if !is_on_floor():
 			velocity.y -= Globals.gravity * delta
 		else:
@@ -56,10 +55,12 @@ func movement_inputs(delta):
 	
 	if !sprinting && !blocking:
 		move_speed = base_move_speed
-	if Input.is_action_pressed("sprint") && stamina >= 0: 
-		move_speed = base_move_speed*sprint_multiplier
-		stamina -= delta*20
-		sprinting = true
+	if Input.is_action_pressed("sprint") && velocity != Vector3(0, 0, 0): 
+		if stamina > 0:
+			move_speed = base_move_speed*sprint_multiplier
+			stamina -= delta*20
+			sprinting = true
+		else: sprinting = false
 		recovering_stamina = false
 		stamina_regen_timer.stop()
 	
@@ -79,7 +80,6 @@ func movement_inputs(delta):
 func _input(event):
 	if !Globals.paused:
 		camera_rotation(event)
-		toggle_mouse()
 		interact_input()
 		attack_input()
 	release_inputs()
@@ -89,13 +89,6 @@ func camera_rotation(event):
 		rotation.y -= event.relative.x / sensitivity
 		pivot.rotation.x -= event.relative.y / sensitivity
 		pivot.rotation.x = clamp(pivot.rotation.x, deg_to_rad(-90), deg_to_rad(90))
-
-func toggle_mouse():
-	if Input.is_action_just_pressed("mouse_lock"):
-		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		else:
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func interactable_check():
 	if Globals.target_interactables.size() == 0:
@@ -161,7 +154,7 @@ func use_item(item_index, item_name):
 	emit_signal("inventory_updated")
 
 func attack_input():
-	if Globals.can_player_attack && attack_ready:
+	if Globals.can_player_attack && attack_ready && !blocking:
 		if Input.is_action_just_pressed("attack"):
 			do_attack("weapon")
 		if Input.is_action_just_pressed("ability"):
@@ -171,27 +164,31 @@ func attack_input():
 		if Input.is_action_just_released("ability_menu"):
 			Globals.main.ability_menu.deactivate()
 		if Input.is_action_just_pressed("block") && stamina > 0:
+			attack_animation.play("block")
 			stamina_regen_timer.stop()
 			blocking = true
 			move_speed = base_move_speed/2
 
 func release_inputs():
-	if Input.is_action_just_released("block"):
-			blocking = false
-			stamina_regen_timer.start()
+	if Input.is_action_just_released("block") && attack_ready:
+		blocking = false
+		stamina_regen_timer.start()
+		attack_animation.play("RESET")
 	if Input.is_action_just_released("sprint"):
 		sprinting = false
 		stamina_regen_timer.start()
-	
 
 func do_block(delta):
 	if stamina > 0:
 		blocking = true
 	recovering_stamina = false
 
-func stamina_recovery(delta):
+func stamina_handler(delta):
+	if blocking:
+		stamina_regen_timer.stop()
+	
 	if recovering_stamina && stamina < 100 && !Globals.paused:
-		stamina += delta*6
+		stamina += delta*15
 	stamina = clamp(stamina, 0, 100)
 
 func stun():
@@ -249,6 +246,7 @@ func intro_dialogue():
 		"Just a few more steps and all of this will finally be over...",
 	]
 	DialogueManager.start_dialogue(intro_lines, self, true)
+	Globals.can_player_attack = false
 
 func dialogue_over():
 	pass
