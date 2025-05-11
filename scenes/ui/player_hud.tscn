@@ -1,26 +1,106 @@
-[gd_scene load_steps=5 format=3 uid="uid://dyh0i3j58q1gs"]
+[gd_scene load_steps=7 format=3 uid="uid://dyh0i3j58q1gs"]
 
 [ext_resource type="Script" uid="uid://cocfkx6hagsw3" path="res://scripts/ui_scripts/player_hud.gd" id="1_u7a8l"]
+[ext_resource type="Texture2D" uid="uid://c3yggupmfl3l3" path="res://vfx/ui_textures/exp_middle.png" id="2_hbwp2"]
 [ext_resource type="Texture2D" uid="uid://d52yy5n86j82" path="res://vfx/ui_textures/hp_middle.png" id="3_nh6vl"]
 [ext_resource type="Texture2D" uid="uid://cmowkhs4yxfm2" path="res://vfx/ui_textures/mp_middle.png" id="5_nh6vl"]
 [ext_resource type="Texture2D" uid="uid://bd73n57dntes7" path="res://vfx/ui_textures/stamina_middle.png" id="7_3cn05"]
 
-[node name="PlayerHud" type="VBoxContainer"]
-offset_right = 40.0
-offset_bottom = 40.0
+[sub_resource type="LabelSettings" id="LabelSettings_u7a8l"]
+font_size = 24
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.517647)
+
+[node name="playerHUD" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_u7a8l")
 
-[node name="hpbar" type="TextureProgressBar" parent="."]
+[node name="expbar" type="TextureProgressBar" parent="."]
+layout_mode = 1
+offset_left = 205.0
+offset_top = 130.0
+offset_right = 335.0
+offset_bottom = 165.0
+rotation = -1.5708
+value = 50.0
+texture_progress = ExtResource("2_hbwp2")
+
+[node name="Label" type="Label" parent="expbar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 18.0
+offset_top = -22.5
+offset_right = 66.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+text = "50%"
+label_settings = SubResource("LabelSettings_u7a8l")
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+offset_right = 200.0
+offset_bottom = 128.0
+
+[node name="hpbar" type="TextureProgressBar" parent="VBoxContainer"]
 layout_mode = 2
 value = 100.0
 texture_progress = ExtResource("3_nh6vl")
 
-[node name="mpbar" type="TextureProgressBar" parent="."]
+[node name="Label" type="Label" parent="VBoxContainer/hpbar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "100"
+label_settings = SubResource("LabelSettings_u7a8l")
+
+[node name="mpbar" type="TextureProgressBar" parent="VBoxContainer"]
 layout_mode = 2
 value = 50.0
 texture_progress = ExtResource("5_nh6vl")
 
-[node name="stmbar" type="TextureProgressBar" parent="."]
+[node name="Label" type="Label" parent="VBoxContainer/mpbar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "100"
+label_settings = SubResource("LabelSettings_u7a8l")
+
+[node name="stmbar" type="TextureProgressBar" parent="VBoxContainer"]
 layout_mode = 2
 value = 25.0
 texture_progress = ExtResource("7_3cn05")
+
+[node name="level" type="Label" parent="."]
+layout_mode = 0
+offset_left = 248.0
+offset_top = 3.0
+offset_right = 288.0
+offset_bottom = 26.0
+text = "Level : "
+label_settings = SubResource("LabelSettings_u7a8l")

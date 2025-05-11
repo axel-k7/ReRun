@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://dpcypriklrrv3"]
+
+[ext_resource type="Script" uid="uid://3oqt1gtwe3wv" path="res://scripts/map_scripts/test_area.gd" id="1_5m4rd"]
+[ext_resource type="PackedScene" uid="uid://eyrcvnubph86" path="res://scenes/maps/map_parts/npc_spawner_test_area.tscn" id="1_rpssg"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_ht7jr"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rpssg"]
+size = Vector2(400, 400)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5m4rd"]
+size = Vector3(400, 0.05, 400)
+
+[node name="test_area" type="Node3D"]
+script = ExtResource("1_5m4rd")
+map_name = "Test_area"
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_ht7jr")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/StaticBody3D"]
+mesh = SubResource("PlaneMesh_rpssg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_5m4rd")
+
+[node name="NPC_spawner_test_area" parent="." instance=ExtResource("1_rpssg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 41)
+
+[node name="NPC_spawners" type="Node3D" parent="."]
+
+[node name="Player_spawn_pos" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)

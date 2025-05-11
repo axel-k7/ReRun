@@ -75,9 +75,9 @@ sides = 15
 material = SubResource("StandardMaterial3D_1q1wm")
 
 [node name="CSGTorus3D" type="CSGTorus3D" parent="CSGBox3D2/CSGTorus3D"]
-transform = Transform3D(1, 5.96046e-08, -4.47035e-08, -5.96046e-08, 1, 7.45058e-09, -2.98023e-08, 7.45058e-09, 1, 11.2325, -0.140976, -8.79899)
+transform = Transform3D(1, 6.33299e-08, -4.47035e-08, -6.33299e-08, 1, 7.45058e-09, -2.98023e-08, 7.45058e-09, 1, 1.36871, -0.0171967, -1.37932)
 inner_radius = 25.0
-outer_radius = 50.0
+outer_radius = 59.0
 sides = 15
 material = SubResource("StandardMaterial3D_43l2r")
 
@@ -471,10 +471,10 @@ rings = 5
 material = SubResource("StandardMaterial3D_1q1wm")
 
 [node name="CSGPolygon3D3" type="CSGPolygon3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 16.5804, 30.6546, 133.482)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 16.58, 30.5, 133.482)
 operation = 2
 polygon = PackedVector2Array(-2.11339, -54.0435, 6.90269, -36.719, -0.16523, -24.3705, -0.823742, 39.0587, -13.4297, 98.3675, -5.6769, 97.4207, 8.28606, 27.3662, 7.10462, -14.5729, 13.738, -38.789, 3.68271, -61.5811)
-depth = 0.4
+depth = 0.05
 material = SubResource("StandardMaterial3D_1q1wm")
 
 [node name="CSGCombiner3D2" type="CSGCombiner3D" parent="."]

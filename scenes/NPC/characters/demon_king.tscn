@@ -256,6 +256,7 @@ outer_radius = 0.5
 [node name="demon_king" type="CharacterBody3D"]
 script = ExtResource("1_cph8i")
 neutral_distance = 5.0
+always_aggro = true
 Cname = "Demon King"
 image = ExtResource("2_3uid3")
 move_speed = 12.0
@@ -328,6 +329,8 @@ transform = Transform3D(1, 0, 0, 0, 0.165013, -0.986291, 0, 0.986291, 0.165013, 
 target_position = Vector3(0, -40, 0)
 
 [node name="attack_timer" type="Timer" parent="."]
+
+[node name="stun_timer" type="Timer" parent="."]
 
 [node name="greatsword" parent="." instance=ExtResource("2_cph8i")]
 transform = Transform3D(0.87001, -0.25, -0.424951, -0.0292344, 0.834234, -0.550635, 0.492167, 0.491481, 0.718483, 1.50792, 0, -0.259951)

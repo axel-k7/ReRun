@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://eyrcvnubph86"]
+
+[ext_resource type="Script" uid="uid://by5xi1fg3ejq5" path="res://scripts/map_scripts/map_objects/npc_spawner_test_area.gd" id="1_hqid8"]
+[ext_resource type="PackedScene" uid="uid://kj3uudhd3tny" path="res://scenes/maps/map_parts/NPC_spawner.tscn" id="2_nirwa"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hqid8"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hqid8"]
+material = SubResource("StandardMaterial3D_hqid8")
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nirwa"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ghoi8"]
+material = SubResource("StandardMaterial3D_nirwa")
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.05
+
+[node name="NPC_spawner_test_area" type="Node3D"]
+script = ExtResource("1_hqid8")
+
+[node name="NPC_spawner" parent="." instance=ExtResource("2_nirwa")]
+
+[node name="Control" type="VBoxContainer" parent="."]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_hqid8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.525468, 0)
+mesh = SubResource("CylinderMesh_ghoi8")

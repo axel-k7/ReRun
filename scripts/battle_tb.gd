@@ -19,6 +19,7 @@ extends Node
 @onready var camera = $BattleSceneTB_camera
 @onready var allyNode = $Allies
 @onready var enemyNode = $Enemies
+@onready var background = $UI/BattleSceneTB_UI/background
 
 var acting_chr: Object
 var is_player_acting: bool = false
@@ -70,6 +71,8 @@ func player_select_target():
 	target_marker.scale.x = target_sprite_size/550
 
 func start_battle(ally_array: Array, enemy_array: Array):
+	var bg_texture = load("res://vfx/combat_backgrounds/" + Globals.world_config_data["current_map"] + ".png")
+	background.texture = bg_texture
 	Globals.main.emit_signal("loading_finished")
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	Globals.player_controls(false)

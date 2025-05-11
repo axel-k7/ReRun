@@ -56,6 +56,7 @@ func spawn_player():
 	self.add_child(player)
 	Globals.player = player
 	Globals.apply_player_data()
+	Globals.player.level_up_check() #to make the exp threshold correct
 
 func load_map(map_name: String):
 	emit_signal("loading_start")
@@ -97,11 +98,11 @@ func start_game():
 	DialogueManager.emit_signal("loading_complete")
 	load_map(Globals.world_config_data["current_map"])
 	set_up_ability_menu()
-	await loading_finished
-	main_menu.queue_free()
 	spawn_player()
 	Globals.game_started = true
 	Globals.paused = false
+	await loading_finished
+	main_menu.queue_free()
 
 func on_loading_start():
 	loading_screen = loading_screen_scene.instantiate()
@@ -133,8 +134,8 @@ func on_settings():
 func on_exit():
 	get_tree().quit()
 
-func _input(event):
-	if Input.is_action_just_pressed("menu") && Globals.game_started && !BattleManagerTb.battle_active && !DialogueManager.dialogue_active:
+func _input(_event):
+	if Input.is_action_just_pressed("menu") && Globals.game_started && !BattleManagerTb.battle_active && !DialogueManager.dialogue_active && !Globals.cutscene_active:
 		toggle_menu()
 
 func narrate(lines, image_path, darken_on_line):
@@ -151,7 +152,7 @@ func intro_sequence():
 		"After countless of hard fought battles, you finally arrive at the Demon King's chamber."
 	]
 	await loading_finished
-	narrate(lines, "intro_view", 0)
+	narrate(lines, "intro_view", -1)
 	await narrator_finished
 	Globals.paused = false
 	Globals.game_started = true
@@ -167,7 +168,7 @@ func on_intro_defeat():
 		"One by one, cities, landmarks, every trace of humanity would face destruction by the demons.",
 		"Was this truly the end for humankind?",
 		"...",
-		'A voice reaches out to you: \n "Wont you stand, once more?"'
+		'A voice reaches out to you: \n "Wont you rise, once more?"'
 	]
 	await loading_finished
 	narrate(lines, "intro_defeat_view", 4)

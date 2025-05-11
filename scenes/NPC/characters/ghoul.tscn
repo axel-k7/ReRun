@@ -46,38 +46,50 @@ length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Claw:position")
+tracks/0/path = NodePath("Claw:emit_sfx")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0.712949, 0.238361, -0.379287)]
+"values": [false]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Claw:rotation")
+tracks/1/path = NodePath("Claw:monitoring")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(-0.235019, 1.17966, -1.59973)]
+"values": [false]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Claw:monitoring")
+tracks/2/path = NodePath("Claw:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"update": 0,
+"values": [Vector3(-0.235019, 1.17966, -1.59973)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Claw:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.712949, 0.238361, -0.379287)]
 }
 
 [sub_resource type="Animation" id="Animation_08dug"]
@@ -86,38 +98,50 @@ length = 0.9
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Claw:position")
+tracks/0/path = NodePath("Claw:emit_sfx")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.3, 0.45, 0.5, 0.55),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0.712949, 0.238361, -0.379287), Vector3(0.993349, 0.238361, -0.0160439), Vector3(0.895692, 0.238361, -0.393867), Vector3(0.357002, 0.238361, -1.01407), Vector3(-0.356787, -0.0572042, -0.928818), Vector3(-0.532111, -0.0484195, -0.79308)]
+"values": [true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Claw:rotation")
+tracks/1/path = NodePath("Claw:monitoring")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Claw:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.3, 0.45, 0.5, 0.55),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(-0.235019, 1.17966, -1.59973), Vector3(-0.235019, 0.622847, -1.59973), Vector3(-0.194381, 0.98046, -1.57006), Vector3(-0.327163, 1.91666, -1.57751), Vector3(-0.488599, 2.15514, -1.6881), Vector3(-0.34909, 2.11574, -1.59152)]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Claw:monitoring")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, true, false]
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Claw:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.45, 0.5, 0.55),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.712949, 0.238361, -0.379287), Vector3(0.993349, 0.238361, -0.0160439), Vector3(0.895692, 0.238361, -0.393867), Vector3(0.357002, 0.238361, -1.01407), Vector3(-0.356787, -0.0572042, -0.928818), Vector3(-0.532111, -0.0484195, -0.79308)]
 }
 
 [sub_resource type="Animation" id="Animation_73sr5"]
@@ -126,38 +150,50 @@ length = 0.7
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Claw:position")
+tracks/0/path = NodePath("Claw:emit_sfx")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.2, 0.25, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0.15),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(-0.532111, -0.0484195, -0.79308), Vector3(-0.504319, 0.293937, -0.79308), Vector3(-0.274734, 0.332613, -0.921954), Vector3(-0.147608, 0.332613, -0.921954), Vector3(0.606059, 1.19976, -0.681294), Vector3(0.606059, 1.19976, -0.681294)]
+"values": [true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Claw:rotation")
+tracks/1/path = NodePath("Claw:monitoring")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.13, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Claw:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.15, 0.2, 0.25, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(-0.34909, 2.11574, -1.59152), Vector3(-0.41016, 2.09012, -1.17016), Vector3(-0.110069, 1.76232, -1.09735), Vector3(0.107044, 1.43463, -1.12704), Vector3(-0.428753, 0.899931, -0.929104), Vector3(-0.428753, 0.899931, -0.929104)]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Claw:monitoring")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.13, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, true, false]
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Claw:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.2, 0.25, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.532111, -0.0484195, -0.79308), Vector3(-0.504319, 0.293937, -0.79308), Vector3(-0.274734, 0.332613, -0.921954), Vector3(-0.147608, 0.332613, -0.921954), Vector3(0.606059, 1.19976, -0.681294), Vector3(0.606059, 1.19976, -0.681294)]
 }
 
 [sub_resource type="Animation" id="Animation_4pw7w"]
@@ -166,14 +202,14 @@ length = 0.7
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Claw:position")
+tracks/0/path = NodePath("Claw:monitoring")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.27),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0.606059, 1.19976, -0.681294), Vector3(0.189694, 0.775682, -1.00197), Vector3(0.0629354, 0.362831, -1.03758), Vector3(0.0629354, -0.0714244, -0.863136)]
+"values": [false, true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -182,22 +218,22 @@ tracks/1/path = NodePath("Claw:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.266667, 0.366667, 0.466667, 0.566667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(-0.428753, 0.899931, -0.929104), Vector3(-0.774081, 1.06828, -0.645434), Vector3(-0.942292, 1.29935, -0.959007), Vector3(-1.24285, 1.37893, -1.09787)]
+"values": [Vector3(-0.428753, 0.899931, -0.929104), Vector3(-0.428753, 0.899931, -0.929104), Vector3(-0.774081, 1.06828, -0.645434), Vector3(-0.942292, 1.29935, -0.959007), Vector3(-1.24285, 1.37893, -1.09787)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Claw:monitoring")
+tracks/2/path = NodePath("Claw:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"times": PackedFloat32Array(3.3319e-05, 0.2667, 0.366667, 0.466667, 0.566667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.606059, 1.19976, -0.681294), Vector3(0.606059, 1.19976, -0.681294), Vector3(0.189694, 0.775682, -1.00197), Vector3(0.0629354, 0.362831, -1.03758), Vector3(0.0629354, -0.0714244, -0.863136)]
 }
 
 [sub_resource type="Animation" id="Animation_wjqdv"]
@@ -237,6 +273,7 @@ script = ExtResource("1_4pw7w")
 neutral_distance = 1.5
 flee_distance = 1.4
 Cname = "Ghoul"
+move_speed = 8.0
 max_hp = 50
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -282,6 +319,8 @@ transform = Transform3D(1, 0, 0, 0, 0.165013, -0.986291, 0, 0.986291, 0.165013, 
 target_position = Vector3(0, -40, 0)
 
 [node name="attack_timer" type="Timer" parent="."]
+
+[node name="stun_timer" type="Timer" parent="."]
 
 [node name="body_animation" type="AnimationPlayer" parent="."]
 

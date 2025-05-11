@@ -18,10 +18,13 @@ func _process(delta):
 
 func narrate(given_lines: Array[String], image_name: String, darken_on_line: int):
 	dark_on_line = darken_on_line
+	if dark_on_line == 1:
+		darken_background()
 	Globals.cutscene_active = true
 	Globals.paused = true
-	var image = load("res://vfx/narration_graphics/" + image_name + ".png")
-	background.texture = image
+	if image_name != "none":
+		var image = load("res://vfx/narration_graphics/" + image_name + ".png")
+		background.texture = image
 	next_icon.modulate.a = 0
 	background.size.y = get_viewport_rect().size.y
 	background.position = Vector2(0,0)
@@ -38,16 +41,16 @@ func narrate(given_lines: Array[String], image_name: String, darken_on_line: int
 
 func darken_background():
 	var tween = get_tree().create_tween()
-	tween.tween_property(background, "modulate", Color.BLACK, 1.5)
+	tween.tween_property($ColorRect, "color", Color.BLACK, 1.5)
 	await tween.finished
 	tween.stop()
 	tween.tween_callback(free)
 
-func _input(event):
+func _input(_event):
 	if Input.is_action_pressed("interact") && can_continue:
 		next_icon.modulate.a = 0
 		line_index += 1
-		if dark_on_line != 0 && line_index == dark_on_line-1:
+		if dark_on_line != -1 && line_index == dark_on_line-1:
 			darken_background()
 		update_text()
 		wait()

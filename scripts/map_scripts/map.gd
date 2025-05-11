@@ -17,6 +17,9 @@ func spawn_npcs():
 		for spawned_enemy in get_tree().get_nodes_in_group("NPC"):
 			spawned_enemy.queue_free()
 		for spawner in npc_spawners:
+			if spawner.NPC == null:
+				print("No NPC attached to ", spawner.name)
+				return
 			var npc = spawner.NPC.instantiate()
 			for attribute in spawner.NPC_variables.keys():
 				npc.set(attribute, spawner.NPC_variables[attribute])
@@ -25,8 +28,8 @@ func spawn_npcs():
 			npc.rotation = spawner.rotation
 
 func on_reset_map():
-	Globals.paused = false
 	reset_function()
+	Globals.paused = false
 
 func reset_function():
 	pass #defined in map subscripts

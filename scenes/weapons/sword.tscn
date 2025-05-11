@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=4 uid="uid://bsd5vd18g3ywh"]
+[gd_scene load_steps=8 format=4 uid="uid://bsd5vd18g3ywh"]
 
 [ext_resource type="Script" uid="uid://d1f34e4bx1oqy" path="res://scenes/weapons/weapon.gd" id="1_o616w"]
 [ext_resource type="AudioStream" uid="uid://cvl2q0rlcbe61" path="res://sfx/sword.ogg" id="2_3pnln"]
@@ -18,9 +18,32 @@ _surfaces = [{
 radius = 0.07
 height = 1.6
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3pnln"]
+lifetime_randomness = 0.5
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 2.3
+initial_velocity_max = 3.0
+gravity = Vector3(0, -2, 0)
+attractor_interaction_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3pnln"]
+transparency = 1
+albedo_color = Color(0.968366, 0.629028, 0, 1)
+emission_enabled = true
+emission = Color(0.714102, 0.458382, 1.92523e-07, 1)
+emission_energy_multiplier = 16.0
+grow_amount = 2.259
+
+[sub_resource type="PrismMesh" id="PrismMesh_3pnln"]
+material = SubResource("StandardMaterial3D_3pnln")
+size = Vector3(0.05, 0.05, 0.025)
+
 [node name="Sword" type="Area3D"]
 monitoring = false
 script = ExtResource("1_o616w")
+attack_chain = 3
+damage = 10
 
 [node name="CSGBakedMeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_o616w")
@@ -32,5 +55,15 @@ shape = SubResource("CapsuleShape3D_3pnln")
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_3pnln")
 volume_db = -8.0
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.81765, 0)
+emitting = false
+amount = 24
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_3pnln")
+draw_pass_1 = SubResource("PrismMesh_3pnln")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -57,6 +57,18 @@ tracks/1/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Spear:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_wjqdv"]
 resource_name = "slash_attack_animation"
@@ -90,6 +102,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Spear:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-1.5708, 0, 0), Vector3(-1.5708, 0, 0), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wjqdv"]
@@ -155,6 +179,8 @@ target_position = Vector3(0, -40, 0)
 
 [node name="attack_timer" type="Timer" parent="."]
 
+[node name="stun_timer" type="Timer" parent="."]
+
 [node name="body_animation" type="AnimationPlayer" parent="."]
 
 [node name="attack_animation" type="AnimationPlayer" parent="."]
@@ -165,7 +191,7 @@ playback_default_blend_time = 0.3
 blend_times = [&"RESET", &"RESET", 0.3]
 
 [node name="Spear" parent="." instance=ExtResource("2_bva5n")]
-transform = Transform3D(1, 0, 0, 0, 1, 1.06581e-14, 0, -1.06581e-14, 1, 0.588632, 0.0908811, 0.187936)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.588632, 0.0908811, 0.187936)
 
 [node name="attack_particles" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25237, 0)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bj2x8de4ojesa"]
+[gd_scene load_steps=10 format=3 uid="uid://bj2x8de4ojesa"]
 
 [ext_resource type="Script" uid="uid://d1f34e4bx1oqy" path="res://scenes/weapons/weapon.gd" id="1_3tvtt"]
 
@@ -22,6 +22,27 @@ height = 0.3
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_rn8gy"]
 height = 0.3
 radius = 0.25
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3tvtt"]
+lifetime_randomness = 0.5
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 2.3
+initial_velocity_max = 3.0
+gravity = Vector3(0, -2, 0)
+attractor_interaction_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_58ehi"]
+transparency = 1
+albedo_color = Color(0.968366, 0.629028, 0, 1)
+emission_enabled = true
+emission = Color(0.714102, 0.458382, 1.92523e-07, 1)
+emission_energy_multiplier = 16.0
+grow_amount = 2.259
+
+[sub_resource type="PrismMesh" id="PrismMesh_kok54"]
+material = SubResource("StandardMaterial3D_58ehi")
+size = Vector3(0.05, 0.05, 0.025)
 
 [node name="claw" type="Area3D"]
 monitoring = false
@@ -53,5 +74,14 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.2
 shape = SubResource("CylinderShape3D_rn8gy")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 24
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_3tvtt")
+draw_pass_1 = SubResource("PrismMesh_kok54")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

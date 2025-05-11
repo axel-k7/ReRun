@@ -8,6 +8,7 @@ func get_variables():
 	attack_animation = $attack_animation
 	body_animation = $body_animation
 	attack_idle_timer = $attack_timer
+	stun_timer = $stun_timer
 	raycast = $RayCast3D
 	self.add_to_group(side)
 	get_weapon_info()

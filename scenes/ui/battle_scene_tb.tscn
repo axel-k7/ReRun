@@ -1,15 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dsc3lhk5yygi3"]
+[gd_scene load_steps=8 format=3 uid="uid://dsc3lhk5yygi3"]
 
 [ext_resource type="Script" uid="uid://c60ygrkelaowe" path="res://scripts/battle_tb.gd" id="1_v7fdu"]
 [ext_resource type="Texture2D" uid="uid://dfq0euksvevv4" path="res://vfx/target_marker.png" id="2_v7fdu"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_v7fdu"]
-font_size = 40
-font_color = Color(1, 0.857314, 0.788467, 1)
-outline_size = 4
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 3
-shadow_color = Color(0, 0, 0, 0.788235)
 
 [sub_resource type="Animation" id="Animation_vf270"]
 length = 0.001
@@ -49,13 +41,53 @@ _data = {
 &"rotate": SubResource("Animation_v7fdu")
 }
 
+[sub_resource type="LabelSettings" id="LabelSettings_pavcj"]
+font_size = 24
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_v7fdu"]
+font_size = 40
+font_color = Color(1, 0.857314, 0.788467, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.788235)
+
 [node name="BattleSceneTB" type="Node2D"]
 script = ExtResource("1_v7fdu")
+
+[node name="BattleSceneTB_camera" type="Camera2D" parent="."]
+
+[node name="Allies" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Select_marker" type="Sprite2D" parent="."]
+texture = ExtResource("2_v7fdu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Select_marker"]
+libraries = {
+&"": SubResource("AnimationLibrary_pavcj")
+}
+
+[node name="turn_timer" type="Timer" parent="."]
 
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="BattleSceneTB_UI" type="Control" parent="UI"]
+z_as_relative = false
 layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="background" type="TextureRect" parent="UI/BattleSceneTB_UI"]
+z_index = -5
+z_as_relative = false
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -103,10 +135,12 @@ drag_area_highlight_in_editor = true
 [node name="hp" type="Label" parent="UI/BattleSceneTB_UI/UI_container/stat_container"]
 layout_mode = 2
 text = "HP: 10000 / 10000"
+label_settings = SubResource("LabelSettings_pavcj")
 
 [node name="mp" type="Label" parent="UI/BattleSceneTB_UI/UI_container/stat_container"]
 layout_mode = 2
 text = "MP: 10000 / 10000"
+label_settings = SubResource("LabelSettings_pavcj")
 
 [node name="Attack_container" type="VBoxContainer" parent="UI/BattleSceneTB_UI"]
 layout_mode = 1
@@ -151,22 +185,6 @@ grow_vertical = 2
 text = "aa"
 label_settings = SubResource("LabelSettings_v7fdu")
 horizontal_alignment = 2
-
-[node name="BattleSceneTB_camera" type="Camera2D" parent="."]
-
-[node name="Allies" type="Node2D" parent="."]
-
-[node name="Enemies" type="Node2D" parent="."]
-
-[node name="Select_marker" type="Sprite2D" parent="."]
-texture = ExtResource("2_v7fdu")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Select_marker"]
-libraries = {
-&"": SubResource("AnimationLibrary_pavcj")
-}
-
-[node name="turn_timer" type="Timer" parent="."]
 
 [connection signal="pressed" from="UI/BattleSceneTB_UI/UI_container/action_container/attack_button" to="." method="_on_attack_button_pressed"]
 [connection signal="pressed" from="UI/BattleSceneTB_UI/UI_container/action_container/guard_button" to="." method="_on_guard_button_pressed"]

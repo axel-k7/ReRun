@@ -7,4 +7,5 @@ extends Marker3D
 	"interact_radius": 0.0,
 	"side": "enemy",
 	"stationary": false,
+	"always_aggro": false,
 }

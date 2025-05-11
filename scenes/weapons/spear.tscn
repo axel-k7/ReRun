@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dnylqglew4g6w"]
+[gd_scene load_steps=8 format=3 uid="uid://dnylqglew4g6w"]
 
 [ext_resource type="Script" uid="uid://d1f34e4bx1oqy" path="res://scenes/weapons/weapon.gd" id="1_8fn8c"]
 
@@ -14,6 +14,27 @@ height = 0.5
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o616w"]
 radius = 0.1
 height = 1.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8fn8c"]
+lifetime_randomness = 0.5
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 2.3
+initial_velocity_max = 3.0
+gravity = Vector3(0, -2, 0)
+attractor_interaction_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f4mc5"]
+transparency = 1
+albedo_color = Color(0.968366, 0.629028, 0, 1)
+emission_enabled = true
+emission = Color(0.714102, 0.458382, 1.92523e-07, 1)
+emission_energy_multiplier = 16.0
+grow_amount = 2.259
+
+[sub_resource type="PrismMesh" id="PrismMesh_osdwm"]
+material = SubResource("StandardMaterial3D_f4mc5")
+size = Vector3(0.05, 0.05, 0.025)
 
 [node name="Spear" type="Area3D"]
 monitoring = false
@@ -34,5 +55,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06902, 0)
 shape = SubResource("CapsuleShape3D_o616w")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.81765, 0)
+emitting = false
+amount = 24
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_8fn8c")
+draw_pass_1 = SubResource("PrismMesh_osdwm")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

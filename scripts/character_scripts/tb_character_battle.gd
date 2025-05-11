@@ -38,4 +38,3 @@ func on_damaged(amount: int):
 	if character.hp <= 0:
 		sprite.rotate(1.6)
 		emit_signal("die")
-		character.die()

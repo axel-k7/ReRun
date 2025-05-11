@@ -9,21 +9,21 @@
 offsets = PackedFloat32Array(0, 0.454545, 0.818182)
 colors = PackedColorArray(0.981587, 0.487308, 0.30837, 1, 0.120716, 0.195793, 0.198665, 1, 0.712129, 0.914552, 1, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_1q1wm"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_q3qig"]
 gradient = SubResource("Gradient_1r63t")
 fill_from = Vector2(0.5, 0.1)
 fill_to = Vector2(0.5, 0.8)
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_yprba"]
-panorama = SubResource("GradientTexture2D_1q1wm")
+panorama = SubResource("GradientTexture2D_q3qig")
 
-[sub_resource type="Sky" id="Sky_rpot8"]
+[sub_resource type="Sky" id="Sky_1r63t"]
 sky_material = SubResource("PanoramaSkyMaterial_yprba")
 
 [sub_resource type="Environment" id="Environment_j5igb"]
 background_mode = 2
 background_energy_multiplier = 0.49
-sky = SubResource("Sky_rpot8")
+sky = SubResource("Sky_1r63t")
 fog_enabled = true
 fog_light_color = Color(0.434922, 2.08165e-05, 0.344186, 1)
 fog_light_energy = 0.49

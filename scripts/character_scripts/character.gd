@@ -7,7 +7,7 @@ class_name Character
 @export var move_speed: float = 7.0
 @export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/tb_preset.png")
 @export var tb_sprite_enemy: CompressedTexture2D = preload("res://vfx/tb_preset.png")
-@export var hurt_sfx: AudioStream = preload("res://sfx/hurt_preset.wav")
+@export var hurt_sfx: AudioStream = preload("res://sfx/hurt.ogg")
 @export var death_vfx_scene: PackedScene = preload("res://scenes/effects/poof.tscn")
 @export var dialogue_sfx: AudioStream = preload("res://sfx/hah.wav")
 @export var lines: Array[String] = [
@@ -43,9 +43,11 @@ var weapon_info: Dictionary = {
 }
 
 var inventory: Array
-var experience: float = 0
+var experience: float = 0.0
+var exp_thold: float = 100.0
 var level: int = 1
 
+var dead: bool = false
 @export var max_hp = 150
 @export var max_mp = 100
 @export var defense = 1.0
@@ -56,14 +58,15 @@ var blocking: bool = false
 var guard_multiplier: float = 1.0
 var attacks: Array[Array] = [
 		#Attack name (string), Damage(int), MP cost(int), Local or instanced (string), Attack chain length (int), ability multiplier for local (float), raycast (bool) -> NOT IMPLEMENTED  -> ||damage type(string), description(string)||
-		[ "Slash", 5, 1, "local", 2, 2.5, false],
-		[ "Beam", 10, 3, "instance", 1, null, false],
-		[ "Inferno", 50, 15, "instance", null, 1, true],
+		[ "Slash", 20, 5, "local", 1, 2.5, false],
+		[ "Beam", 10, 3, "instance", 1, -1, false],
+		[ "Inferno", 50, 15, "instance", -1, 1, true],
 	]
 var selected_ability: int = 0
 
 signal ability_activate
 signal battle_over
+signal block
 
 func get_weapon_info():
 	for i in weapon_info:
@@ -78,7 +81,9 @@ func do_attack(type: String):
 	var attack_name: String
 	var attack_type: String
 	var attack_chain: int
+	var attack_cost
 	var ability_multiplier: float = 1.0
+	var ability_damage: int
 	var raycasting: bool = false
 	
 	if type == "weapon":
@@ -89,10 +94,16 @@ func do_attack(type: String):
 	elif type == "ability":
 		var ability = attacks[selected_ability]
 		attack_name = ability[0].to_lower()
+		ability_damage = ability[1]
+		attack_cost = ability[2]
 		attack_type = ability[3]
 		attack_chain = ability[4]
 		ability_multiplier = ability[5]
 		raycasting = ability[6]
+		if mp < attack_cost:
+			Globals.system_message("Not enough mana")
+			attack_ready = true
+			return
 	
 	if wep_atk_index > attack_chain:
 			wep_atk_index = 1
@@ -103,7 +114,7 @@ func do_attack(type: String):
 		weapon.ability_multiplier = ability_multiplier
 		wep_atk_index += 1
 	
-	elif attack_type == "instance" || attack_type == "projectile":
+	elif attack_type == "instance":
 		var attack_scene = load("res://scenes/attacks/" + attack_name + ".tscn")
 		if attack_scene == null:
 			return
@@ -115,8 +126,10 @@ func do_attack(type: String):
 			do_raycast()
 			attack.global_position = raycast_end_pos
 		attack.host = self
-			
+		attack.get_stats(ability_damage)
 		await ability_activate
+		mp -= attack_cost
+		mp = clamp(mp, 0, max_mp)
 		if attack_animation.has_animation(attack_anim_name):
 			attack_animation.play(attack_anim_name)
 
@@ -157,22 +170,30 @@ func dialogue_over():
 func dialogue_over_function():
 	pass #defined in subscripts
 
-func stun():
+func stun(_duration: float):
 	pass #defined in player.gd and NPC.gd respectively
 
+func on_block(parry: bool):
+	weapon.block(parry)
+
 func on_damaged(amount: int):
-	if !blocking:
-		hp -= (amount * guard_multiplier) * defense
-		guard_multiplier = 1.0
-	elif blocking:
-		stamina -= amount*5
-		if stamina <= 0:
-			stun()
-			hp -= amount/2
-	if hp <= 0:
-		die()
+	if !dead:
+		if !blocking:
+			speech_audio_player.stream = hurt_sfx
+			speech_audio_player.play()
+			hp -= (amount * guard_multiplier) * defense
+			guard_multiplier = 1.0
+		elif blocking:
+			stamina -= amount*5
+			if stamina <= 0:
+				stun(0.5)
+				hp -= amount/2
+		hp = clamp(hp, 0, max_hp)
+		if hp <= 0:
+			die()
 
 func die():
+	dead = true
 	death_effect()
 
 func death_effect():

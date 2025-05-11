@@ -7,6 +7,7 @@ func get_variables():
 	attack_animation = $attack_animation
 	body_animation = $body_animation
 	attack_idle_timer = $attack_timer
+	stun_timer = $stun_timer
 	raycast = $RayCast3D
 	self.add_to_group(side)
 	get_weapon_info()
@@ -16,6 +17,7 @@ func get_variables():
 	]
 
 func interact_action():
+	speech_audio_player.stream = dialogue_sfx
 	DialogueManager.start_dialogue(lines, self, false)
 	Globals.main.map.toggle_boss_door(true)
 
@@ -43,6 +45,8 @@ func dialogue_over():
 		dialogue_finished = true
 
 func on_damaged(amount: int):
+	speech_audio_player.stream = hurt_sfx
+	speech_audio_player.play()
 	hp -= amount
 	damaged_index += 1
 	if damaged_index == 2:

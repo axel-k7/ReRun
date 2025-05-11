@@ -2,6 +2,7 @@ extends Area3D
 
 @onready var timer = $Timer
 @onready var mesh: Mesh = $MeshInstance3D.mesh
+var activated: bool = false
 var host: Object
 var up_time: float = 1.5
 var targets_hit: Array = []
@@ -18,7 +19,8 @@ func _ready() -> void:
 		host.emit_signal("ability_activate")
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_released("ability") && !host.is_in_group("NPC"):
+	if Input.is_action_just_released("ability") && !host.is_in_group("NPC") && !activated:
+		activated = true
 		emit_signal("activate")
 		host.emit_signal("ability_activate")
 
@@ -29,11 +31,11 @@ func _on_activate() -> void:
 	
 func _on_body_entered(body: Node3D):
 	if host.is_in_group("enemy") && body.is_in_group("ally") && !targets_hit.has(body):
-		print("hit: ", body.name)
+		print("hit: ", body.Cname)
 		Globals.damage(body, damage)
 		targets_hit.append(body)
 	elif host.is_in_group("ally") && body.is_in_group("enemy") && !targets_hit.has(body):
-		print("hit: ", body.name)
+		print("hit: ", body.Cname)
 		Globals.damage(body, damage)
 		targets_hit.append(body)
 

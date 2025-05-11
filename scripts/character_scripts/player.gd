@@ -5,23 +5,37 @@ extends Character
 @onready var pivot = $CameraPivot
 @onready var camera = $CameraPivot/SpringArm3D/Camera3D
 @onready var interact_marker = $PlayerInteractMarker
+@onready var parry_timer = $ParryTimer
+@onready var parry_cd_timer = $ParryCooldownTimer
+@onready var stamina_regen_timer: Timer = $StaminaRegenTimer
+@onready var base_move_speed = move_speed
 
 var closest_interactable: Object
 var sprint_multiplier: float = 1.5
 var sprinting: bool = false
 var recovering_stamina: bool = false
-@onready var stamina_regen_timer: Timer = $StaminaRegenTimer
-@onready var base_move_speed = move_speed
 var enemies_aggrod: Array[Object] = []
+var parrying: bool = false
+var can_parry: bool = true
+var possible_attacks: Array[Array] = [
+	[ "Slash", 20, 5, "local", 1, 2.5, false],
+	[ "Beam", 15, 10, "instance", 1, -1, false],
+	[ "Inferno", 50, 50, "instance", 1, -1, true],
+	[ "Sweep", 20, 2, "local", 2, 2, false],
+]
 
 signal intro_talk_start
-signal attack_anim_started
 signal inventory_updated
+signal exp_gained
+signal rampage
 
 func _ready():
 	get_variables()
 	inventory_updated.connect(on_inventory_updated)
 	intro_talk_start.connect(intro_dialogue)
+	exp_gained.connect(level_up_check)
+	rampage.connect(start_rampage)
+	block.connect(on_block)
 	BattleManagerTb.allies.append(self)
 
 func _physics_process(delta):
@@ -33,8 +47,10 @@ func get_variables():
 	raycast = $RayCast3D
 	attack_animation = $AttackAnimationPlayer
 	attack_idle_timer = $AttackIdleTimer
-	weapon = $Sword
 	stun_timer = $StunTimer
+	speech_audio_player = $AudioStreamPlayer3D
+	weapon = $Sword
+	hurt_sfx
 	self.add_to_group("ally")
 	get_weapon_info()
 
@@ -164,10 +180,22 @@ func attack_input():
 		if Input.is_action_just_released("ability_menu"):
 			Globals.main.ability_menu.deactivate()
 		if Input.is_action_just_pressed("block") && stamina > 0:
-			attack_animation.play("block")
-			stamina_regen_timer.stop()
-			blocking = true
-			move_speed = base_move_speed/2
+			do_block()
+
+func do_block():
+	attack_animation.play("block")
+	stamina_regen_timer.stop()
+	move_speed = base_move_speed/2
+	blocking = true
+	if can_parry:
+		can_parry = false
+		parrying = true
+		parry_timer.start()
+		await parry_timer.timeout
+		parrying = false
+		parry_cd_timer.start()
+		await parry_cd_timer.timeout
+		can_parry = true
 
 func release_inputs():
 	if Input.is_action_just_released("block") && attack_ready:
@@ -178,44 +206,52 @@ func release_inputs():
 		sprinting = false
 		stamina_regen_timer.start()
 
-func do_block(delta):
-	if stamina > 0:
-		blocking = true
-	recovering_stamina = false
-
 func stamina_handler(delta):
 	if blocking:
 		stamina_regen_timer.stop()
 	
-	if recovering_stamina && stamina < 100 && !Globals.paused:
-		stamina += delta*15
+	if stamina < 100 && recovering_stamina && !blocking && !Globals.paused:
+		stamina += delta*50
 	stamina = clamp(stamina, 0, 100)
 
-func stun():
+func stun(duration):
 	Globals.player_controls(false)
-	stun_timer.start()
+	stun_timer.start(duration)
 	await stun_timer.timeout
 	Globals.player_controls(true)
-
-func on_damaged(amount: int):
-	if !blocking:
-		hp -= (amount * guard_multiplier) * defense
-		guard_multiplier = 1.0
-	elif blocking:
-		stamina -= amount*5
-		if stamina <= 0:
-			stun()
-			hp -= amount/2
-	if hp <= 0:
-		die()
 
 func die():
 	Globals.paused = true
 	Globals.main.map.emit_signal("reset_map")
+	print("signal sent")
 
 func on_inventory_updated():
 	print(inventory)
 	#Globals.save_inventory_data(inventory)
+
+func level_up_check():
+	exp_thold = 100 * level/2
+	experience = clamp(experience, 0, exp_thold)
+	if experience >= exp_thold && level < 50:
+		level += 1
+		experience = 0
+		max_hp = 50 + level * 20 #could make the calculations for this an exponential function
+		max_mp = 20 + level * 10
+		if level % 5 == 0:
+			add_random_ability()
+	exp_thold = 100 * level/2
+
+func add_random_ability():
+	var ability = possible_attacks[randi_range(0, possible_attacks.size()-1)]
+	if !attacks.has(ability):
+		attacks.append(ability)
+		Globals.system_message("New ability unlocked: " + ability[0])
+	else: add_random_ability()
+
+func start_rampage():
+	print("AAAAAAA")
+	var tween = create_tween()
+	tween.tween_property(camera.attributes, "dof_blur_amount", 1, 600)
 
 func _on_enemy_range_body_entered(body: Node3D) -> void:
 	if !body.is_in_group("NPC") || !body.side == "enemy":

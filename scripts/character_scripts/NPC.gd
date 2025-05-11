@@ -12,6 +12,7 @@ class_name NPC
 @export var exp_given: float = 50
 @export var neutral_distance: float = 3
 @export var flee_distance: float = 2
+@export var always_aggro: bool = false
 
 var fleeing: bool = false #for use in functions to be added:
 var can_attack: bool = true # movement functions while not in combat
@@ -36,6 +37,7 @@ func get_variables():
 	attack_animation = $attack_animation
 	body_animation = $body_animation
 	attack_idle_timer = $attack_timer
+	stun_timer = $stun_timer
 	raycast = $RayCast3D
 	self.add_to_group(side)
 	get_weapon_info()
@@ -50,7 +52,7 @@ func movement(delta: float):
 	if !aggrod: 
 		velocity.x = 0
 		velocity.z = 0
-	if aggrod:
+	if aggrod || always_aggro:
 		update_target_position(Globals.player.global_position)
 		fight_formation()
 	if not is_on_floor():
@@ -107,18 +109,20 @@ func tb_attack(target: Object, _side: Array): #side is for custom npcs in need o
 	BattleManagerTb.battle_scene.action_message(self.Cname + " used " + atk_name + " on " + target.name + "!")
 	Globals.damage(target, dmg)
 
-func on_damaged(amount: int):
-	hp -= amount
-	print(self.name, " took ", amount, " damage")
-	print(self.name, " current hp: ", hp) 
-	if hp <= 0:
-		die()
-	
-func die():
-	Globals.player.experience += exp_given
+func stun(duration):
 	can_move = false
+	stun_timer.start(duration)
+	await stun_timer.timeout
+	can_move = true
+
+func die():
+	dead = true
+	Globals.player.experience += exp_given
+	Globals.player.emit_signal("exp_gained")
 	self.rotate(Vector3(1, 0, 0), 0.5)
 	death_effect()
+	can_move = false
+	can_attack = false
 	await get_tree().create_timer(5).timeout
 	self.queue_free()
 	

@@ -111,13 +111,14 @@ shape = SubResource("CapsuleShape3D_ds2em")
 [node name="attack_sfx" type="AudioStreamPlayer3D" parent="."]
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-path_max_distance = 10.01
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.165013, -0.986291, 0, 0.986291, 0.165013, 0, 0.708469, 0)
 target_position = Vector3(0, -40, 0)
 
 [node name="attack_timer" type="Timer" parent="."]
+
+[node name="stun_timer" type="Timer" parent="."]
 
 [node name="body_animation" type="AnimationPlayer" parent="."]
 

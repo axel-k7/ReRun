@@ -14,6 +14,10 @@ var paused: bool = false
 var game_started: bool = false
 var cutscene_active: bool = false
 var in_combat: bool = false
+var repeatable_maps: Array[String] = [
+	"forest",
+	"desert"
+]
 
 var world_config_data: Dictionary = {
 	"new_save": true,
@@ -27,6 +31,8 @@ var player_config_data: Dictionary = {
 	"max_mp": "",
 	"mp": "",
 	"attacks": "",
+	"level": "",
+	"experience": ""
 }
 
 signal map_loading
@@ -98,12 +104,9 @@ func save_config_variables():
 	world_config_data["current_map"] = main.map_container.get_child(0).name
 	for data_type in player_config_data.keys():
 		player_config_data[data_type] = player.get(data_type)
-		if data_type == "position":
-			player_config_data[data_type] = player.global_position
 	
 func apply_player_data():
 	for data_type in player_config_data.keys():
-		player_config_data[data_type]
 		player.set(data_type, player_config_data[data_type])
 		print(data_type, " set as: ", player_config_data[data_type])
 		if data_type == "position":
@@ -120,6 +123,8 @@ func reset_config_variables():
 	player_config_data["max_mp"] = 100
 	player_config_data["mp"] = 100
 	player_config_data["attacks"] = []
+	player_config_data["level"] = 1
+	player_config_data["experience"] = 0
 
 func load_config_file(file_name: String):
 	var config_file = ConfigFile.new()
@@ -161,14 +166,19 @@ func set_player_intro_stats(powerful: bool):
 			player.hp = 500
 			player.max_mp = 250
 			player.mp = 250
+			player.level = 50
+			player.exp_thold = 2500
+			player.experience = 2500
 			player.attacks.clear()
-			player.attacks.append([ "Sword of Justice", 50, 15, "instance", null, 1, false ])
-			player.attacks.append([ "Fireball", 20, 5, "instance", 1, null, false ])
+			player.attacks.append([ "Sword of Justice", 50, 15, "instance", -1, 1, false ])
+			player.attacks.append([ "Fireball", 20, 5, "instance", 1, -1, false ])
 		elif !powerful:
 			can_player_attack = false
 			player.max_hp = 50
 			player.hp = 50
 			player.max_mp = 50
 			player.mp = 50
+			player.level = 1
+			player.experience = 0
 			player.attacks.clear()
-			player.attacks.append([ "Slash", 25, 20, "local", 2, 2.5, false])
+			player.attacks.append([ "Slash", 20, 5, "local", 1, 2.5, false])

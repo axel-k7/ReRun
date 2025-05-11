@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b6rnni1gow6rt"]
+[gd_scene load_steps=19 format=3 uid="uid://b6rnni1gow6rt"]
 
 [ext_resource type="Script" uid="uid://dt3esow3i6y8y" path="res://scripts/character_scripts/player.gd" id="1_jr5d1"]
 [ext_resource type="PackedScene" uid="uid://bsd5vd18g3ywh" path="res://scenes/weapons/sword.tscn" id="2_dovo2"]
@@ -7,6 +7,13 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a2xtk"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_8cwbm"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_gmlin"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 0.01
+dof_blur_near_enabled = true
+dof_blur_near_distance = 0.01
+dof_blur_amount = 0.0
 
 [sub_resource type="Animation" id="Animation_lvxji"]
 length = 0.3
@@ -49,42 +56,83 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("MeshInstance3D:rotation")
+tracks/3/path = NodePath("Sword:emit_sfx")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.3),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Sword:emit_sfx")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sword:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_75vfm"]
 resource_name = "beam_attack_animation"
-length = 1.5
+length = 0.5
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:rotation")
+tracks/0/path = NodePath("Sword:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1, 1.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 6.28319), Vector3(0, 0, 12.5664), Vector3(0, 0, 18.8496)]
+"values": [Vector3(0.536601, 0.27763, -1.04462)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sword:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.5708, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_je7p5"]
+resource_name = "block"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sword:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.536601, 0.152056, -0.818527)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sword:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.0990474, -4.31337e-09, 0.714119)]
 }
 
 [sub_resource type="Animation" id="Animation_0owmy"]
@@ -129,9 +177,145 @@ tracks/2/keys = {
 "update": 1,
 "values": [true, false]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sword:emit_sfx")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.65),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_5gtgg"]
-resource_name = "slash_attack_animation"
+resource_name = "sweep_attack1_animation"
+length = 1.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sword:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.25, 0.6, 0.8, 0.85, 0.95, 0.98, 1, 1.05),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.536601, 0.27763, -0.674832), Vector3(0.82118, 0.491512, -0.38528), Vector3(0.82118, 0.491512, -0.38528), Vector3(0.82118, 0.491512, -0.859604), Vector3(0.534286, 0.491512, -0.859604), Vector3(-0.445978, 0.293199, -0.995), Vector3(-0.917688, 0.293199, -0.521228), Vector3(-0.917688, 0.293199, -0.151488)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sword:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.25, 0.6, 0.8, 0.85, 0.95, 0.98, 1, 1.05),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.818383, -0.0527673, -0.658738), Vector3(1.01153, -0.830265, -0.934466), Vector3(1.01153, -0.830265, -0.934466), Vector3(1.01153, 0.10703, -0.934466), Vector3(1.07219, 1.59734, -1.1809), Vector3(1.1033, 1.94296, -1.60843), Vector3(1.05233, -2.47491, -0.2282), Vector3(1.05233, -1.92475, -0.2282)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sword:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.85, 0.98, 1.05),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1.3, 1), Vector3(1, 1.5, 1), Vector3(1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sword:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.85),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sword:emit_sfx")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.85),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_fm80t"]
+resource_name = "sweep_attack2_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sword:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.45, 0.55, 0.6, 0.65, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.917688, 0.293199, -0.151488), Vector3(-0.917688, 0.523208, -0.151488), Vector3(-0.917688, 0.523208, -0.151488), Vector3(-0.917688, 0.523208, -0.809459), Vector3(0.0221434, 0.196119, -0.939448), Vector3(0.732736, 0.281625, -0.526794), Vector3(0.91252, 0.281625, 0.512452)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sword:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.45, 0.55, 0.6, 0.65, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1.05233, -1.92475, -0.2282), Vector3(1.05233, -1.23485, -0.2282), Vector3(1.05233, -1.23485, -0.2282), Vector3(1.05233, -2.42526, -0.2282), Vector3(1.39934, 1.87787, -1.10156), Vector3(1.39676, 1.33625, -0.708157), Vector3(1.2827, 0.175632, -0.336608)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sword:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.55, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1, 1.3, 1), Vector3(1, 1.6, 1), Vector3(1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sword:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sword:emit_sfx")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.45),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_gmlin"]
 resource_name = "sword_attack1_animation"
@@ -288,34 +472,6 @@ tracks/3/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_je7p5"]
-resource_name = "block"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sword:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.3),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.536601, 0.152056, -0.818527)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sword:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.3),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-0.0990474, -4.31337e-09, 0.714119)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p47bc"]
 _data = {
 &"RESET": SubResource("Animation_lvxji"),
@@ -323,7 +479,8 @@ _data = {
 &"block": SubResource("Animation_je7p5"),
 &"inferno_attack1_animation": SubResource("Animation_0owmy"),
 &"slash_attack1_animation": SubResource("Animation_qek5x"),
-&"slash_attack2_animation": SubResource("Animation_5gtgg"),
+&"sweep_attack1_animation": SubResource("Animation_5gtgg"),
+&"sweep_attack2_animation": SubResource("Animation_fm80t"),
 &"sword_attack1_animation": SubResource("Animation_gmlin"),
 &"sword_attack2_animation": SubResource("Animation_p47bc"),
 &"sword_attack3_animation": SubResource("Animation_h17s1")
@@ -365,6 +522,7 @@ margin = 0.5
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+attributes = SubResource("CameraAttributesPractical_gmlin")
 
 [node name="AttackAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -379,10 +537,13 @@ blend_times = [&"RESET", &"RESET", 0.3]
 
 [node name="StunTimer" type="Timer" parent="."]
 
+[node name="ParryTimer" type="Timer" parent="."]
+wait_time = 0.25
+
+[node name="ParryCooldownTimer" type="Timer" parent="."]
+
 [node name="Sword" parent="." instance=ExtResource("2_dovo2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.536601, 0.27763, -0.674832)
-attack_chain = 3
-damage = 10
 
 [node name="PlayerInteractMarker" parent="." instance=ExtResource("3_gmlin")]
 visible = false
@@ -391,6 +552,8 @@ visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="enemy_range"]
 shape = SubResource("SphereShape3D_gmlin")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 
 [connection signal="inventory_updated" from="." to="." method="_on_inventory_updated"]
 [connection signal="animation_finished" from="AttackAnimationPlayer" to="." method="_on_attack_animation_player_animation_finished"]

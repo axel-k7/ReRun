@@ -44,6 +44,8 @@ func _on_exit_button_pressed():
 func _on_save_button_pressed():
 	if !Globals.in_combat:
 		Globals.save_config_file(false)
+	elif Globals.in_combat:
+		Globals.system_message("Can't save in combat")
 
 func _on_unstuck_button_pressed() -> void:
 	if Globals.player == null:
