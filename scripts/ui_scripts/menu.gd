@@ -84,7 +84,7 @@ func _on_inventory_button_pressed() -> void:
 func _inv_item_selected(index, item_option, item_name):
 	item_option.queue_free()
 	if index == 0:
-		Globals.player.use_item(null, item_name)
+		Globals.player.get_item(null, item_name, true)
 	elif index == 1:
-		Globals.player.drop_item(null, item_name)
+		Globals.player.get_item(null, item_name, false)
 	else: return

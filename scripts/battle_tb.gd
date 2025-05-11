@@ -19,7 +19,7 @@ extends Node
 @onready var camera = $BattleSceneTB_camera
 @onready var allyNode = $Allies
 @onready var enemyNode = $Enemies
-@onready var background = $UI/BattleSceneTB_UI/background
+@onready var background = $background_layer/background
 
 var acting_chr: Object
 var is_player_acting: bool = false
@@ -73,6 +73,7 @@ func player_select_target():
 func start_battle(ally_array: Array, enemy_array: Array):
 	var bg_texture = load("res://vfx/combat_backgrounds/" + Globals.world_config_data["current_map"] + ".png")
 	background.texture = bg_texture
+	$background_layer.visible = true
 	Globals.main.emit_signal("loading_finished")
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	Globals.player_controls(false)
@@ -106,15 +107,18 @@ func end_battle(result: String):
 	allies.clear()
 	
 	for child in allyNode.get_children():
-		child.character.emit_signal("battle_over")
+		if child.character != null:
+			child.character.emit_signal("battle_over")
 		child.queue_free()
 	for child in enemyNode.get_children():
-		child.character.emit_signal("battle_over")
+		if child.character != null:
+			child.character.emit_signal("battle_over")
 		child.queue_free()
 		
 	Globals.player_controls(true)
 	Globals.main.ui_container.visible = true
 	ui_layer.visible = false
+	$background_layer.visible = false
 	Globals.player.camera.current = true
 	Globals.main.emit_signal("loading_finished")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

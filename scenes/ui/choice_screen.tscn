@@ -51,6 +51,7 @@ theme_override_font_sizes/font_size = 40
 text = "Yes"
 
 [node name="NoButton" type="Button" parent="."]
+layout_mode = 0
 offset_left = 797.0
 offset_top = 332.0
 offset_right = 964.0
@@ -66,8 +67,7 @@ offset_bottom = 8.0
 text = "To Testing Area"
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 5.0
-autostart = true
+wait_time = 3.0
 
 [connection signal="pressed" from="YesButton" to="." method="_on_yes_button_pressed"]
 [connection signal="pressed" from="NoButton" to="." method="_on_no_button_pressed"]

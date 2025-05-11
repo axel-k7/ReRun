@@ -10,10 +10,10 @@ func _ready():
 	Globals.system_message("Your hunt has begun, eliminate all enemies.")
 
 func on_reset_map():
-	Globals.player.global_position = player_spawn_pos
 	var lines: Array[String] = ["Rise once more."]
 	Globals.main.narrate(lines, "none", 1)
 	await Globals.main.narrator_finished
+	Globals.player.global_position = player_spawn_pos
 	Globals.player.hp = Globals.player.max_hp
 	Globals.player.mp = Globals.player.max_mp
 	Globals.paused = false

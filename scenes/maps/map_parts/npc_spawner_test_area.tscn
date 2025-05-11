@@ -1,19 +1,20 @@
-[gd_scene load_steps=7 format=3 uid="uid://eyrcvnubph86"]
+[gd_scene load_steps=8 format=3 uid="uid://eyrcvnubph86"]
 
 [ext_resource type="Script" uid="uid://by5xi1fg3ejq5" path="res://scripts/map_scripts/map_objects/npc_spawner_test_area.gd" id="1_hqid8"]
 [ext_resource type="PackedScene" uid="uid://kj3uudhd3tny" path="res://scenes/maps/map_parts/NPC_spawner.tscn" id="2_nirwa"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hqid8"]
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_hqid8"]
-material = SubResource("StandardMaterial3D_hqid8")
-height = 1.0
+[ext_resource type="PackedScene" uid="uid://n1cuaw4g8k5o" path="res://scenes/items/item_scenes/potion.tscn" id="3_nirwa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nirwa"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hqid8"]
+material = SubResource("StandardMaterial3D_nirwa")
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ghoi8"]
 albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_ghoi8"]
-material = SubResource("StandardMaterial3D_nirwa")
+material = SubResource("StandardMaterial3D_ghoi8")
 top_radius = 0.2
 bottom_radius = 0.2
 height = 0.05
@@ -22,9 +23,89 @@ height = 0.05
 script = ExtResource("1_hqid8")
 
 [node name="NPC_spawner" parent="." instance=ExtResource("2_nirwa")]
+NPC_variables = {
+"always_aggro": false,
+"can_drop_item": false,
+"force_interaction": false,
+"has_interaction": false,
+"interact_radius": 0.0,
+"item_to_drop": ExtResource("3_nirwa"),
+"side": "enemy",
+"stationary": true
+}
 
-[node name="Control" type="VBoxContainer" parent="."]
-visible = false
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="NPCButtonContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NPCOptionsContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="EnemyButton" type="CheckButton" parent="CanvasLayer/NPCOptionsContainer"]
+layout_mode = 2
+text = "Enemy / Ally
+(ONLY WORKS FOR TURN BASED COMBAT)"
+alignment = 1
+
+[node name="NPCFinishedButton" type="Button" parent="CanvasLayer/NPCOptionsContainer"]
+layout_mode = 2
+text = "Finished"
+
+[node name="OptionContainer" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpawnButton" type="Button" parent="CanvasLayer/OptionContainer"]
+layout_mode = 2
+text = "SPAWN ENEMY"
+
+[node name="StatButton" type="Button" parent="CanvasLayer/OptionContainer"]
+layout_mode = 2
+text = "CHANGE PLAYER STATS"
+
+[node name="BatleButton" type="Button" parent="CanvasLayer/OptionContainer"]
+layout_mode = 2
+text = "START BATTLE"
+
+[node name="PlayerStatContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StatsFinishedButton" type="Button" parent="CanvasLayer/PlayerStatContainer"]
+layout_mode = 2
+text = "Finished"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -33,3 +114,10 @@ mesh = SubResource("CylinderMesh_hqid8")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.525468, 0)
 mesh = SubResource("CylinderMesh_ghoi8")
+
+[connection signal="toggled" from="CanvasLayer/NPCOptionsContainer/EnemyButton" to="." method="_on_enemy_button_toggled"]
+[connection signal="pressed" from="CanvasLayer/NPCOptionsContainer/NPCFinishedButton" to="." method="_on_npc_finished_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/OptionContainer/SpawnButton" to="." method="_on_spawn_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/OptionContainer/StatButton" to="." method="_on_stat_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/OptionContainer/BatleButton" to="." method="_on_batle_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PlayerStatContainer/StatsFinishedButton" to="." method="_on_stats_finished_button_pressed"]

@@ -1,21 +1,14 @@
-[gd_scene load_steps=24 format=3 uid="uid://bbd1vh4grp4sl"]
+[gd_scene load_steps=23 format=3 uid="uid://bbd1vh4grp4sl"]
 
 [ext_resource type="Script" uid="uid://b1jhtc2tvbi0w" path="res://scripts/character_scripts/ghoul.gd" id="1_4pw7w"]
 [ext_resource type="PackedScene" uid="uid://bj2x8de4ojesa" path="res://scenes/weapons/claw.tscn" id="2_73sr5"]
+[ext_resource type="AudioStream" uid="uid://c71bywia2bkn0" path="res://sfx/ghoul_hurt.ogg" id="2_fipt4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_270vp"]
-albedo_color = Color(0.183439, 0.265446, 0.36449, 1)
+albedo_color = Color(0.639216, 0.117647, 0.14902, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cuef7"]
 material = SubResource("StandardMaterial3D_270vp")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xctmu"]
-albedo_color = Color(0.244776, 0.244776, 0.244776, 1)
-
-[sub_resource type="TorusMesh" id="TorusMesh_0037n"]
-material = SubResource("StandardMaterial3D_xctmu")
-inner_radius = 0.056
-outer_radius = 0.505
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jqe37"]
 albedo_color = Color(0.0562916, 0.0562916, 0.0562916, 1)
@@ -166,10 +159,10 @@ tracks/1/path = NodePath("Claw:monitoring")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.13, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0.13, 0.4),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [false, true, false]
+"values": [true, false]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -206,10 +199,10 @@ tracks/0/path = NodePath("Claw:monitoring")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.27),
+"times": PackedFloat32Array(0.27, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [false, true]
+"values": [true, false]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -218,10 +211,10 @@ tracks/1/path = NodePath("Claw:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.266667, 0.366667, 0.466667, 0.566667),
+"times": PackedFloat32Array(0, 0.25, 0.3, 0.35, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(-0.428753, 0.899931, -0.929104), Vector3(-0.428753, 0.899931, -0.929104), Vector3(-0.774081, 1.06828, -0.645434), Vector3(-0.942292, 1.29935, -0.959007), Vector3(-1.24285, 1.37893, -1.09787)]
+"values": [Vector3(-0.428753, 0.899931, -0.929104), Vector3(-0.428753, 0.899931, -0.929104), Vector3(-0.774081, 1.06828, -0.645434), Vector3(-0.942292, 1.29935, -0.959007), Vector3(-0.566028, -2.83324, -2.65767)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -230,10 +223,22 @@ tracks/2/path = NodePath("Claw:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(3.3319e-05, 0.2667, 0.366667, 0.466667, 0.566667),
+"times": PackedFloat32Array(3.3319e-05, 0.25, 0.3, 0.35, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0.606059, 1.19976, -0.681294), Vector3(0.606059, 1.19976, -0.681294), Vector3(0.189694, 0.775682, -1.00197), Vector3(0.0629354, 0.362831, -1.03758), Vector3(0.0629354, -0.0714244, -0.863136)]
+"values": [Vector3(0.606059, 1.19976, -0.681294), Vector3(0.606059, 1.19976, -0.681294), Vector3(0.189694, 0.775682, -1.00197), Vector3(0.0629354, 0.362831, -1.03758), Vector3(-0.504404, -0.0714244, -0.710616)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Claw:emit_sfx")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_wjqdv"]
@@ -274,17 +279,14 @@ neutral_distance = 1.5
 flee_distance = 1.4
 Cname = "Ghoul"
 move_speed = 8.0
+hurt_sfx = ExtResource("2_fipt4")
 max_hp = 50
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_cuef7")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 0.972877, -0.231323, 0, 0.231323, 0.972877, 0, 0.446111, -0.0314595)
-mesh = SubResource("TorusMesh_0037n")
-
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 0.972776, -0.231748, 0, 0.231748, 0.972776, 0, 0.433721, -0.0445568)
+transform = Transform3D(1, 0, 0, 0, 0.972776, -0.231748, 0, 0.231748, 0.972776, 0, 0.433721, -0.0270957)
 mesh = SubResource("TorusMesh_mmrt0")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]

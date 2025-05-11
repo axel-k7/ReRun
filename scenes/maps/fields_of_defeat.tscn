@@ -1,8 +1,9 @@
-[gd_scene load_steps=34 format=4 uid="uid://5vgsqeqsyngh"]
+[gd_scene load_steps=35 format=4 uid="uid://5vgsqeqsyngh"]
 
 [ext_resource type="Script" uid="uid://b0ivw20bmg2hv" path="res://scripts/map_scripts/fields_of_defeat.gd" id="1_43l2r"]
 [ext_resource type="PackedScene" uid="uid://kj3uudhd3tny" path="res://scenes/maps/map_parts/NPC_spawner.tscn" id="2_43l2r"]
 [ext_resource type="PackedScene" uid="uid://bbd1vh4grp4sl" path="res://scenes/NPC/characters/ghoul.tscn" id="3_rpot8"]
+[ext_resource type="PackedScene" uid="uid://n1cuaw4g8k5o" path="res://scenes/items/item_scenes/potion.tscn" id="4_ej2rd"]
 [ext_resource type="Script" uid="uid://bw8b2mgvi418b" path="res://scripts/map_scripts/map_objects/carpet_of_doom_and_destruction.gd" id="4_rpot8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fnrps"]
@@ -209,10 +210,30 @@ directional_shadow_max_distance = 300.0
 [node name="NPC_spawner" parent="NPC_spawners" instance=ExtResource("2_43l2r")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -95.7042, 31.45, 315.954)
 NPC = ExtResource("3_rpot8")
+NPC_variables = {
+"always_aggro": false,
+"can_drop_item": true,
+"force_interaction": false,
+"has_interaction": false,
+"interact_radius": 0.0,
+"item_to_drop": ExtResource("4_ej2rd"),
+"side": "enemy",
+"stationary": false
+}
 
 [node name="NPC_spawner2" parent="NPC_spawners" instance=ExtResource("2_43l2r")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -95.7042, 31.45, 334.399)
 NPC = ExtResource("3_rpot8")
+NPC_variables = {
+"always_aggro": false,
+"can_drop_item": true,
+"force_interaction": false,
+"has_interaction": false,
+"interact_radius": 0.0,
+"item_to_drop": ExtResource("4_ej2rd"),
+"side": "enemy",
+"stationary": false
+}
 
 [node name="Player_spawn_pos" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -241.883, 29.4417, 331.667)

@@ -5,11 +5,11 @@ class_name Character
 @export var image: CompressedTexture2D = preload("res://vfx/character_sprites/missing.png")
 @export var custom_gravity = 60
 @export var move_speed: float = 7.0
-@export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/tb_preset.png")
-@export var tb_sprite_enemy: CompressedTexture2D = preload("res://vfx/tb_preset.png")
+@export var tb_sprite_ally: CompressedTexture2D = preload("res://vfx/character_sprites/missing.png")
+@export var tb_sprite_enemy: CompressedTexture2D = preload("res://vfx/character_sprites/missing.png")
 @export var hurt_sfx: AudioStream = preload("res://sfx/hurt.ogg")
 @export var death_vfx_scene: PackedScene = preload("res://scenes/effects/poof.tscn")
-@export var dialogue_sfx: AudioStream = preload("res://sfx/hah.wav")
+@export var dialogue_sfx: AudioStream = preload("res://sfx/hero_speech.ogg")
 @export var lines: Array[String] = [
 	"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp",
 	"Line 2",
@@ -104,6 +104,9 @@ func do_attack(type: String):
 			Globals.system_message("Not enough mana")
 			attack_ready = true
 			return
+		else: 
+			mp -= attack_cost
+			mp = clamp(mp, 0, max_mp)
 	
 	if wep_atk_index > attack_chain:
 			wep_atk_index = 1
@@ -128,8 +131,6 @@ func do_attack(type: String):
 		attack.host = self
 		attack.get_stats(ability_damage)
 		await ability_activate
-		mp -= attack_cost
-		mp = clamp(mp, 0, max_mp)
 		if attack_animation.has_animation(attack_anim_name):
 			attack_animation.play(attack_anim_name)
 

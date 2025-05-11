@@ -1,10 +1,5 @@
 extends NPC
 
-func _physics_process(delta):
-	if !is_on_floor():
-		self.velocity.y -= delta
-		move_and_slide()
-
 func interact_action():
 	speech_audio_player.stream = dialogue_sfx
 	DialogueManager.start_dialogue(lines, self, false)

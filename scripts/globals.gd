@@ -14,6 +14,7 @@ var paused: bool = false
 var game_started: bool = false
 var cutscene_active: bool = false
 var in_combat: bool = false
+var intro_completed: bool = false
 var repeatable_maps: Array[String] = [
 	"forest",
 	"desert"
@@ -22,6 +23,7 @@ var repeatable_maps: Array[String] = [
 var world_config_data: Dictionary = {
 	"new_save": true,
 	"current_map": "",
+	"intro_completed": false,
 }
 var player_config_data: Dictionary = {
 	"inventory": "",
@@ -91,10 +93,8 @@ func save_config_file(reset):
 		return
 	for config_item in world_config_data.keys():
 		world_config_file.set_value("world", str(config_item), world_config_data[config_item])
-		print(config_item, " saved as: ", world_config_data[config_item])
 	for config_item in player_config_data.keys():
 		player_config_file.set_value("player", str(config_item), player_config_data[config_item])
-		print(config_item, " saved as: ", player_config_data[config_item])
 	world_config_file.save("res://data/world_data.cfg")
 	player_config_file.save("res://data/player_data.cfg")
 	system_message("Saved data")
@@ -102,20 +102,22 @@ func save_config_file(reset):
 func save_config_variables():
 	world_config_data["new_save"] = false
 	world_config_data["current_map"] = main.map_container.get_child(0).name
+	world_config_data["intro_completed"] = Globals.intro_completed
 	for data_type in player_config_data.keys():
 		player_config_data[data_type] = player.get(data_type)
 	
 func apply_player_data():
 	for data_type in player_config_data.keys():
 		player.set(data_type, player_config_data[data_type])
-		print(data_type, " set as: ", player_config_data[data_type])
 		if data_type == "position":
 			if player_config_data[data_type] == Vector3(0, 0, 0):
 				player.set(data_type, main.map.player_spawn_pos)
+			else: player.set("global_position", player_config_data[data_type])
 	
 func reset_config_variables():
 	world_config_data["new_save"] = true
 	world_config_data["current_map"] = "throne_room"
+	world_config_data["intro_completed"] = false
 	player_config_data["inventory"] = []
 	player_config_data["position"] = Vector3(0, 0, 0)
 	player_config_data["max_hp"] = 100
@@ -139,7 +141,6 @@ func load_config_file(file_name: String):
 			player_config_data[config_item] = config_file.get_value("player", str(config_item))
 
 func on_map_loading():
-	print("CHANGING MAP")
 	player_controls(false)
 	main.emit_signal("loading_start")
 

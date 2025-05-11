@@ -98,12 +98,12 @@ boss_door = NodePath("world/boss_door")
 [node name="NPC_spawners" type="Node3D" parent="."]
 
 [node name="NPC_spawner" parent="NPC_spawners" instance=ExtResource("2_j5igb")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -6, 22, -72)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -6, 22, -84)
 NPC = ExtResource("3_5wsgj")
 NPC_variables = {
 "force_interaction": true,
 "has_interaction": true,
-"interact_radius": 10.0,
+"interact_radius": 25.0,
 "side": "enemy",
 "stationary": true
 }

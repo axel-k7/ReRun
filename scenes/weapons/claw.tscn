@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://d1f34e4bx1oqy" path="res://scenes/weapons/weapon.gd" id="1_3tvtt"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3tvtt"]
-albedo_color = Color(0.184314, 0.266667, 0.364706, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_270vp"]
+albedo_color = Color(0.639216, 0.117647, 0.14902, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_kok54"]
-material = SubResource("StandardMaterial3D_3tvtt")
+material = SubResource("StandardMaterial3D_270vp")
 radius = 0.2
 height = 0.25
 

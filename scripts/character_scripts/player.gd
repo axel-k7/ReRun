@@ -31,12 +31,12 @@ signal rampage
 
 func _ready():
 	get_variables()
-	inventory_updated.connect(on_inventory_updated)
 	intro_talk_start.connect(intro_dialogue)
 	exp_gained.connect(level_up_check)
 	rampage.connect(start_rampage)
 	block.connect(on_block)
 	BattleManagerTb.allies.append(self)
+	speech_audio_player.stream = dialogue_sfx
 
 func _physics_process(delta):
 	if !Globals.paused:
@@ -74,7 +74,7 @@ func movement_inputs(delta):
 	if Input.is_action_pressed("sprint") && velocity != Vector3(0, 0, 0): 
 		if stamina > 0:
 			move_speed = base_move_speed*sprint_multiplier
-			stamina -= delta*20
+			stamina -= delta*15
 			sprinting = true
 		else: sprinting = false
 		recovering_stamina = false
@@ -106,26 +106,15 @@ func camera_rotation(event):
 		pivot.rotation.x -= event.relative.y / sensitivity
 		pivot.rotation.x = clamp(pivot.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
-func interactable_check():
-	if Globals.target_interactables.size() == 0:
-		pass
-	elif Globals.target_interactables.size() > 0:
-		for interactable in Globals.target_interactables:
-			var self_pos = self.global_position
-			var new_pos = interactable.global_position
-			if closest_interactable == null:
-				closest_interactable = Globals.target_interactables[0]
-			elif closest_interactable != null:
-				if self_pos.distance_to(new_pos) <= self_pos.distance_to(closest_interactable.global_position):
-					closest_interactable = interactable
-					print("closest interactable: ", closest_interactable.name)
-
 func interact_input():
 	if Globals.interactables.size() > 0:
 		if Globals.interactables[0] == null:
 			return
 		var interaction_target = Globals.interactables[0]
 		if self.global_position.distance_to(interaction_target.global_position) < interaction_target.interact_radius && !DialogueManager.dialogue_active:
+			if interaction_target.is_in_group("NPC"):
+				if interaction_target.dead:
+					return
 			interact_marker.visible = true
 			interact_marker.global_position = interaction_target.global_position
 			interact_marker.look_at(camera.global_position)
@@ -141,20 +130,7 @@ func interact_input():
 			DialogueManager.current_dialogue_target.interact_action()
 	else: interact_marker.visible = false
 
-func drop_item(item_index, item_name): #call with either name or index for positional or first instance removal
-	var item_scene: PackedScene
-	if item_index == null:
-		inventory.erase(item_name)
-		item_scene = load("res://scenes/items/item_scenes/" + item_name + ".tscn")
-	elif item_name == null:
-		inventory.remove_at(item_index)
-		item_scene = load("res://scenes/items/item_scenes/" + inventory[item_index] + ".tscn")
-	var item_to_drop: RigidBody3D = item_scene.instantiate()
-	get_parent().add_child(item_to_drop)
-	item_to_drop.global_position = self.global_position
-	emit_signal("inventory_updated")
-
-func use_item(item_index, item_name):
+func get_item(item_index, item_name, use): #call with either name or index for positional or first instance removal
 	var item_scene: PackedScene
 	if item_index == null:
 		inventory.erase(item_name)
@@ -164,9 +140,11 @@ func use_item(item_index, item_name):
 		item_scene = load("res://scenes/items/item_scenes/" + inventory[item_index] + ".tscn")
 	var item: RigidBody3D = item_scene.instantiate()
 	get_parent().add_child(item)
-	item.global_position = self.global_position
-	item.interact_radius = 0
-	item.use_item()
+	item.global_position = self.global_position + Vector3(2, 0, 2)
+	
+	if use:
+		item.interact_radius = 0
+		item.use_item()
 	emit_signal("inventory_updated")
 
 func attack_input():
@@ -223,11 +201,6 @@ func stun(duration):
 func die():
 	Globals.paused = true
 	Globals.main.map.emit_signal("reset_map")
-	print("signal sent")
-
-func on_inventory_updated():
-	print(inventory)
-	#Globals.save_inventory_data(inventory)
 
 func level_up_check():
 	exp_thold = 100 * level/2
@@ -237,7 +210,7 @@ func level_up_check():
 		experience = 0
 		max_hp = 50 + level * 20 #could make the calculations for this an exponential function
 		max_mp = 20 + level * 10
-		if level % 5 == 0:
+		if level % 5 == 0 && attacks.size() < 4:
 			add_random_ability()
 	exp_thold = 100 * level/2
 
@@ -249,21 +222,27 @@ func add_random_ability():
 	else: add_random_ability()
 
 func start_rampage():
-	print("AAAAAAA")
 	var tween = create_tween()
 	tween.tween_property(camera.attributes, "dof_blur_amount", 1, 600)
+	await tween.finished
+	get_tree().quit()
+	
 
 func _on_enemy_range_body_entered(body: Node3D) -> void:
-	if !body.is_in_group("NPC") || !body.side == "enemy":
+	if !body.is_in_group("NPC"):
 		return
 	else: 
-		if !BattleManagerTb.enemies.has(body):
-			BattleManagerTb.enemies.append(body)
-		if "aggrod" in body && !body.aggrod:
-			body.aggrod = true
-			enemies_aggrod.append(body)
-		if enemies_aggrod.size() > 0:
-			Globals.in_combat = true
+		if body.side == "enemy":
+			if !BattleManagerTb.enemies.has(body):
+				BattleManagerTb.enemies.append(body)
+			if "aggrod" in body && !body.aggrod:
+				body.aggrod = true
+				enemies_aggrod.append(body)
+			if enemies_aggrod.size() > 0:
+				Globals.in_combat = true
+		elif body.side == "ally":
+			if !BattleManagerTb.allies.has(body):
+				BattleManagerTb.allies.append(body)
 
 func _on_enemy_range_body_exited(body: Node3D) -> void:
 	if !body.is_in_group("NPC") || !body.side == "enemy":
@@ -288,6 +267,7 @@ func dialogue_over():
 	pass
 
 func interact_action():
+	speech_audio_player.stream = dialogue_sfx
 	intro_dialogue()
 
 func _on_stamina_regen_timer_timeout() -> void:

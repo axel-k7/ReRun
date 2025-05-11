@@ -31,11 +31,9 @@ func _on_activate() -> void:
 	
 func _on_body_entered(body: Node3D):
 	if host.is_in_group("enemy") && body.is_in_group("ally") && !targets_hit.has(body):
-		print("hit: ", body.Cname)
 		Globals.damage(body, damage)
 		targets_hit.append(body)
 	elif host.is_in_group("ally") && body.is_in_group("enemy") && !targets_hit.has(body):
-		print("hit: ", body.Cname)
 		Globals.damage(body, damage)
 		targets_hit.append(body)
 

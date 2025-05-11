@@ -2,6 +2,10 @@ extends Control
 
 var lines: Array[String]
 
+func _ready():
+	await Globals.main.narrator_finished
+	$Timer.start()
+
 func _on_yes_button_pressed():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	Globals.player.emit_signal("rampage")
@@ -13,6 +17,7 @@ func _on_no_button_pressed():
 	lines = [
 		"Then let's end this here."
 	]
+	Globals.player.speech_audio_player.stream = Globals.player.dialogue_sfx
 	DialogueManager.start_dialogue(lines, Globals.player, false)
 	await DialogueManager.dialogue_over
 	get_tree().quit()

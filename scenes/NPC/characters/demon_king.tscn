@@ -1,9 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://c387syvb460q0"]
+[gd_scene load_steps=30 format=3 uid="uid://c387syvb460q0"]
 
 [ext_resource type="Script" uid="uid://bgtthviyqinsi" path="res://scripts/character_scripts/demon_king.gd" id="1_cph8i"]
 [ext_resource type="Texture2D" uid="uid://b133f76r8p0gs" path="res://vfx/character_sprites/demon_king/demon_king_portrait.png" id="2_3uid3"]
 [ext_resource type="Texture2D" uid="uid://lktj42me7rgd" path="res://vfx/character_sprites/demon_king/dk_tb_base_enemy.png" id="2_ccghc"]
 [ext_resource type="PackedScene" uid="uid://b7hy12yjbrbul" path="res://scenes/weapons/greatsword.tscn" id="2_cph8i"]
+[ext_resource type="AudioStream" uid="uid://cbmb2wqdgu57t" path="res://sfx/dk_hurt.ogg" id="4_jrkdu"]
+[ext_resource type="AudioStream" uid="uid://dpvp00f6f4sil" path="res://sfx/dk_speech.ogg" id="5_bntf7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_270vp"]
 albedo_color = Color(0.795923, 0, 0.16525, 1)
@@ -96,6 +98,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector3(0.583125, -0.534113, -0.0350291)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("greatsword:emit_sfx")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_3uid3"]
 resource_name = "death slash_attack1_animation"
@@ -136,6 +150,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [false, true, false]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("greatsword:emit_sfx")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.75),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_cph8i"]
 resource_name = "greatsword_attack1_animation"
@@ -147,7 +173,7 @@ tracks/0/path = NodePath("greatsword:monitoring")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.05),
+"times": PackedFloat32Array(0, 0.65, 1.05),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -175,6 +201,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(0.583125, -0.534113, -0.0350291), Vector3(0.3324, -0.570792, -0.420081), Vector3(0.13579, -1.89061, -1.30506), Vector3(0.13579, -1.89061, -1.30506), Vector3(0.13579, 0.0254346, -1.30506), Vector3(0.0610658, 0.548997, -1.35121), Vector3(-0.0250267, 1.42967, -1.65364), Vector3(-0.0928064, 2.15441, -1.69833)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("greatsword:emit_sfx")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.65),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_ccghc"]
@@ -214,6 +252,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(-0.0928064, 2.15441, -1.69833), Vector3(-0.0928064, 2.74667, -1.69833), Vector3(-0.0928064, 2.74667, -1.69833), Vector3(-0.0928064, 1.73894, -1.69833), Vector3(-0.0928064, 0.0718517, -1.69833), Vector3(-0.132166, -0.660417, -1.74902)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("greatsword:emit_sfx")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.35),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_wjqdv"]
@@ -261,6 +311,8 @@ Cname = "Demon King"
 image = ExtResource("2_3uid3")
 move_speed = 12.0
 tb_sprite_enemy = ExtResource("2_ccghc")
+hurt_sfx = ExtResource("4_jrkdu")
+dialogue_sfx = ExtResource("5_bntf7")
 lines = Array[String](["So you've arrived, little rat.", "Face me and be crushed!"])
 dialogue_amount = 3
 max_hp = 500
@@ -317,6 +369,7 @@ skeleton = NodePath("../..")
 shape = SubResource("CapsuleShape3D_ds2em")
 
 [node name="dialogue_sfx" type="AudioStreamPlayer3D" parent="."]
+volume_db = 6.095
 
 [node name="attack_sfx" type="AudioStreamPlayer3D" parent="."]
 

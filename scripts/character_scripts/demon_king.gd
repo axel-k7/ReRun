@@ -12,8 +12,8 @@ func get_variables():
 	self.add_to_group(side)
 	get_weapon_info()
 	attacks = [
-		[ "Death Slash", 300, 1, "local", 3, 1, false],
-		[ "Stomp", 300, 1, "local", 3, 1, false],
+		[ "Death Slash", 300, 1, "local", 1, 3, false],
+		[ "Stomp", 300, 1, "local", 1, 3, false],
 	]
 
 func interact_action():
@@ -49,7 +49,7 @@ func on_damaged(amount: int):
 	speech_audio_player.play()
 	hp -= amount
 	damaged_index += 1
-	if damaged_index == 2:
+	if damaged_index == 2 && !Globals.intro_completed:
 		lines = [
 			"Taking turns attacking? Shameless.",
 			"Truly, you are no better than a rat.",

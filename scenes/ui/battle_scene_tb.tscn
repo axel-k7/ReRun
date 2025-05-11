@@ -73,21 +73,21 @@ libraries = {
 
 [node name="turn_timer" type="Timer" parent="."]
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="background_layer" type="CanvasLayer" parent="."]
+layer = -1
 
-[node name="BattleSceneTB_UI" type="Control" parent="UI"]
-z_as_relative = false
-layout_mode = 3
+[node name="background" type="TextureRect" parent="background_layer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="background" type="TextureRect" parent="UI/BattleSceneTB_UI"]
-z_index = -5
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="BattleSceneTB_UI" type="Control" parent="UI"]
 z_as_relative = false
-layout_mode = 1
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -155,20 +155,6 @@ layout_mode = 1
 offset_right = 600.0
 columns = 4
 
-[node name="Action_label" type="Label" parent="UI/BattleSceneTB_UI"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -23.0
-offset_top = 100.0
-offset_right = 23.0
-offset_bottom = 155.0
-grow_horizontal = 2
-text = "aa"
-label_settings = SubResource("LabelSettings_v7fdu")
-horizontal_alignment = 1
-
 [node name="Turns_label" type="Label" parent="UI/BattleSceneTB_UI"]
 layout_mode = 1
 anchors_preset = 6
@@ -185,6 +171,20 @@ grow_vertical = 2
 text = "aa"
 label_settings = SubResource("LabelSettings_v7fdu")
 horizontal_alignment = 2
+
+[node name="Action_label" type="Label" parent="UI/BattleSceneTB_UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -23.0
+offset_top = 100.0
+offset_right = 23.0
+offset_bottom = 155.0
+grow_horizontal = 2
+text = "aa"
+label_settings = SubResource("LabelSettings_v7fdu")
+horizontal_alignment = 1
 
 [connection signal="pressed" from="UI/BattleSceneTB_UI/UI_container/action_container/attack_button" to="." method="_on_attack_button_pressed"]
 [connection signal="pressed" from="UI/BattleSceneTB_UI/UI_container/action_container/guard_button" to="." method="_on_guard_button_pressed"]

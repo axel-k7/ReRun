@@ -27,7 +27,7 @@ mesh = SubResource("PlaneMesh_rpssg")
 shape = SubResource("BoxShape3D_5m4rd")
 
 [node name="NPC_spawner_test_area" parent="." instance=ExtResource("1_rpssg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 41)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
 
 [node name="NPC_spawners" type="Node3D" parent="."]
 

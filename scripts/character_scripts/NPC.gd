@@ -13,6 +13,8 @@ class_name NPC
 @export var neutral_distance: float = 3
 @export var flee_distance: float = 2
 @export var always_aggro: bool = false
+@export var can_drop_item: bool = false
+@export var item_to_drop: PackedScene = preload("res://scenes/items/item_scenes/potion.tscn")
 
 var fleeing: bool = false #for use in functions to be added:
 var can_attack: bool = true # movement functions while not in combat
@@ -43,16 +45,16 @@ func get_variables():
 	get_weapon_info()
 
 func _physics_process(delta: float):
-	if can_move && !stationary && !BattleManagerTb.battle_active && !Globals.paused && !Globals.player == null:
+	if can_move && !BattleManagerTb.battle_active && !Globals.paused && !Globals.player == null:
 		movement(delta)
-	elif stationary && !Globals.player == null:
+	elif stationary && !Globals.player == null && !dead:
 		look_at(Globals.player.global_position)
 
 func movement(delta: float):
-	if !aggrod: 
+	if !aggrod || stationary: 
 		velocity.x = 0
 		velocity.z = 0
-	if aggrod || always_aggro:
+	if aggrod && !stationary || always_aggro && !stationary:
 		update_target_position(Globals.player.global_position)
 		fight_formation()
 	if not is_on_floor():
@@ -67,7 +69,8 @@ func update_target_position(target_pos):
 
 func fight_formation():
 	var distance_to_player = self.global_position.distance_to(Globals.player.position)
-	look_at(Vector3(Globals.player.global_position.x, self.position.y, Globals.player.global_position.z))
+	if self.global_position != Globals.player.global_position:
+		look_at(Vector3(Globals.player.global_position.x, self.position.y, Globals.player.global_position.z))
 	target_velocity = transform.basis * direction * move_speed
 	if distance_to_player > neutral_distance:
 		velocity = (nav_agent.get_next_path_position() - self.global_position).normalized() * move_speed*1.5
@@ -113,9 +116,18 @@ func stun(duration):
 	can_move = false
 	stun_timer.start(duration)
 	await stun_timer.timeout
-	can_move = true
+	if !dead:
+		can_move = true
+
+func drop_item():
+	var item = item_to_drop.instantiate()
+	Globals.main.map.add_child(item)
+	item.global_position = self.global_position
 
 func die():
+	var drop_chance = randi_range(1, 10)
+	if drop_chance > 7 && can_drop_item:
+		drop_item()
 	dead = true
 	Globals.player.experience += exp_given
 	Globals.player.emit_signal("exp_gained")

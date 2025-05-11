@@ -73,7 +73,9 @@ func load_map(map_name: String):
 		loaded_map.queue_free()
 	map_container.add_child(map)
 	if Globals.player != null:
-		Globals.player.global_position = map.player_spawn_pos
+		if Globals.player_config_data["position"] == Vector3(0, 0, 0):
+			Globals.player.global_position = map.player_spawn_pos
+		else: Globals.player.set("global_position", Globals.player_config_data["position"])
 	map.spawn_npcs()
 	await get_tree().create_timer(1).timeout #artificial delay
 	emit_signal("loading_finished")
@@ -177,7 +179,9 @@ func on_intro_defeat():
 	lines = [
 		"...",
 	]
+	Globals.player.speech_audio_player.stream = Globals.player.dialogue_sfx
 	DialogueManager.start_dialogue(lines, Globals.player, true)
+	Globals.intro_completed = true
 
 func toggle_menu():
 	if !Globals.paused:

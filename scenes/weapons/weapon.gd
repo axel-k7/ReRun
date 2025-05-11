@@ -30,7 +30,6 @@ func _process(_delta):
 func _on_body_entered(body: Node3D):
 	if !targets_hit.has(body):
 		if body.is_in_group("NPC") && wielder == "ally" || body.name == "player" && wielder == "enemy":
-			print("hit: ", body.Cname)
 			Globals.damage(body, damage*ability_multiplier)
 			targets_hit.append(body)
 			if body.blocking:
